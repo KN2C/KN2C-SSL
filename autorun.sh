@@ -7,14 +7,15 @@ cd bin
 
 while true; do
 
-	pkill -f "kn2cssl"
-	./kn2cssl nogui &
+  pkill -f "kn2cssl"
+  ./kn2cssl nogui &
 
-	old_md5 = $(md5sum kn2cssl)
-	new_md5 = $old_md5
-	while [ "$old_md5" == "$new_md5" ] do
-		sleep 15
-		new_md5 = $(md5sum kn2cssl)
-	done
+  OLD_MD5=$(md5sum kn2cssl)
+  NEW_MD5=$OLD_MD5
+  while [ "$OLD_MD5" == "$NEW_MD5" ]; do
+    echo `date`
+    sleep 15
+    NEW_MD5=$(md5sum kn2cssl)
+  done
 
 done
