@@ -24,7 +24,7 @@ void AI::Stop()
 
 void AI::timer_timeout()
 {
-    static int a = 0;
+    static int a = 1;
     RobotCommand rc;
     rc.maxSpeed = 5;
 
