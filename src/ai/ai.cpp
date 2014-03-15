@@ -24,7 +24,7 @@ void AI::Stop()
 
 void AI::timer_timeout()
 {
-    static int a = 1;
+    static int a = 0;
     RobotCommand rc;
     rc.maxSpeed = 5;
 
@@ -45,7 +45,7 @@ void AI::timer_timeout()
         break;
     }
 
-    if((wm->ourRobot[0].pos.loc - rc.fin_pos.loc).length2()<1000) a=(a+1)%4;
+    if((wm->ourRobot[0].pos.loc - rc.fin_pos.loc).length2() < 1000) a = (a+1) % 2;
 
     wm->ourRobot[0].SendCommand(rc);
 }
