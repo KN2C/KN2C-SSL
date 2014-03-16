@@ -22,12 +22,18 @@ public:
     Position pos;
     Position vel;
 
+    Position last_pos;
+    double last_time;
+
 private:
     QTimer timer;
-    int interval;
+    QTimer timer_vel;
+    bool timer_started;
+    int timer_interval;
 
 private slots:
     void timer_timeout();
+    void timer_vel_timeout();
 
 };
 

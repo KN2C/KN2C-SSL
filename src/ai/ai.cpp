@@ -47,5 +47,6 @@ void AI::timer_timeout()
 
     if((wm->ourRobot[0].pos.loc - rc.fin_pos.loc).length2() < 1000) a = (a+1) % 2;
 
-    wm->ourRobot[0].SendCommand(rc);
+    if(wm->ourRobot[0].isValid)
+        wm->ourRobot[0].SendCommand(rc);
 }
