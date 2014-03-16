@@ -30,6 +30,7 @@ private:
     QTimer timer_vel;
     bool timer_started;
     int timer_interval;
+    int timer_vel_interval;
 
 private slots:
     void timer_timeout();
