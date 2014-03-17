@@ -3,8 +3,8 @@
 MobileObject::MobileObject() :
     QObject(0),
     time(0),
-    last_time(0),
-    isValid(false)
+    isValid(false),
+    last_time(0)
 {
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
     connect(&timer_vel, SIGNAL(timeout()), this, SLOT(timer_vel_timeout()));
@@ -46,10 +46,10 @@ void MobileObject::seenAt(vector<Position> p, double t, int camera)
     time = t;
     isValid = true;
 
+    timer.start(timer_interval);
     if(!timer_started)
     {
         timer_started = true;
-        timer.start(timer_interval);
         timer_vel.start(timer_vel_interval);
     }
 
