@@ -10,6 +10,7 @@ using namespace std;
 #include "base.h"
 #include "constants.h"
 #include "outputbuffer.h"
+#include "worldmodel.h"
 
 class OutputBuffer;
 
@@ -21,13 +22,14 @@ class Transmitter : public QObject
 {
     Q_OBJECT
 public:
-    explicit Transmitter(QString port, OutputBuffer* buffer, QObject *parent = 0);
+    explicit Transmitter(QString port, OutputBuffer* buffer, WorldModel *wm, QObject *parent = 0);
 
 private:
     QSerialPort _serialport;
     QTimer _timer;
     bool _state;
     OutputBuffer* _buffer;
+    WorldModel* _wm;
     char readbuffer[120];
     int read_state;
 

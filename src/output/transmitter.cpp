@@ -1,10 +1,11 @@
 #include "transmitter.h"
 
-Transmitter::Transmitter(QString port, OutputBuffer* buffer, QObject *parent) :
+Transmitter::Transmitter(QString port, OutputBuffer* buffer, WorldModel *wm, QObject *parent) :
     QObject(parent),
     _serialport(this),
     _timer(this),
-    _buffer(buffer)
+    _buffer(buffer),
+    _wm(wm)
 {
     qDebug() << "Transmitter Initialization...";
 
@@ -74,12 +75,12 @@ void Transmitter::sendPacket()
 
         _serialport.write(pck);
 
-//        QByteArray debug;
-//        debug.append(QByteArray::fromHex("000102030405060708090a0b0c0d0e0f"));
-//        log+= "SeialData[" + QString::number(debug.size()) + "]: ";
-//        log+= debug.toHex();
-//        qDebug() << log;
-//        _serialport.port->write(debug);
+        //        QByteArray debug;
+        //        debug.append(QByteArray::fromHex("000102030405060708090a0b0c0d0e0f"));
+        //        log+= "SeialData[" + QString::number(debug.size()) + "]: ";
+        //        log+= debug.toHex();
+        //        qDebug() << log;
+        //        _serialport.port->write(debug);
     }
 }
 
@@ -108,8 +109,17 @@ void Transmitter::serialRead()
             if(read_state == 120)
             {
                 read_state = PRE_0;
-                QByteArray d(readbuffer, 120);
-                qDebug() << "serialRead" << d.toHex();
+                //QByteArray d(readbuffer, 120);
+                //qDebug() << "serialRead" << d.toHex();
+                for(int i=0; i<12; i++)
+                {
+                    _wm->ourRobot[i].rd.M0 = readbuffer[1 + i*10]*256 + readbuffer[0 + i*10];
+                    _wm->ourRobot[i].rd.M1 = readbuffer[3 + i*10]*256 + readbuffer[2 + i*10];
+                    _wm->ourRobot[i].rd.M2 = readbuffer[5 + i*10]*256 + readbuffer[4 + i*10];
+                    _wm->ourRobot[i].rd.M3 = readbuffer[7 + i*10]*256 + readbuffer[6 + i*10];
+                    _wm->ourRobot[i].rd.KCK = readbuffer[8 + i*10];
+                    _wm->ourRobot[i].rd.CHP = readbuffer[9 + i*10];
+                }
             }
         }
     }

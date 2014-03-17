@@ -19,6 +19,8 @@ public:
     void SendCommand(RobotCommand rc);
     void Halt();
 
+    RobotData rd;
+
 private:
     int id;
     Controller ctrl;
