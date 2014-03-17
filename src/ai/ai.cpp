@@ -28,7 +28,7 @@ void AI::timer_timeout()
     RobotCommand rc;
     rc.maxSpeed = 5;
 
-    qDebug() << a;
+    //qDebug() << a;
     switch (a)
     {
     case 0:

@@ -120,8 +120,42 @@ void Transmitter::serialRead()
                     _wm->ourRobot[i].rd.KCK = readbuffer[8 + i*10];
                     _wm->ourRobot[i].rd.CHP = readbuffer[9 + i*10];
                 }
+                updateVel2();
             }
         }
     }
+}
 
+void Transmitter::updateVel2()
+{
+    for(int i=0; i<12; i++)
+    {
+        double motor[4][1],rotate[3][4],speed[3];
+
+        rotate[0][0] = 0.3489;
+        rotate[0][1] = 0.2965;
+        rotate[0][2] = -0.2965;
+        rotate[0][3] = -0.3489;
+        rotate[1][0] = -0.3963;
+        rotate[1][1] = 0.3963;
+        rotate[1][2] = 0.3963;
+        rotate[1][3] = -0.3963;
+        rotate[2][0] = -3.1137;
+        rotate[2][1] = -2.4418;
+        rotate[2][2] = -2.4418;
+        rotate[2][3] = -3.1137;
+
+        speed[0] = rotate[0][0] * _wm->ourRobot[i].rd.M0 + rotate[0][1] * _wm->ourRobot[i].rd.M1 + rotate[0][2] * _wm->ourRobot[i].rd.M2 + rotate[0][3] * _wm->ourRobot[i].rd.M3;
+        speed[1] = rotate[1][0] * _wm->ourRobot[i].rd.M0 + rotate[1][1] * _wm->ourRobot[i].rd.M1 + rotate[1][2] * _wm->ourRobot[i].rd.M2 + rotate[1][3] * _wm->ourRobot[i].rd.M3;
+        speed[2] = rotate[2][0] * _wm->ourRobot[i].rd.M0 + rotate[2][1] * _wm->ourRobot[i].rd.M1 + rotate[2][2] * _wm->ourRobot[i].rd.M2 + rotate[2][3] * _wm->ourRobot[i].rd.M3;
+
+        speed[0] /= 1375.14;
+        speed[1] /= 1375.14;
+        speed[2] /= 1375.14;
+
+        _wm->ourRobot[i].vel2.loc.x = cos(_wm->ourRobot[i].pos.dir) * speed[0] - sin(_wm->ourRobot[i].pos.dir) * speed[1];
+        _wm->ourRobot[i].vel2.loc.y = sin(_wm->ourRobot[i].pos.dir) * speed[0] + cos(_wm->ourRobot[i].pos.dir) * speed[1];
+        _wm->ourRobot[i].vel2.dir = speed[2];
+    }
+    qDebug() << _wm->ourRobot[0].vel2.loc.length();
 }

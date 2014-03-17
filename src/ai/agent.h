@@ -20,6 +20,7 @@ public:
     void Halt();
 
     RobotData rd;
+    Position vel2;
 
 private:
     int id;

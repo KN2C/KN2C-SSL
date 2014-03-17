@@ -32,6 +32,7 @@ private:
     WorldModel* _wm;
     char readbuffer[120];
     int read_state;
+    void updateVel2();
 
 public slots:
     void Start();
