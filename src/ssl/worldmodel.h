@@ -24,6 +24,7 @@ public:
     GameStateType gs;
     GameStateType gs_last;
     GameState cmgs;
+    bool isSim;
 };
 
 #endif // WORLDMODEL_H

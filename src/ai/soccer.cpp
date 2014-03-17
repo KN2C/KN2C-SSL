@@ -40,6 +40,7 @@ Soccer::Soccer(QObject *parent) :
     {
         grsim = new grSim(simip, simport, tcolor, outputbuffer);
         grsim->Start();
+        wm->isSim = true;
     }
 
     // serial port transmitter
@@ -47,6 +48,7 @@ Soccer::Soccer(QObject *parent) :
     {
         transmitter = new Transmitter(serialport, outputbuffer);
         transmitter->Start();
+        wm->isSim = false;
     }
 
     // AI
