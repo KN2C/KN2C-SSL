@@ -89,7 +89,7 @@ void Transmitter::serialRead()
     {
         char data;
         _serialport.getChar(&data);
-        qDebug() << "sr" << QByteArray(&data, 1).toHex();
+        //qDebug() << "sr" << QByteArray(&data, 1).toHex();
         if(read_state == PRE_0 && data == (signed char)0xa5)
         {
             read_state = PRE_1;
