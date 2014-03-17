@@ -13,6 +13,10 @@ using namespace std;
 
 class OutputBuffer;
 
+#define PRE_0 -2
+#define PRE_1 -1
+#define PRE_2 0
+
 class Transmitter : public QObject
 {
     Q_OBJECT
@@ -24,6 +28,8 @@ private:
     QTimer _timer;
     bool _state;
     OutputBuffer* _buffer;
+    char readbuffer[120];
+    int read_state;
 
 public slots:
     void Start();

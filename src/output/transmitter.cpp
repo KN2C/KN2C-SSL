@@ -21,6 +21,9 @@ Transmitter::Transmitter(QString port, OutputBuffer* buffer, QObject *parent) :
     _timer.setInterval(TRANSMITTER_TIMER);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(sendPacket()));
     qDebug() << "Port: " << port;
+
+    memset(readbuffer, 0, 120);
+    read_state = PRE_0;
 }
 
 void Transmitter::Start()
@@ -82,6 +85,32 @@ void Transmitter::sendPacket()
 
 void Transmitter::serialRead()
 {
-    QByteArray data = _serialport.readAll();
-    qDebug() << "serialRead" << data.toHex();
+    while (_serialport.bytesAvailable())
+    {
+        char data;
+        _serialport.getChar(&data);
+        if(read_state == PRE_0 && data == 0xa5)
+        {
+            read_state = PRE_1;
+        }
+        else if (read_state == PRE_1 && data == 0x5a)
+        {
+            read_state = PRE_2;
+        }
+        else if (read_state == PRE_1 && data != 0x5a)
+        {
+            read_state = PRE_0;
+        }
+        else if (read_state >= PRE_2)
+        {
+            readbuffer[read_state++] = data;
+            if(read_state == 120)
+            {
+                read_state = PRE_0;
+                QByteArray d(readbuffer, 120);
+                qDebug() << "serialRead" << d.toHex();
+            }
+        }
+    }
+
 }
