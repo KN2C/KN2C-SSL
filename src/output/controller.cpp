@@ -115,6 +115,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         u1.setLength(sqrt(2.0*ap*((err1.length()-Sm))+pow(v,2)));
 
     }
+    //u1.setLength(1);
     if(err1.length()<.010)
     {
         u1.setLength(0);
@@ -147,7 +148,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = RotationSpeed;
+    ans.VW = 0;//RotationSpeed;
 
     return ans;
 }

@@ -15,11 +15,16 @@ MobileObject::MobileObject() :
 
 void MobileObject::timer_timeout()
 {
-    isValid = false;
+    if(isValid==true)
+    {
+        qDebug() << "isValid == false";
+        isValid = false;
+    }
 }
 
 void MobileObject::timer_vel_timeout()
 {
+
     if(!isValid)
     {
         vel.loc = {0, 0};
@@ -27,7 +32,7 @@ void MobileObject::timer_vel_timeout()
         return;
     }
 
-    vel.loc = (pos.loc - last_pos.loc) / (time - last_time);
+    vel.loc = vel.loc + (((pos.loc - last_pos.loc) / (time - last_time)) - vel.loc) * 0.22;
     vel.dir = (pos.dir - last_pos.dir) / (time - last_time);
     last_pos = pos;
     last_time = time;

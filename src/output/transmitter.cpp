@@ -70,8 +70,8 @@ void Transmitter::sendPacket()
         if(pck.size() > 16) log+= " ...";
         log+= "\n";
 
-        cout << log.toStdString();
-        cout.flush();
+        //cout << log.toStdString();
+        //cout.flush();
 
         _serialport.write(pck);
 
@@ -157,5 +157,7 @@ void Transmitter::updateVel2()
         _wm->ourRobot[i].vel2.loc.y = sin(_wm->ourRobot[i].pos.dir) * speed[0] + cos(_wm->ourRobot[i].pos.dir) * speed[1];
         _wm->ourRobot[i].vel2.dir = speed[2];
     }
-    qDebug() << _wm->ourRobot[0].vel2.loc.length();
+    //_wm->ourRobot[0].vel = _wm->ourRobot[0].vel2;
+    qDebug() << _wm->ourRobot[0].vel2.loc.length()<<","<<_wm->ourRobot[0].vel.loc.length();
+    //qDebug() << _wm->ourRobot[0].vel2.dir;
 }

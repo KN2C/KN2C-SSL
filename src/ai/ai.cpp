@@ -26,16 +26,16 @@ void AI::timer_timeout()
 {
     static int a = 0;
     RobotCommand rc;
-    rc.maxSpeed = 5;
+    rc.maxSpeed = 1.5;
 
     //qDebug() << a;
     switch (a)
     {
     case 0:
-        rc.fin_pos.loc = {0,-2000};
+        rc.fin_pos.loc = {0,-1000};
         break;
     case 1:
-        rc.fin_pos.loc = {0,2000};
+        rc.fin_pos.loc = {2200,1000};
         break;
     case 2:
         rc.fin_pos.loc = {2000,2000};
