@@ -16,6 +16,7 @@ Transmitter::Transmitter(QString port, OutputBuffer* buffer, QObject *parent) :
     _serialport.setFlowControl(QSerialPort::NoFlowControl);
     _serialport.setParity(QSerialPort::NoParity);
     qDebug() << _serialport.errorString();
+    connect(&_serialport, SIGNAL(readyRead()), this, SLOT(serialRead()));
 
     _timer.setInterval(TRANSMITTER_TIMER);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(sendPacket()));
@@ -77,4 +78,10 @@ void Transmitter::sendPacket()
 //        qDebug() << log;
 //        _serialport.port->write(debug);
     }
+}
+
+void Transmitter::serialRead()
+{
+    QByteArray data = _serialport.readAll();
+    qDebug() << "serialRead" << data;
 }
