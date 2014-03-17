@@ -46,7 +46,7 @@ Soccer::Soccer(QObject *parent) :
     // serial port transmitter
     if(gamemode==MODE_REAL)
     {
-        transmitter = new Transmitter(serialport, outputbuffer);
+        transmitter = new Transmitter(serialport, outputbuffer, wm);
         transmitter->Start();
         wm->isSim = false;
     }
