@@ -83,5 +83,5 @@ void Transmitter::sendPacket()
 void Transmitter::serialRead()
 {
     QByteArray data = _serialport.readAll();
-    qDebug() << "serialRead" << data;
+    qDebug() << "serialRead" << data.toHex();
 }
