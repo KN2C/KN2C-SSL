@@ -66,7 +66,7 @@ void MobileObject::seenAt(vector<Position> p, double t, int camera)
         }
     }
 
-    pos.loc = pos.loc + (p[min_i].loc - pos.loc) * 0.6;
+    pos.loc = pos.loc + (p[min_i].loc - pos.loc) * 0.5;
     pos.dir = pos.dir + (p[min_i].dir - pos.dir) * 0.8;
 }
 

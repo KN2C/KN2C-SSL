@@ -78,6 +78,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     err0 = err1;
     err1 = (ci.fin_pos.loc - ci.cur_pos.loc)*.001;
+    qDebug()<<"                                          "<<err1.length()*1000;
     double dist;
     if (ci.cur_vel.loc.length()<vb)
     {
@@ -131,7 +132,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
 
     /******************************Rotation Speed Controller************************************/
-    wKp = 3.0;
+    wKp = 12.0;
     wKd = 0;
     wKi = 0;
     //werr0 = werr1;
@@ -148,7 +149,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = 0;//RotationSpeed;
+    ans.VW = RotationSpeed;
 
     return ans;
 }
@@ -272,7 +273,7 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
             werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
             if (werr1 > M_PI) werr1 -= 2 * M_PI;
             if (werr1 < -M_PI) werr1 += 2 * M_PI;
-            RotLinearSpeed = Vector2D(1,0);//sorate robot jelo
+            RotLinearSpeed = Vector2D(1.5,0);//sorate robot jelo
             if((Vector2D(1500,0) - ci.cur_pos.loc).length()>1000 && fabs(werr1)>M_PI/2.0)
             {
                 stateCTRL = 3;
@@ -283,7 +284,7 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
             werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
             if (werr1 > M_PI) werr1 -= 2 * M_PI;
             if (werr1 < -M_PI) werr1 += 2 * M_PI;
-            RotLinearSpeed = Vector2D(-1,0);//sorate robot aghab
+            RotLinearSpeed = Vector2D(-1.5,0);//sorate robot aghab
             if((Vector2D(1500,0) - ci.cur_pos.loc).length()>1000&& fabs(werr1)<M_PI/2.0)
             {
                 stateCTRL = 2;
@@ -710,20 +711,20 @@ MotorSpeed Controller::calcReal(RobotSpeed rs)
 
     MotorSpeed result;
 
-    result.M0 = (motor[0][0] /40.0);
-    result.M1 = (motor[1][0] /40.0);
-    result.M2 = (motor[2][0] /40.0);
-    result.M3 = (motor[3][0] /40.0);
+    result.M0 = (motor[0][0]);
+    result.M1 = (motor[1][0]);
+    result.M2 = (motor[2][0]);
+    result.M3 = (motor[3][0]);
 
-    double max = max4(fabs(result.M0),fabs(result.M1),fabs(result.M2),fabs(result.M3));
+//    double max = max4(fabs(result.M0),fabs(result.M1),fabs(result.M2),fabs(result.M3));
 
-    if(max > 127)
-    {
-        result.M0 = (int)((result.M0 * 127.0)/max);
-        result.M1 = (int)((result.M1 * 127.0)/max);
-        result.M2 = (int)((result.M2 * 127.0)/max);
-        result.M3 = (int)((result.M3 * 127.0)/max);
-    }
+//    if(max > 127)
+//    {
+//        result.M0 = (int)((result.M0 * 127.0)/max);
+//        result.M1 = (int)((result.M1 * 127.0)/max);
+//        result.M2 = (int)((result.M2 * 127.0)/max);
+//        result.M3 = (int)((result.M3 * 127.0)/max);
+//    }
 
     return result;
 }
