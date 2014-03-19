@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/images/Field.jpg</file>
+        <file>resources/images/logor2.png</file>
     </qresource>
 </RCC>
