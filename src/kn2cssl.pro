@@ -17,6 +17,8 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 CONFIG += debug
+DEFINES += QT_NO_DEBUG_OUTPUT
+
 #QMAKE_CXXFLAGS += --coverage
 #QMAKE_LFLAGS += --coverage
 
@@ -107,7 +109,11 @@ SOURCES +=	main.cpp \
     geom/triangle_2d.cpp \
     geom/vector_2d.cpp \
     ai/agent.cpp \
-    ai/navigation.cpp
+    ai/navigation.cpp \
+    ai/play.cpp \
+    ai/tactic.cpp \
+    ai/play/playtest.cpp \
+    ai/Tactic/tactictest.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -164,7 +170,11 @@ HEADERS  += \
     ai/soccer.h \
     ai/agent.h \
     ai/navigation.h \
-    output/controller_struct.h
+    output/controller_struct.h \
+    ai/play.h \
+    ai/tactic.h \
+    ai/play/playtest.h \
+    ai/Tactic/tactictest.h
 
 FORMS    +=	ui/mainwindow.ui
 

@@ -4,6 +4,7 @@
 #include <QObject>
 #include "robot.h"
 #include "robotcommand.h"
+#include "navigation.h"
 
 class WorldModel;
 
@@ -13,8 +14,8 @@ class Agent : public Robot
 public:
     explicit Agent();
     void setID(int id);
-    void setOutputBuffer(OutputBuffer *outputBuffer);
     void setWorldModel(WorldModel *wm);
+    void setOutputBuffer(OutputBuffer *outputBuffer);
 
     void SendCommand(RobotCommand rc);
     void Halt();
@@ -25,6 +26,7 @@ public:
 private:
     int id;
     Controller ctrl;
+    Navigation nav;
     OutputBuffer *outputBuffer;
     WorldModel *wm;
 

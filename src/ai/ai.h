@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "worldmodel.h"
 #include "outputbuffer.h"
+#include "play.h"
 
 class AI : public QObject
 {
@@ -18,12 +19,15 @@ public slots:
     void Stop();
 
 private:
-    WorldModel* wm;
-    OutputBuffer* outputbuffer;
+    WorldModel *wm;
+    OutputBuffer *outputbuffer;
     QTimer timer;
 
 private slots:
     void timer_timeout();
+
+private:
+    Play *play;
 
 };
 

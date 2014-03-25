@@ -4,11 +4,20 @@
 Agent::Agent() :
     Robot()
 {
+    wm = 0;
+    id = -1;
 }
 
 void Agent::setID(int id)
 {
     this->id = id;
+    nav.setID(id);
+}
+
+void Agent::setWorldModel(WorldModel *wm)
+{
+    this->wm = wm;
+    nav.setWorldModel(wm);
 }
 
 void Agent::setOutputBuffer(OutputBuffer *outputBuffer)
@@ -16,49 +25,37 @@ void Agent::setOutputBuffer(OutputBuffer *outputBuffer)
     this->outputBuffer = outputBuffer;
 }
 
-void Agent::setWorldModel(WorldModel *wm)
-{
-    this->wm = wm;
-}
-
 void Agent::SendCommand(RobotCommand rc)
 {
-    Position mypos=wm->ourRobot[id].pos;
-    Position myvel=wm->ourRobot[id].vel;
+    if(!wm->ourRobot[id].isValid) return;
 
-    ControllerInput ci;
-    ci.cur_pos = mypos;
-    ci.cur_vel = myvel;
-
-    ci.fin_pos = rc.fin_pos;
-    ci.maxSpeed = rc.maxSpeed;
-
-    ControllerResult ctrlres = ctrl.calc(ci);
+    ControllerInput ci = nav.calc(rc);
+    ControllerResult co = ctrl.calc(ci);
 
     // Real Game Packet
     RobotData reRD;
     reRD.RID = id;
-    reRD.M0 = ctrlres.msR.M0;
-    reRD.M1 = ctrlres.msR.M1;
-    reRD.M2 = ctrlres.msR.M2;
-    reRD.M3 = ctrlres.msR.M3;
-    reRD.KCK = (rc.kickspeedx>0)?1:0;
+    reRD.M0  = co.msR.M0;
+    reRD.M1  = co.msR.M1;
+    reRD.M2  = co.msR.M2;
+    reRD.M3  = co.msR.M3;
+    reRD.KCK = rc.kickspeedx > 0 ? 1 : 0;
     reRD.CHP = 0;
     outputBuffer->wpck.AddRobot(reRD);
 
     // grSim Packet
     grRobotData grRD;
-    grRD.rid=id;
-    grRD.velx = ctrlres.rs.VX;
-    grRD.vely = ctrlres.rs.VY;
-    grRD.velw = ctrlres.rs.VW;
-    grRD.wheel1=ctrlres.msS.M0;
-    grRD.wheel2=ctrlres.msS.M1;
-    grRD.wheel3=ctrlres.msS.M2;
-    grRD.wheel4=ctrlres.msS.M3;
-    grRD.kickspeedx=rc.kickspeedx;
-    grRD.kickspeedz=rc.kickspeedz;
-    grRD.spinner=0;
+    grRD.rid    = id;
+    grRD.velx   = co.rs.VX;
+    grRD.vely   = co.rs.VY;
+    grRD.velw   = co.rs.VW;
+    grRD.wheel1 = co.msS.M0;
+    grRD.wheel2 = co.msS.M1;
+    grRD.wheel3 = co.msS.M2;
+    grRD.wheel4 = co.msS.M3;
+    grRD.kickspeedx = rc.kickspeedx;
+    grRD.kickspeedz = rc.kickspeedz;
+    grRD.spinner = 0;
     outputBuffer->grpck.AddRobot(grRD);
 }
 
