@@ -27,70 +27,70 @@ private:
 
     double ap=1;
     double am=1;
-    static Vector2D derived0,derived1;
-    static Vector2D integral;
-    static double Rspeed_filer;
+    Vector2D derived0,derived1;
+    Vector2D integral;
+    double Rspeed_filer;
 
-    static Vector2D err1,err0;
-    static Vector2D u1;
+    Vector2D err1,err0;
+    Vector2D u1;
 
-    static double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    static double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
-    static double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
+    double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+    double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
+    double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
+    double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
 
-    static Vector2D integral[100];
-    //static int Integral_CNT;
-    static Vector2D derived;
+    Vector2D integral[100];
+    // int Integral_CNT;
+    Vector2D derived;
 
-    static double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
-    static double werr0;
-    static double wu1;
+    double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
+    double werr0;
+    double wu1;
 
-    static double wKp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    static double wKd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double wKi;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
-    static double wintegral[10];
-    static double wderived;
-    static int stateCTRL;
+    double wKp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+    double wKd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
+    double wKi;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
+    double wintegral[10];
+    double wderived;
+    int stateCTRL;
 
-    static double dist;
+    double dist;
 
-    static Vector2D err1,err0;
-    static Vector2D u1;
+    Vector2D err1,err0;
+    Vector2D u1;
 
-    // static double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    //static double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
-    //static double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
+    //  double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+    // double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
+    double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
+    // double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
 
-    static double t0;
-    //static double t1;
-    static double s0;
-    static double s3;
-    static double s1;
-    static double v,dt,s,sp,t2,vb;
-    static double tp;
-    static double t2p;
-    static double t3;
-    static Position targetVel;
+    double t0;
+    // double t1;
+    double s0;
+    double s3;
+    double s1;
+    double v,dt,s,sp,t2,vb;
+    double tp;
+    double t2p;
+    double t3;
+    Position targetVel;
 
-    static float RotationSpeed,Rspeed_filer,Rspeed_filer_1;
+    float RotationSpeed,Rspeed_filer,Rspeed_filer_1;
 
-    static double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
-    static double werr0;
-    static double wu1;
+    double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
+    double werr0;
+    double wu1;
 
-    static double wKp;
-    static double wKd;
-    static double wKi;
-    static double wintegral;
-    static double wderived;
-    static int stateCTRL;
+    double wKp;
+    double wKd;
+    double wKi;
+    double wintegral;
+    double wderived;
+    int stateCTRL;
 
-    //static Vector2D integral;
-    //static int Integral_CNT;
-    //static Vector2D derived;
+    // Vector2D integral;
+    // int Integral_CNT;
+    // Vector2D derived;
 };
 
 #endif // CONTROLLER_H
