@@ -9,6 +9,9 @@ Controller::Controller(QObject *parent) :
 
     qDebug() << "Controller Initialization...";
     timer.start();
+
+    ap=1;
+    am=1;
 }
 
 ControllerResult Controller::calc(ControllerInput &ci)
@@ -27,8 +30,7 @@ ControllerResult Controller::calc(ControllerInput &ci)
 RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 {
 
-    static Vector2D err0,err1;
-    static Vector2D u1;
+
 
     double ap=5;
     double am=5;
@@ -63,8 +65,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double kp;
     double ki;
     double kd;
-    static Vector2D derived0,derived1;
-    static Vector2D integral;
+
     if(err1.length()<.400)
     {
         kp = 4;
@@ -96,7 +97,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     /*************************************Rotation ctrl**********************/
     double wKp,wKi,wKd,werr1,wu1;
     double MAXROTATIONSPEED = 4,RotationSpeed;
-    static double Rspeed_filer;
+
     wKp = .5;
     wKd = 0;
     wKi = 0;
@@ -127,28 +128,6 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
     //float ROBOTSPEED;
     float RotationSpeed;
 
-    static Vector2D err1,err0;
-    static Vector2D u1;
-
-    static double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    static double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
-    static double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
-
-    static Vector2D integral[100];
-    //static int Integral_CNT;
-    static Vector2D derived;
-
-    static double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
-    static double werr0;
-    static double wu1;
-
-    static double wKp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    static double wKd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double wKi;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
-    static double wintegral[10];
-    static double wderived;
-    static int stateCTRL;
 
     delT= .020;
 
@@ -324,47 +303,9 @@ RobotSpeed Controller::calcRobotSpeed_test(ControllerInput &ci)
     //float MAXROBOTSPEED = MAXMOTORSRPM * M_PI * WHEELDIAMETER * cos(M_PI / 6) / 60;
     //float MAXROTATIONSPEED = MAXMOTORSRPM * WHEELDIAMETER / (60 * ROBOTRADIUS * 2);
     //float ROBOTSPEED;
-    static float RotationSpeed,Rspeed_filer,Rspeed_filer_1;
     float MAXROTATIONSPEED=4;
 
-    static Vector2D err1,err0;
-    static Vector2D u1;
-
-
-    // static double Kp;// = {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
-    //static double Kd;// = {50,50,50,50,50,50,50,50,50,50,50,50};
-    static double delT;// = {10,10,10,10,10,10,10,10,10,10,10,10};
-    //static double Ki;// = {0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01}; //Kp/Ti
-
-    static double ap=1;
-    static double am=1;
-    static double am2=1;
-    static double vmax = 1;// MAXROBOTSPEED * ci.speed;
-    static double t0;
-    //static double t1;
-    static double s0;
-    static double s3;
-    static double s1;
-    static double v,dt,s,sp,t2,vb;
-    static double tp;
-    static double t2p;
-    static double t3;
-    static Position targetVel;
     targetVel.loc = Vector2D(0,0);
-    //static Vector2D integral;
-    //static int Integral_CNT;
-    //static Vector2D derived;
-
-    static double werr1;// = (ci.fin_pos.loc - ci.cur_pos.loc);
-    static double werr0;
-    static double wu1;
-
-    static double wKp;
-    static double wKd;
-    static double wKi;
-    static double wintegral;
-    static double wderived;
-    static int stateCTRL;
 
     delT = .02;
 
@@ -538,7 +479,7 @@ RobotSpeed Controller::calcRobotSpeed_test(ControllerInput &ci)
 
         //qDebug()<<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<ci.fin_pos.loc.x<<ci.fin_pos.loc.y;
         ///////////////////////////////////////////INJA
-        static double dist;
+
         vb=vmax/2.0;
         if (ci.cur_vel.loc.length()<vb)
         {

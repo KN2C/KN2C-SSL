@@ -106,7 +106,8 @@ SOURCES +=	main.cpp \
     geom/segment_2d.cpp \
     geom/triangle_2d.cpp \
     geom/vector_2d.cpp \
-    ai/agent.cpp
+    ai/agent.cpp \
+    ai/navigation.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -161,7 +162,9 @@ HEADERS  += \
     geom/vector_2d.h \
     geom/geom.h \
     ai/soccer.h \
-    ai/agent.h
+    ai/agent.h \
+    ai/navigation.h \
+    output/controller_struct.h
 
 FORMS    +=	ui/mainwindow.ui
 
