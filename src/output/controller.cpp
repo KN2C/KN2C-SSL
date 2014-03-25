@@ -1,4 +1,4 @@
-#include "controller.h"
+﻿#include "controller.h"
 #include "constants.h"
 
 #define ROBOTRADIUS 0.090
@@ -26,137 +26,96 @@ ControllerResult Controller::calc(ControllerInput &ci)
 
 RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 {
-    //double MAXROBOTSPEED = 2;MAXMOTORSRPM * M_PI * WHEELDIAMETER * cos(M_PI / 6) / 60;
-    double MAXROTATIONSPEED = 4;//MAXMOTORSRPM * WHEELDIAMETER / (60 * ROBOTRADIUS * 2);
-    //double ROBOTSPEED;
-    double RotationSpeed,Rspeed_filer=0;
 
-    //static Vector2D last_LinearSpeed;
-    //static float last_RotationSpeed;
-    static Vector2D err1,err0;
-    static Vector2D u1,u0;
+    static Vector2D err0,err1;
+    static Vector2D u1;
 
-    double kp;
-    double kd;
-    double delT = 0.040;
-    //static double Ki;
-    double ap=1;
-    double am=1,amb=1;
-
-    double t0;
-    //static double t1;
-    double s0;
-    double s3;
-    double s1;
-    double v,vb = ci.maxSpeed/2.0;
-    // double dt,s,sp,t2;
-    //double tp;
-    //double t2p;
-    //double t3;
-    // Position targetVel;
-    ci.fin_vel.loc = Vector2D(0,0);
-
-    //static Vector2D integral;
-    //static int Integral_CNT;
-    static double derived;
-
-    static double werr1;
-    //static double werr0;
-    static double wu1;
-
-    double wKp;
-    double wKd;
-    double wKi;
-    static double wintegral;
-    static double wderived;
-
-
-
-
+    double ap=5;
+    double am=5;
 
     /******************************Linear Speed Controller************************************/
+    Vector2D LinearSpeed;
 
-    //err0 = err1;
-    u0=u1;
     err1 = (ci.fin_pos.loc - ci.cur_pos.loc)*.001;
     double dist;
-    if (ci.cur_vel.loc.length()<vb)
-    {
-        dist = (pow(ci.fin_vel.loc.length(),2)-pow(ci.cur_vel.loc.length(),2))/(-2.0*amb);
-    }
-    else
-    {
 
-        dist =(pow(vb,2)-pow(ci.cur_vel.loc.length(),2))/(-2.0*am);
-        dist+=(pow(ci.fin_vel.loc.length(),2)-pow(vb,2))/(-2.0*amb);
+    dist = (pow(ci.fin_vel.loc.length(),2)-pow(u1.length(),2))/(-2.0*am);
 
-
-    }
-    u1 = err1;
+    LinearSpeed = err1;
     if(err1.length()<=dist)
     {
-        if(ci.cur_vel.loc.length()<vb)
-            u1.setLength(sqrt(2.0*amb*(err1.length())+pow(ci.fin_vel.loc.length(),2)));
-        else
-            u1.setLength(sqrt(2.0*am*(err1.length())+pow(ci.fin_vel.loc.length(),2)));
+        LinearSpeed.setLength(u1.length()-am*.055);
     }
     else if(err1.length()>dist)
     {
-        t0 = -ci.cur_vel.loc.length()/ap;
-        //t1 = (vmax/ap)+t0;
-        s0 = -ci.cur_vel.loc.length()*t0/2;
-        s3 = pow(ci.fin_vel.loc.length(),2)/(2*am);
-        s1 = (err1.length()+s0+s3)/(1+ap/am);
-        v = sqrt(s1*2*ap);
-        //tp = (v/ap)+t0;
-        //t3 = (v/am) + tp;
-        //t2p = t3 - (ci.fin_vel.loc.length()/am);
-        //t2 = t2p;
-        double Sm = (pow(v,2)-pow(ci.fin_vel.loc.length(),2))/(2.0*am);
-        u1.setLength(sqrt(2.0*ap*((err1.length()-Sm))+pow(v,2)));
-
+        LinearSpeed.setLength(u1.length()+ap*.055);
     }
-    //u1.setLength(1);
-//    if(err1.length()<.010)
-//    {
-//        u1.setLength(0);
-//    }
-    if(u1.length()>ci.maxSpeed)
+
+    if(LinearSpeed.length()>ci.maxSpeed)
     {
-        u1.setLength(ci.maxSpeed);
+        LinearSpeed.setLength(ci.maxSpeed);
     }
 
-    /***************************pd ctrl*****************************/
+    //LinearSpeed = u1 + (LinearSpeed - u1)*0.4;
 
-    derived = (u1.length()-u0.length());
-    qDebug()<<u1.length()<<","<<u0.length()<<","<<derived;
-    kp = 1;
-    kd = 0;
-    Vector2D LinearSpeed = u1;
-    LinearSpeed.setLength(u1.length()*kp+derived*kd);
+    u1 = LinearSpeed;
+
+    double kp;
+    double ki;
+    double kd;
+    static Vector2D derived0,derived1;
+    static Vector2D integral;
+    if(err1.length()<.400)
+    {
+        kp = 4;
+        ki = 1;
+        kd = .3;
+        integral = integral + (err1*0.020);
+    }
+    else
+    {
+        kp = 3;
+        ki = 0;
+        kd = 0;
+        integral = {0,0};
+    }
+    derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
+    derived0 = derived0 + (derived1 - derived0)*0.1;
+    err0 = ci.cur_pos.loc*0.001;
+    LinearSpeed = err1*kp + integral*ki - derived0*kd;
+    if(LinearSpeed.length()>ci.maxSpeed)
+    {
+        LinearSpeed.setLength(ci.maxSpeed);
+    }
+
+    qDebug()<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
     RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
 
-    /******************************Rotation Speed Controller************************************/
-    wKp = 12.0;
+    /*************************************Rotation ctrl**********************/
+    double wKp,wKi,wKd,werr1,wu1;
+    double MAXROTATIONSPEED = 4,RotationSpeed;
+    static double Rspeed_filer;
+    wKp = .5;
     wKd = 0;
     wKi = 0;
     //werr0 = werr1;
     werr1 = ci.fin_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wu1 = (werr1*wKp) + (wintegral*wKi) + wderived*wKd;
-    Rspeed_filer=Rspeed_filer+(0.2*(wu1-Rspeed_filer));
-    if (Rspeed_filer>MAXROTATIONSPEED) Rspeed_filer=MAXROTATIONSPEED;
-    if (Rspeed_filer<-MAXROTATIONSPEED) Rspeed_filer=-MAXROTATIONSPEED;
-    RotationSpeed = Rspeed_filer ;
+
+    Rspeed_filer=Rspeed_filer+(0.04*werr1);
+    wu1 = (werr1*wKp) + Rspeed_filer*ki;
+    if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
+    if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
+    RotationSpeed = wu1 ;
 
     RobotSpeed ans;
 
-    ans.VX = RotLinearSpeed.x;
-    ans.VY = RotLinearSpeed.y;
-    ans.VW = 0;//RotationSpeed;
+    ans.VX = 0;//RotLinearSpeed.x;
+    ans.VY = 0;//RotLinearSpeed.y;
+    ans.VW = RotationSpeed;
 
     return ans;
 }
