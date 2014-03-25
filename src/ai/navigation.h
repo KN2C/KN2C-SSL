@@ -2,9 +2,10 @@
 #define NAVIGATION_H
 
 #include <QObject>
-#include "worldmodel.h"
 #include "controller.h"
 #include "robotcommand.h"
+
+class WorldModel;
 
 class Navigation : public QObject
 {

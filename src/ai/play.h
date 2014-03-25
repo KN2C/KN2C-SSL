@@ -12,7 +12,7 @@ public:
     explicit Play(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id) = 0;
 
-private:
+protected:
     WorldModel *wm;
 
 };

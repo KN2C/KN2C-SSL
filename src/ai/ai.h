@@ -4,7 +4,6 @@
 #include <QtCore>
 #include <QObject>
 #include "constants.h"
-#include "worldmodel.h"
 #include "outputbuffer.h"
 #include "play.h"
 

@@ -11,10 +11,8 @@ public:
     explicit TacticTest(WorldModel *worldmodel, QObject *parent = 0);
     virtual RobotCommand getCommand();
 
-signals:
-
-public slots:
-
+private:
+    int a;
 };
 
 #endif // TACTICTEST_H

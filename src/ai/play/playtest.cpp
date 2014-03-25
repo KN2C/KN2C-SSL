@@ -10,5 +10,7 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 
 Tactic* PlayTest::getTactic(int id)
 {
-    return t1;
+    if(id==0)
+        return t1;
+    return NULL;
 }

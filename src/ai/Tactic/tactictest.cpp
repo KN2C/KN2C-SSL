@@ -3,12 +3,12 @@
 TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
     Tactic(worldmodel, parent)
 {
+    a = 0;
 }
 
 RobotCommand TacticTest::getCommand()
 {
     RobotCommand rc;
-
     //qDebug() << a;
     switch (a)
     {

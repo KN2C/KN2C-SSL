@@ -7,7 +7,7 @@ Tactic::Tactic(WorldModel *worldmodel, QObject *parent) :
     id = -1;
 }
 
-void Agent::setID(int id)
+void Tactic::setID(int id)
 {
     this->id = id;
 }

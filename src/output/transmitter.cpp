@@ -130,7 +130,7 @@ void Transmitter::updateVel2()
 {
     for(int i=0; i<12; i++)
     {
-        double motor[4][1],rotate[3][4],speed[3];
+        double rotate[3][4],speed[3];
 
         rotate[0][0] = 0.3489;
         rotate[0][1] = 0.2965;

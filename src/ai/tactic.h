@@ -13,7 +13,7 @@ public:
     virtual RobotCommand getCommand() = 0;
     void setID(int id);
 
-private:
+protected:
     WorldModel *wm;
     int id;
 

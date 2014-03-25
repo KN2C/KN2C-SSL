@@ -1,4 +1,5 @@
 #include "navigation.h"
+#include "worldmodel.h"
 
 Navigation::Navigation(QObject *parent) :
     QObject(parent)
