@@ -26,7 +26,8 @@ ControllerResult Controller::calc(ControllerInput &ci)
 
 RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 {
-
+double time = timer.elapsed()/1000;
+timer.restart();
     static Vector2D err0,err1;
     static Vector2D u1;
 
@@ -65,16 +66,16 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double kd;
     static Vector2D derived0,derived1;
     static Vector2D integral;
-    if(err1.length()<.400)
+    if(err1.length()<400)
     {
-        kp = 4;
-        ki = 1;
-        kd = .3;
-        integral = integral + (err1*0.020);
+        kp = 3;
+        ki = 0;
+        kd = .014;
+        integral = integral + (err1*0.040);
     }
     else
     {
-        kp = 3;
+        kp = 2;
         ki = 0;
         kd = 0;
         integral = {0,0};
@@ -88,7 +89,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(ci.maxSpeed);
     }
 
-    //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<endl;
+    cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
     RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
@@ -102,9 +103,9 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     werr1 = ci.fin_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wkp = 2.5;
-    wki = 2;
-    wkd = 0;
+    wkp = 3.5;
+    wki = 0;
+    wkd = 1.5;
     if(fabs(werr1)*AngleDeg::RAD2DEG<90)
     {
         RotationSpeed = 0;
@@ -126,7 +127,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     //if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
    // if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
     RotationSpeed = wu1;
-    cout<<wintegral<<" "<<werr1<<" "<<ci.fin_pos.dir<<endl;
+    //cout<<wintegral<<" "<<werr1<<" "<<ci.fin_pos.dir<<endl;
    // cout<<RotLinearSpeed.length()<<endl;
 //    if(fabs(RotationSpeed)<.5)
 //    {
@@ -138,8 +139,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 //    }
     RobotSpeed ans;
 
-    ans.VX = 0;//RotLinearSpeed.x;
-    ans.VY = 0;//RotLinearSpeed.y;
+    ans.VX = RotLinearSpeed.x;
+    ans.VY = RotLinearSpeed.y;
     ans.VW = RotationSpeed;
 
     return ans;
