@@ -88,7 +88,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(ci.maxSpeed);
     }
 
-    //qDebug()<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x;
+    //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
     RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
@@ -102,17 +102,17 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     werr1 = ci.fin_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wkp = 1;
-    wki = 0;
+    wkp = 2.5;
+    wki = 2;
     wkd = 0;
-    if(fabs(werr1)*AngleDeg::RAD2DEG<2)
+    if(fabs(werr1)*AngleDeg::RAD2DEG<90)
     {
         RotationSpeed = 0;
         wintegral = wintegral + (werr1*0.020);
     }
     else
     {
-        RotationSpeed = 0.6*sign(werr1);
+        RotationSpeed = 0.5*sign(werr1);
 //        kp = 3;
 //        ki = 0;
 //        kd = 0;
@@ -125,12 +125,21 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     wu1 = (werr1*wkp) + wintegral*wki - wderived1*wkd;
     //if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
    // if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
-    //RotationSpeed = wu1;
+    RotationSpeed = wu1;
     cout<<wintegral<<" "<<werr1<<" "<<ci.fin_pos.dir<<endl;
+   // cout<<RotLinearSpeed.length()<<endl;
+//    if(fabs(RotationSpeed)<.5)
+//    {
+//        RotationSpeed = .5*sign(RotationSpeed);
+//    }
+//    if(fabs(werr1)*AngleDeg::RAD2DEG<2)
+//    {
+//        RotationSpeed = 0;
+//    }
     RobotSpeed ans;
 
-    ans.VX = RotLinearSpeed.x;
-    ans.VY = RotLinearSpeed.y;
+    ans.VX = 0;//RotLinearSpeed.x;
+    ans.VY = 0;//RotLinearSpeed.y;
     ans.VW = RotationSpeed;
 
     return ans;
@@ -256,7 +265,7 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
         if (werr1 > M_PI) werr1 -= 2 * M_PI;
         if (werr1 < -M_PI) werr1 += 2 * M_PI;
         RotLinearSpeed = Vector2D(1.5,0);//sorate robot jelo
-        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>1000 && fabs(werr1)>M_PI/2.0)
+        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>500 && fabs(werr1)>M_PI/2.0)
         {
             stateCTRL = 3;
         }
@@ -266,8 +275,8 @@ RobotSpeed Controller::calcRobotSpeed_adjt(ControllerInput &ci)
         werr1 = ((Vector2D(1500,0)-ci.cur_pos.loc).dir().radian()) - ci.cur_pos.dir;
         if (werr1 > M_PI) werr1 -= 2 * M_PI;
         if (werr1 < -M_PI) werr1 += 2 * M_PI;
-        RotLinearSpeed = Vector2D(-1.5,0);//sorate robot aghab
-        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>1000&& fabs(werr1)<M_PI/2.0)
+        RotLinearSpeed = Vector2D(-.3,0);//sorate robot aghab
+        if((Vector2D(1500,0) - ci.cur_pos.loc).length()>500&& fabs(werr1)<M_PI/2.0)
         {
             stateCTRL = 2;
         }
