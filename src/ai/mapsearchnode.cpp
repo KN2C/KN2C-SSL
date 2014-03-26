@@ -1,60 +1,33 @@
 #include "mapsearchnode.h"
 
-bool MapSearchNode::IsSameState( MapSearchNode &rhs )
+bool MapSearchNode::IsSameState(MapSearchNode &rhs)
 {
-
     // same state in a maze search is simply when (x,y) are the same
-    if( (x == rhs.x) &&
-        (y == rhs.y) )
-    {
+    if(vec == rhs.vec)
         return true;
-    }
     else
-    {
         return false;
-    }
-
-}
-
-void MapSearchNode::PrintNodeInfo()
-{
-    char str[100];
-    sprintf( str, "Node position : (%d,%d)\n", x,y );
-
-    cout << str;
 }
 
 // Here's the heuristic function that estimates the distance from a Node
 // to the Goal.
 
-float MapSearchNode::GoalDistanceEstimate( MapSearchNode &nodeGoal )
+float MapSearchNode::GoalDistanceEstimate(MapSearchNode &nodeGoal)
 {
-    float xd = float( ( (float)x - (float)nodeGoal.x ) );
-    float yd = float( ( (float)y - (float)nodeGoal.y) );
-
-    return xd + yd;
-
+    return (nodeGoal.vec - vec).length();
 }
 
-bool MapSearchNode::IsGoal( MapSearchNode &nodeGoal )
+bool MapSearchNode::IsGoal(MapSearchNode &nodeGoal)
 {
-
-    if( (x == nodeGoal.x) &&
-        (y == nodeGoal.y) )
-    {
-        return true;
-    }
-
-    return false;
+    return IsSameState(nodeGoal);
 }
 
 // This generates the successors to the given Node. It uses a helper function called
 // AddSuccessor to give the successors to the AStar class. The A* specific initialisation
 // is done for each node internally, so here you just set the state information that
 // is specific to the application
-bool MapSearchNode::GetSuccessors( AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node )
+bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node)
 {
-
     int parent_x = -1;
     int parent_y = -1;
 

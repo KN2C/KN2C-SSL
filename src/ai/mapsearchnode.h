@@ -1,21 +1,22 @@
 #ifndef MAPSEARCHNODE_H
 #define MAPSEARCHNODE_H
 
+#include "geom.h"
+#include "3rdparty/stlastar.h"
+
 class MapSearchNode
 {
 public:
-    int x;	 // the (x,y) positions of the node
-    int y;
+    Vector2D vec;
 
-    MapSearchNode() { x = y = 0; }
-    MapSearchNode( int px, int py ) { x=px; y=py; }
+    MapSearchNode() {}
+    MapSearchNode(Vector2D v) {vec = v;}
 
     float GoalDistanceEstimate( MapSearchNode &nodeGoal );
     bool IsGoal( MapSearchNode &nodeGoal );
     bool GetSuccessors( AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node );
     float GetCost( MapSearchNode &successor );
     bool IsSameState( MapSearchNode &rhs );
-
 };
 
 #endif // MAPSEARCHNODE_H
