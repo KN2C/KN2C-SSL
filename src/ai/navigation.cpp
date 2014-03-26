@@ -26,9 +26,33 @@ ControllerInput Navigation::calc(RobotCommand rc)
     ControllerInput ci;
     ci.cur_pos = mypos;
     ci.cur_vel = myvel;
+    ci.fin_pos  = rc.fin_pos;
+    ci.fin_vel  = rc.fin_vel;
 
-    ci.fin_pos = rc.fin_pos;
-    ci.maxSpeed = rc.maxSpeed;
+    rc.useNav = false; //FIXME
+    if(rc.useNav == false)
+    {
+        ci.mid_pos = rc.fin_pos;
+        ci.mid_vel = rc.fin_vel;
+        ci.fin_dist = (ci.cur_pos.loc - ci.fin_pos.loc).length();
+    }
+    else
+    {
+        QList<Position> points;
+        ci.fin_dist = getPath(rc, &points);
+        ci.mid_pos  = points[1];
+        ci.mid_vel  = rc.fin_vel;
+    }
 
+    ci.maxSpeed  = rc.maxSpeed;
+    ci.angleMode = rc.angleMode;
     return ci;
+}
+
+double Navigation::getPath(RobotCommand rc, QList<Position> *points)
+{
+    Q_UNUSED(points);
+    Position mypos = wm->ourRobot[id].pos;
+    // TODO
+    return (mypos.loc - rc.fin_pos.loc).length();
 }

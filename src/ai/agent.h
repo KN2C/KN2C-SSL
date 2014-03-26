@@ -20,8 +20,8 @@ public:
     void SendCommand(RobotCommand rc);
     void Halt();
 
-    RobotData rd;
-    Position vel2;
+    RobotData rd;   //received data from robot
+    Position  vel2; //speed from motors speed received from robot
 
 private:
     int id;

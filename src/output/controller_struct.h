@@ -22,6 +22,7 @@ struct ControllerInput
 
     Position fin_pos;
     Position fin_vel;
+    double   fin_dist;
 
     char angleMode;
     double maxSpeed;

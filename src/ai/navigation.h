@@ -16,6 +16,9 @@ public:
     void setID(int id);
     void setWorldModel(WorldModel *wm);
 
+public:
+    double getPath(RobotCommand rc, QList<Position> *points = 0);
+
 private:
     int id;
     WorldModel *wm;

@@ -14,14 +14,18 @@ struct RobotCommand
     float kickspeedx;
     float kickspeedz;
 
+    bool isBallObs;
+    bool useNav;
+
     RobotCommand()
     {
-        angleMode=0;
-        maxSpeed=0;
-        kickspeedx=0;
-        kickspeedz=0;
+        angleMode = 0;
+        maxSpeed = 0;
+        kickspeedx = 0;
+        kickspeedz = 0;
+        isBallObs = false;
+        useNav = true;
     }
 };
-
 
 #endif // ROBOTCOMMAND_H
