@@ -71,7 +71,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     nodeEnd.vec = rc.fin_pos.loc;
 
     astarsearch.SetStartAndGoalStates(nodeStart, nodeEnd);
-    astarsearch.AddSuccessor();
+    //astarsearch.AddSuccessor();
 
     unsigned int SearchState;
     unsigned int SearchSteps = 0;
