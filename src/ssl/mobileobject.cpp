@@ -8,7 +8,6 @@ MobileObject::MobileObject() :
 {
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
     connect(&timer_vel, SIGNAL(timeout()), this, SLOT(timer_vel_timeout()));
-    timer_started = false;
     timer_interval = 500;
     timer_vel_interval = 40;
 }
