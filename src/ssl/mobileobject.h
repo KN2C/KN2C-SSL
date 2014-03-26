@@ -29,8 +29,6 @@ protected:
 private:
     QTimer timer;
     int    timer_interval;
-    bool   timer_started;
-
     QTimer timer_vel;
     int    timer_vel_interval;
 

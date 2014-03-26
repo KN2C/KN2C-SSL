@@ -24,7 +24,6 @@ void MobileObject::timer_timeout()
 
 void MobileObject::timer_vel_timeout()
 {
-
     if(!isValid)
     {
         vel.loc = {0, 0};
@@ -47,11 +46,8 @@ void MobileObject::seenAt(vector<Position> p, double t, int camera)
     isValid = true;
 
     timer.start(timer_interval);
-    if(!timer_started)
-    {
-        timer_started = true;
+    if(!timer_vel.isActive())
         timer_vel.start(timer_vel_interval);
-    }
 
     int min_i = 0;
     double min_d = (pos.loc - p[0].loc).length2();
