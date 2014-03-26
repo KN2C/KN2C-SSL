@@ -1,4 +1,5 @@
 #include "mapsearchnode.h"
+#include "worldmodel.h"
 
 bool MapSearchNode::IsSameState(MapSearchNode &rhs)
 {
@@ -28,53 +29,8 @@ bool MapSearchNode::IsGoal(MapSearchNode &nodeGoal)
 // is specific to the application
 bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node)
 {
-    int parent_x = -1;
-    int parent_y = -1;
-
-    if( parent_node )
-    {
-        parent_x = parent_node->x;
-        parent_y = parent_node->y;
-    }
-
-
-    MapSearchNode NewNode;
-
-    // push each possible move except allowing the search to go backwards
-
-    if( (GetMap( x-1, y ) < 9)
-        && !((parent_x == x-1) && (parent_y == y))
-      )
-    {
-        NewNode = MapSearchNode( x-1, y );
-        astarsearch->AddSuccessor( NewNode );
-    }
-
-    if( (GetMap( x, y-1 ) < 9)
-        && !((parent_x == x) && (parent_y == y-1))
-      )
-    {
-        NewNode = MapSearchNode( x, y-1 );
-        astarsearch->AddSuccessor( NewNode );
-    }
-
-    if( (GetMap( x+1, y ) < 9)
-        && !((parent_x == x+1) && (parent_y == y))
-      )
-    {
-        NewNode = MapSearchNode( x+1, y );
-        astarsearch->AddSuccessor( NewNode );
-    }
-
-
-    if( (GetMap( x, y+1 ) < 9)
-        && !((parent_x == x) && (parent_y == y+1))
-        )
-    {
-        NewNode = MapSearchNode( x, y+1 );
-        astarsearch->AddSuccessor( NewNode );
-    }
-
+    Q_UNUSED(astarsearch)
+    Q_UNUSED(parent_node)
     return true;
 }
 
@@ -82,8 +38,9 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 // of our map the answer is the map terrain value at this node since that is
 // conceptually where we're moving
 
-float MapSearchNode::GetCost( MapSearchNode &successor )
+float MapSearchNode::GetCost(MapSearchNode &successor)
 {
-    return (float) GetMap( x, y );
-
+    Segment2D seg(vec, successor.vec);
+    return 0;
+    // TODO
 }

@@ -26,6 +26,7 @@ void AI::Stop()
 
 void AI::timer_timeout()
 {
+    // TODO: Select Play
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         Tactic *tactic = play->getTactic(i);

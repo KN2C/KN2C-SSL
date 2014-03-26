@@ -30,6 +30,7 @@ Soccer::Soccer(QObject *parent) :
 
     // Vison & referee
     wm = new WorldModel(outputbuffer);
+    MapSearchNode::wm = wm;
     sslvision = new SSLVision(vip, vport, tcolor, tside, tcam, wm);
     sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
     sslvision->Start();

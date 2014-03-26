@@ -17,6 +17,7 @@
 #include "grsim.h"
 #include "outputbuffer.h"
 #include "ai.h"
+#include "mapsearchnode.h"
 
 class Soccer : public QObject
 {

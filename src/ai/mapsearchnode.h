@@ -4,13 +4,17 @@
 #include "geom.h"
 #include "3rdparty/stlastar.h"
 
+class WorldModel;
+
 class MapSearchNode
 {
 public:
     Vector2D vec;
+    static WorldModel *wm;
+    static bool isBallObs; //WTF
 
-    MapSearchNode() {}
-    MapSearchNode(Vector2D v) {vec = v;}
+    MapSearchNode() {isBallObs=false;}
+    MapSearchNode(Vector2D v) {vec = v; isBallObs=false;}
 
     float GoalDistanceEstimate( MapSearchNode &nodeGoal );
     bool IsGoal( MapSearchNode &nodeGoal );

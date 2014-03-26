@@ -59,38 +59,49 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 {
     Q_UNUSED(points);
     Position mypos = wm->ourRobot[id].pos;
+    if(points) points->append(mypos.loc); // ?
     //return (mypos.loc - rc.fin_pos.loc).length();
+
     AStarSearch<MapSearchNode> astarsearch;
+
     MapSearchNode nodeStart;
     MapSearchNode nodeEnd;
-    astarsearch.SetStartAndGoalStates( nodeStart, nodeEnd );
+
+    nodeStart.vec = mypos.loc;
+    nodeEnd.vec = rc.fin_pos.loc;
+
+    astarsearch.SetStartAndGoalStates(nodeStart, nodeEnd);
+    astarsearch.AddSuccessor();
+
     unsigned int SearchState;
     unsigned int SearchSteps = 0;
+
     do
     {
-    SearchState = astarsearch.SearchStep();
-    SearchSteps++;
+        SearchState = astarsearch.SearchStep();
+        SearchSteps++;
     }
-    while( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SEARCHING );
+    while(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SEARCHING);
 
-    if( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SUCCEEDED )
+    if(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SUCCEEDED)
     {
         MapSearchNode *node = astarsearch.GetSolutionStart();
         int steps = 0;
-        //append
-        for( ;; )
+        if(points) points->append(node->vec); // ?
+        for(;;)
         {
             node = astarsearch.GetSolutionNext();
-            if( !node ) break;
-            //append
+            if(!node) break;
+            if(points) points->append(node->vec);
             steps++;
-
         }
         astarsearch.FreeSolutionNodes();
     }
-    else if( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED )
+    else if(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED)
     {
 
     }
     astarsearch.EnsureMemoryFreed();
+
+    return 0; //TODO: path
 }
