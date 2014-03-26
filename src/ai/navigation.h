@@ -17,7 +17,7 @@ public:
     void setWorldModel(WorldModel *wm);
 
 public:
-    double getPath(RobotCommand rc, QList<Position> *points = 0);
+    double getPath(RobotCommand rc, QList<Vector2D> *points = 0);
 
 private:
     int id;

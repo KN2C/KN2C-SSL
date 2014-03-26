@@ -38,10 +38,14 @@ ControllerInput Navigation::calc(RobotCommand rc)
     }
     else
     {
-        QList<Position> points;
+        QList<Vector2D> points;
         ci.fin_dist = getPath(rc, &points);
-        ci.mid_pos  = points[1];
-        ci.mid_vel  = rc.fin_vel;
+        if(points.size() >= 2)
+            ci.mid_pos.loc = points[1];
+        else
+            ci.mid_pos.loc = ci.fin_pos.loc;
+        ci.mid_pos.dir = ci.fin_pos.dir;
+        ci.mid_vel = rc.fin_vel;
     }
 
     ci.maxSpeed  = rc.maxSpeed;
@@ -49,7 +53,7 @@ ControllerInput Navigation::calc(RobotCommand rc)
     return ci;
 }
 
-double Navigation::getPath(RobotCommand rc, QList<Position> *points)
+double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 {
     Q_UNUSED(points);
     Position mypos = wm->ourRobot[id].pos;
