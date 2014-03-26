@@ -2,6 +2,7 @@
 #include "worldmodel.h"
 
 WorldModel *MapSearchNode::wm;
+bool MapSearchNode::isBallObs;
 
 bool MapSearchNode::IsSameState(MapSearchNode &rhs)
 {

@@ -14,7 +14,7 @@ public:
     static bool isBallObs; //WTF
 
     MapSearchNode() {isBallObs=false;}
-    MapSearchNode(Vector2D v) {vec = v; isBallObs=false;}
+    MapSearchNode(Vector2D v) {vec = v;}
 
     float GoalDistanceEstimate( MapSearchNode &nodeGoal );
     bool IsGoal( MapSearchNode &nodeGoal );
