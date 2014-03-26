@@ -1,5 +1,7 @@
 #include "navigation.h"
 #include "worldmodel.h"
+#include "3rdparty/stlastar.h"
+#include "mapsearchnode.h"
 
 Navigation::Navigation(QObject *parent) :
     QObject(parent)
@@ -57,6 +59,38 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 {
     Q_UNUSED(points);
     Position mypos = wm->ourRobot[id].pos;
-    // TODO
-    return (mypos.loc - rc.fin_pos.loc).length();
+    //return (mypos.loc - rc.fin_pos.loc).length();
+    AStarSearch<MapSearchNode> astarsearch;
+    MapSearchNode nodeStart;
+    MapSearchNode nodeEnd;
+    astarsearch.SetStartAndGoalStates( nodeStart, nodeEnd );
+    unsigned int SearchState;
+    unsigned int SearchSteps = 0;
+    do
+    {
+    SearchState = astarsearch.SearchStep();
+    SearchSteps++;
+    }
+    while( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SEARCHING );
+
+    if( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SUCCEEDED )
+    {
+        MapSearchNode *node = astarsearch.GetSolutionStart();
+        int steps = 0;
+        //append
+        for( ;; )
+        {
+            node = astarsearch.GetSolutionNext();
+            if( !node ) break;
+            //append
+            steps++;
+
+        }
+        astarsearch.FreeSolutionNodes();
+    }
+    else if( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED )
+    {
+
+    }
+    astarsearch.EnsureMemoryFreed();
 }
