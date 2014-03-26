@@ -174,7 +174,9 @@ HEADERS  += \
     ai/play.h \
     ai/tactic.h \
     ai/play/playtest.h \
-    ai/Tactic/tactictest.h
+    ai/Tactic/tactictest.h \
+    3rdparty/stlastar.h \
+    3rdparty/fsa.h
 
 FORMS    +=	ui/mainwindow.ui
 
