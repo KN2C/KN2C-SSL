@@ -43,15 +43,19 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     //qDebug() << "point" << vec.x << vec.y;
     //qDebug() << "parent" << parent.x << parent.y;
 
-    MapSearchNode node1;
-    MapSearchNode node2;
-    MapSearchNode node3;
-    MapSearchNode node4;
 
-    double b_dist = BALL_RADIUS + ROBOT_RADIUS * 2;
+
+    double b_dist = BALL_RADIUS + ROBOT_RADIUS * 5;
 
     if(isBallObs && wm->ball.isValid)
     {
+        qDebug()<<"BallObs" << MapSearchNode::selfRobot;
+
+        MapSearchNode node1;
+        MapSearchNode node2;
+        MapSearchNode node3;
+        MapSearchNode node4;
+
         node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
         node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
         node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);
@@ -75,6 +79,13 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
         if (bang < -M_PI) bang += 2 * M_PI;
         if(fabs(bang)>M_PI_2)
         {
+            qDebug()<<"BallObs posht" << MapSearchNode::selfRobot;
+
+            MapSearchNode node1;
+            MapSearchNode node2;
+            MapSearchNode node3;
+            MapSearchNode node4;
+
             node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
             node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
             node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);

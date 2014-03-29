@@ -42,10 +42,10 @@ RobotCommand TacticTest::getCommand()
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-            <ROBOT_RADIUS+BALL_RADIUS && fabs(werr1*AngleDeg::RAD2DEG)<7)
+            <ROBOT_RADIUS+BALL_RADIUS*2.5 && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
-        //qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
-        rc.kickspeedx=1;
+        qDebug()<<"test:KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
+        rc.kickspeedx=2;
     }
     else
     {
@@ -55,7 +55,9 @@ RobotCommand TacticTest::getCommand()
 
     //cout <<a<<" "<< (wm->ourRobot[id].pos.dir - rc.fin_pos.dir)*AngleDeg::RAD2DEG<<endl;
     //if(fabs((wm->ourRobot[id].pos.dir - rc.fin_pos.dir)*AngleDeg::RAD2DEG)<20) a=1;
-    if((wm->ourRobot[id].pos.loc - rc.fin_pos.loc).length() < 10) a = (a+1) % 2;
+    //if((wm->ourRobot[id].pos.loc - rc.fin_pos.loc).length() < 10) a = (a+1) % 2;
 
+    rc.isBallObs = true;
+    rc.isKickObs = true;
     return rc;
 }

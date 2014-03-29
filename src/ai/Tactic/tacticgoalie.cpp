@@ -16,10 +16,10 @@ RobotCommand TacticGoalie::getCommand()
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-            <ROBOT_RADIUS+BALL_RADIUS && fabs(werr1*AngleDeg::RAD2DEG)<7)
+            <ROBOT_RADIUS+BALL_RADIUS *2.5 && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
-        //qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
-        rc.kickspeedx=1;
+        qDebug()<<"goalie:KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
+        rc.kickspeedx=5;
     }
     else
     {
@@ -94,7 +94,8 @@ RobotCommand TacticGoalie::getCommand()
         rc.maxSpeed = 2;
     }
 
-    //rc.isBallObs = true;
+    rc.isBallObs = false;
+    rc.isKickObs = false;
     return rc;
 }
 
