@@ -32,7 +32,7 @@ ControllerInput Navigation::calc(RobotCommand rc)
     ci.fin_vel  = rc.fin_vel;
 
     //rc.useNav = false; //DISABLE A-STAR
-    if(rc.useNav == false)
+    if(rc.useNav == false || (rc.fin_pos.loc - mypos.loc).length() < ROBOT_RADIUS)
     {
         ci.mid_pos = rc.fin_pos;
         ci.mid_vel = rc.fin_vel;
