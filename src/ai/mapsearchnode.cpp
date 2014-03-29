@@ -38,6 +38,10 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     Vector2D parent = Vector2D(100000,100000);
     if(parent_node) parent = parent_node->vec;
 
+    qDebug() << "GetSuccessors";
+    qDebug() << "point" << vec.x << vec.y;
+    qDebug() << "parent" << parent.x << parent.y;
+
     if(isBallObs && wm->ball.isValid)
     {
         MapSearchNode node1;
@@ -109,6 +113,10 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
             astarsearch->AddSuccessor(node4);
     }
 
+    MapSearchNode goal;
+    goal.vec = astarsearch->GetSolutionEnd()->vec;
+    astarsearch->AddSuccessor(goal);
+
     return true;
 }
 
@@ -126,7 +134,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
 
     if(isBallObs && wm->ball.isValid)
     {
-        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS*2);
+        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
         Vector2D sol1, sol2;
         int hasInt = bc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
@@ -136,7 +144,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
     {
         if(i == selfRobot) continue;
         if(!wm->ourRobot[i].isValid) continue;
-        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*4);
+        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
         Vector2D sol1, sol2;
         int hasInt = rc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
@@ -145,11 +153,12 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         if(!wm->oppRobot[i].isValid) continue;
-        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*4);
+        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
         Vector2D sol1, sol2;
         int hasInt = rc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 
+    qDebug() << "GetCost" << vec.x << vec.y << "TO" << successor.vec.x << successor.vec.y << "=" << d;
     return d;
 }

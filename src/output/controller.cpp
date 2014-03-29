@@ -51,7 +51,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     /******************************Linear Speed Controller************************************/
     Vector2D LinearSpeed;
 
-    err1 = (ci.fin_pos.loc - ci.cur_pos.loc)*.001;
+    err1 = (ci.mid_pos.loc - ci.cur_pos.loc)*.001;
+    err1.setLength((ci.fin_pos.loc - ci.cur_pos.loc).length()*.001);
     double dist;
 
     dist = (pow(ci.fin_vel.loc.length(),2)-pow(u1.length(),2))/(-2.0*am);
@@ -111,7 +112,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double wkp,wki,wkd,wu1;
     double MAXROTATIONSPEED = 4,RotationSpeed;
 
-    werr1 = ci.fin_pos.dir - ci.cur_pos.dir;
+    werr1 = ci.mid_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
     wkp = 3.5;
@@ -138,7 +139,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
     if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
     RotationSpeed = wu1;
-    //cout<<wintegral<<" "<<werr1<<" "<<ci.fin_pos.dir<<endl;
+    //cout<<wintegral<<" "<<werr1<<" "<<ci.mid_pos.dir<<endl;
     // cout<<RotLinearSpeed.length()<<endl;
     //    if(fabs(RotationSpeed)<.5)
     //    {
