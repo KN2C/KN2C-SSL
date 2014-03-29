@@ -88,7 +88,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     }
     else
     {
-        kp = 2;
+        kp = 3;
         ki = 0;
         kd = 0;
         integral = {0,0};
@@ -102,7 +102,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(ci.maxSpeed);
     }
 
-    cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
+    //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
     RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
@@ -152,7 +152,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = RotationSpeed;
+    ans.VW = 0;//RotationSpeed;
 
     return ans;
 }

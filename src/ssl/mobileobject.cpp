@@ -30,7 +30,9 @@ void MobileObject::timer_vel_timeout()
         return;
     }
 
-    vel.loc = vel.loc + (((pos.loc - last_pos.loc) / (time - last_time)) - vel.loc)*.22;
+    vel.loc = ((vel.loc + (((pos.loc - last_pos.loc) / (time - last_time)) - vel.loc)*.22));
+    //vel.loc.x=((int)(vel.loc.x*1000))/1000;
+    //vel.loc.y=((int)(vel.loc.y*1000))/1000;
     vel.dir = (pos.dir - last_pos.dir) / (time - last_time);
     last_pos = pos;
     last_time = time;
