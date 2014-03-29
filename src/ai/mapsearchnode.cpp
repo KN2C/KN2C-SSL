@@ -33,8 +33,82 @@ bool MapSearchNode::IsGoal(MapSearchNode &nodeGoal)
 // is specific to the application
 bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node)
 {
-    Q_UNUSED(astarsearch)
-    Q_UNUSED(parent_node)
+    //Q_UNUSED(astarsearch)
+    //Q_UNUSED(parent_node)
+    Vector2D parent = Vector2D(100000,100000);
+    if(parent_node) parent = parent_node->vec;
+
+    if(isBallObs && wm->ball.isValid)
+    {
+        MapSearchNode node1;
+        MapSearchNode node2;
+        MapSearchNode node3;
+        MapSearchNode node4;
+
+        node1.vec = wm->ball.pos.loc + Vector2D(+(BALL_RADIUS+ROBOT_RADIUS), +(BALL_RADIUS+ROBOT_RADIUS));
+        node2.vec = wm->ball.pos.loc + Vector2D(+(BALL_RADIUS+ROBOT_RADIUS), -(BALL_RADIUS+ROBOT_RADIUS));
+        node3.vec = wm->ball.pos.loc + Vector2D(-(BALL_RADIUS+ROBOT_RADIUS), +(BALL_RADIUS+ROBOT_RADIUS));
+        node4.vec = wm->ball.pos.loc + Vector2D(-(BALL_RADIUS+ROBOT_RADIUS), -(BALL_RADIUS+ROBOT_RADIUS));
+
+        if(node1.vec != parent)
+            astarsearch->AddSuccessor(node1);
+        if(node2.vec != parent)
+            astarsearch->AddSuccessor(node2);
+        if(node3.vec != parent)
+            astarsearch->AddSuccessor(node3);
+        if(node4.vec != parent)
+            astarsearch->AddSuccessor(node4);
+    }
+
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    {
+        if(i == selfRobot) continue;
+        if(!wm->ourRobot[i].isValid) continue;
+
+        MapSearchNode node1;
+        MapSearchNode node2;
+        MapSearchNode node3;
+        MapSearchNode node4;
+
+        node1.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
+        node2.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+        node3.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
+        node4.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+
+        if(node1.vec != parent)
+            astarsearch->AddSuccessor(node1);
+        if(node2.vec != parent)
+            astarsearch->AddSuccessor(node2);
+        if(node3.vec != parent)
+            astarsearch->AddSuccessor(node3);
+        if(node4.vec != parent)
+            astarsearch->AddSuccessor(node4);
+    }
+
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    {
+        if(!wm->oppRobot[i].isValid) continue;
+
+        MapSearchNode node1;
+        MapSearchNode node2;
+        MapSearchNode node3;
+        MapSearchNode node4;
+
+        node1.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
+        node2.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+        node3.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
+        node4.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+
+        if(node1.vec != parent)
+            astarsearch->AddSuccessor(node1);
+        if(node2.vec != parent)
+            astarsearch->AddSuccessor(node2);
+        if(node3.vec != parent)
+            astarsearch->AddSuccessor(node3);
+        if(node4.vec != parent)
+            astarsearch->AddSuccessor(node4);
+    }
+
     return true;
 }
 
@@ -44,14 +118,17 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
 float MapSearchNode::GetCost(MapSearchNode &successor)
 {
+    if(IsSameState(successor)) return 0;
+
     double BIG_NUMBER = 1000000;
     Segment2D seg(vec, successor.vec);
     double d = seg.length();
 
     if(isBallObs && wm->ball.isValid)
     {
-        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
-        int hasInt = bc.intersection(seg, NULL, NULL);
+        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS*2);
+        Vector2D sol1, sol2;
+        int hasInt = bc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 
@@ -59,16 +136,18 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
     {
         if(i == selfRobot) continue;
         if(!wm->ourRobot[i].isValid) continue;
-        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
-        int hasInt = rc.intersection(seg, NULL, NULL);
+        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*4);
+        Vector2D sol1, sol2;
+        int hasInt = rc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         if(!wm->oppRobot[i].isValid) continue;
-        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
-        int hasInt = rc.intersection(seg, NULL, NULL);
+        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*4);
+        Vector2D sol1, sol2;
+        int hasInt = rc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 

@@ -75,65 +75,6 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 
     astarsearch.SetStartAndGoalStates(nodeStart, nodeEnd);
 
-    if(rc.isBallObs && wm->ball.isValid)
-    {
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
-        node1.vec = wm->ball.pos.loc + Vector2D(+(BALL_RADIUS+ROBOT_RADIUS), +(BALL_RADIUS+ROBOT_RADIUS));
-        node2.vec = wm->ball.pos.loc + Vector2D(+(BALL_RADIUS+ROBOT_RADIUS), -(BALL_RADIUS+ROBOT_RADIUS));
-        node3.vec = wm->ball.pos.loc + Vector2D(-(BALL_RADIUS+ROBOT_RADIUS), +(BALL_RADIUS+ROBOT_RADIUS));
-        node4.vec = wm->ball.pos.loc + Vector2D(-(BALL_RADIUS+ROBOT_RADIUS), -(BALL_RADIUS+ROBOT_RADIUS));
-
-        astarsearch.AddSuccessor(node1);
-        astarsearch.AddSuccessor(node2);
-        astarsearch.AddSuccessor(node3);
-        astarsearch.AddSuccessor(node4);
-    }
-
-    for(int i=0; i<PLAYERS_MAX_NUM; i++)
-    {
-        if(i == id) continue;
-        if(!wm->ourRobot[i].isValid) continue;
-
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
-        node1.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
-        node2.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
-        node3.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
-        node4.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
-
-        astarsearch.AddSuccessor(node1);
-        astarsearch.AddSuccessor(node2);
-        astarsearch.AddSuccessor(node3);
-        astarsearch.AddSuccessor(node4);
-    }
-
-    for(int i=0; i<PLAYERS_MAX_NUM; i++)
-    {
-        if(!wm->oppRobot[i].isValid) continue;
-
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
-        node1.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
-        node2.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
-        node3.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
-        node4.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
-
-        astarsearch.AddSuccessor(node1);
-        astarsearch.AddSuccessor(node2);
-        astarsearch.AddSuccessor(node3);
-        astarsearch.AddSuccessor(node4);
-    }
-
     unsigned int SearchState;
     unsigned int SearchSteps = 0;
 

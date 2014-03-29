@@ -258,7 +258,7 @@ public: // methods
 			// m_Successors ...
 
             // @Faraz
-            // m_Successors.clear(); // empty vector of successor nodes to n
+            m_Successors.clear(); // empty vector of successor nodes to n
 
 			// User provides this functions and uses AddSuccessor to add each successor of
 			// node 'n' to m_Successors
@@ -626,7 +626,7 @@ public: // methods
 	void EnsureMemoryFreed()
 	{
 #if USE_FSA_MEMORY
-		assert(m_AllocateNodeCount == 0);
+        assert(m_AllocateNodeCount == 0);
 #endif
 
 	}
