@@ -16,13 +16,12 @@ TEMPLATE = app
 #QMAKE_INCREMENTAL_STYLE = sublib
 QMAKE_CXXFLAGS += -std=c++11
 
-CONFIG += debug
-DEFINES += QT_NO_DEBUG_OUTPUT
+#CONFIG += debug
+#CONFIG   += release
+#DEFINES += QT_NO_DEBUG_OUTPUT
 
 #QMAKE_CXXFLAGS += --coverage
 #QMAKE_LFLAGS += --coverage
-
-#CONFIG   += release
 
 #QMAKE_CFLAGS    -= -O2 -O1
 #QMAKE_CXXFLAGS  -= -O2 -O1
@@ -43,9 +42,7 @@ DEFINES += QT_NO_DEBUG_OUTPUT
 #QMAKE_CXXFLAGS += -march=native
 #QMAKE_CXXFLAGS += -mtune=native
 
-
 #load(qt_config)
-
 
 DESTDIR = ../bin
 OBJECTS_DIR = ../tmp/.obj

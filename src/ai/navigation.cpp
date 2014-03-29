@@ -31,7 +31,7 @@ ControllerInput Navigation::calc(RobotCommand rc)
     ci.fin_pos  = rc.fin_pos;
     ci.fin_vel  = rc.fin_vel;
 
-    rc.useNav = false; //FIXME
+    //rc.useNav = false; //FIXME
     if(rc.useNav == false)
     {
         ci.mid_pos = rc.fin_pos;
@@ -160,7 +160,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     }
     else if(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED)
     {
-
+        qDebug() << "AStarSearch FAILED";
     }
     astarsearch.EnsureMemoryFreed();
 
