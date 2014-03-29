@@ -68,6 +68,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     AStarSearch<MapSearchNode> astarsearch;
     MapSearchNode::wm = wm;
     MapSearchNode::isBallObs = rc.isBallObs;
+    MapSearchNode::isKickObs = rc.isKickObs;
     MapSearchNode::selfRobot = id;
 
     MapSearchNode nodeStart;

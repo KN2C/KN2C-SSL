@@ -14,8 +14,9 @@ struct RobotCommand
     float kickspeedx;
     float kickspeedz;
 
-    bool isBallObs;
     bool useNav;
+    bool isBallObs;
+    bool isKickObs;
 
     RobotCommand()
     {
@@ -23,8 +24,16 @@ struct RobotCommand
         maxSpeed = 0;
         kickspeedx = 0;
         kickspeedz = 0;
-        isBallObs = false;
         useNav = true;
+        isBallObs = false;
+        isKickObs = true;
+        /*
+         * ball | kick | result
+         * --------------------
+         *  0   |  0   | bokhor
+         *  0   |  1   | az posht nakhor, az jelo bokhor.
+         *  1   |  d   | nakhor
+         */
     }
 };
 

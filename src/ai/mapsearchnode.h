@@ -12,6 +12,7 @@ public:
     Vector2D vec;
     static WorldModel *wm;
     static bool isBallObs; //WTF
+    static bool isKickObs; //WTF
     static int  selfRobot; //WTF
 
     MapSearchNode() {}

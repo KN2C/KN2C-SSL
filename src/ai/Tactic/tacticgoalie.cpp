@@ -11,12 +11,12 @@ RobotCommand TacticGoalie::getCommand()
     rc.fin_pos.dir = ( wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian();
 
     double werr1 = fabs(( (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()
-                        - wm->ourRobot[id].pos.dir)) ;
+                          - wm->ourRobot[id].pos.dir)) ;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-        <ROBOT_RADIUS+BALL_RADIUS && werr1*AngleDeg::RAD2DEG<7)
+            <ROBOT_RADIUS+BALL_RADIUS && werr1*AngleDeg::RAD2DEG<7)
     {
         qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
         rc.kickspeedx=1;

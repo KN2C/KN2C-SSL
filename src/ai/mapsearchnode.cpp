@@ -3,6 +3,7 @@
 
 WorldModel *MapSearchNode::wm;
 bool MapSearchNode::isBallObs;
+bool MapSearchNode::isKickObs;
 int  MapSearchNode::selfRobot;
 
 bool MapSearchNode::IsSameState(MapSearchNode &rhs)
@@ -42,15 +43,15 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     //qDebug() << "point" << vec.x << vec.y;
     //qDebug() << "parent" << parent.x << parent.y;
 
+    MapSearchNode node1;
+    MapSearchNode node2;
+    MapSearchNode node3;
+    MapSearchNode node4;
+
+    double b_dist = BALL_RADIUS + ROBOT_RADIUS * 2;
+
     if(isBallObs && wm->ball.isValid)
     {
-        double b_dist = BALL_RADIUS + ROBOT_RADIUS * 2;
-
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
         node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
         node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
         node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);
@@ -64,6 +65,26 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
             astarsearch->AddSuccessor(node3);
         if(node4.vec != parent)
             astarsearch->AddSuccessor(node4);
+    }
+
+    if(!isBallObs && isKickObs && wm->ball.isValid)
+    {
+        if(/*az posht*/true)
+        {
+            node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
+            node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
+            node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);
+            node4.vec = wm->ball.pos.loc + Vector2D(-b_dist, -b_dist);
+
+            if(node1.vec != parent)
+                astarsearch->AddSuccessor(node1);
+            if(node2.vec != parent)
+                astarsearch->AddSuccessor(node2);
+            if(node3.vec != parent)
+                astarsearch->AddSuccessor(node3);
+            if(node4.vec != parent)
+                astarsearch->AddSuccessor(node4);
+        }
     }
 
     double r_dist = ROBOT_RADIUS * 3;
@@ -142,6 +163,17 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
         Vector2D sol1, sol2;
         int hasInt = bc.intersection(seg, &sol1, &sol2);
         if(hasInt > 0) d += BIG_NUMBER;
+    }
+
+    if(!isBallObs && isKickObs && wm->ball.isValid)
+    {
+        if(/*az posht*/true)
+        {
+            Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
+            Vector2D sol1, sol2;
+            int hasInt = bc.intersection(seg, &sol1, &sol2);
+            if(hasInt > 0) d += BIG_NUMBER;
+        }
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
