@@ -69,7 +69,11 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
     if(!isBallObs && isKickObs && wm->ball.isValid)
     {
-        if(/*az posht*/true)
+        double bang = (wm->ball.pos.loc - wm->ourRobot[MapSearchNode::selfRobot].pos.loc).dir().radian()
+                     - wm->ourRobot[MapSearchNode::selfRobot].pos.dir;
+        if (bang >  M_PI) bang -= 2 * M_PI;
+        if (bang < -M_PI) bang += 2 * M_PI;
+        if(fabs(bang)>M_PI_2)
         {
             node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
             node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
@@ -167,7 +171,11 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
 
     if(!isBallObs && isKickObs && wm->ball.isValid)
     {
-        if(/*az posht*/true)
+        double bang = (wm->ball.pos.loc - wm->ourRobot[MapSearchNode::selfRobot].pos.loc).dir().radian()
+                     - wm->ourRobot[MapSearchNode::selfRobot].pos.dir;
+        if (bang >  M_PI) bang -= 2 * M_PI;
+        if (bang < -M_PI) bang += 2 * M_PI;
+        if(fabs(bang)>M_PI_2)
         {
             Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
             Vector2D sol1, sol2;

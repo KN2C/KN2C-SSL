@@ -36,13 +36,13 @@ RobotCommand TacticTest::getCommand()
     //        break;
     //    }
 
-    double werr1 = fabs(( (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()
-                          - wm->ourRobot[id].pos.dir)) ;
+    double werr1 = (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()
+                          - wm->ourRobot[id].pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-            <ROBOT_RADIUS+BALL_RADIUS && werr1*AngleDeg::RAD2DEG<7)
+            <ROBOT_RADIUS+BALL_RADIUS && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
         //qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
         rc.kickspeedx=1;
