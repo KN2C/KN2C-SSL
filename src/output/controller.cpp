@@ -42,8 +42,8 @@ ControllerResult Controller::calc(ControllerInput &ci)
 
 RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 {
-    double time = timer.elapsed()/1000;
-    timer.restart();
+    //double time = timer.elapsed()/1000;
+    //timer.restart();
 
     double ap=5;
     double am=5;
