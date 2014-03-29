@@ -60,7 +60,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
         if(i == selfRobot) continue;
         if(!wm->ourRobot[i].isValid) continue;
         Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
-        int hasInt = bc.intersection(seg, NULL, NULL);
+        int hasInt = rc.intersection(seg, NULL, NULL);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 
@@ -68,7 +68,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
     {
         if(!wm->oppRobot[i].isValid) continue;
         Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
-        int hasInt = bc.intersection(seg, NULL, NULL);
+        int hasInt = rc.intersection(seg, NULL, NULL);
         if(hasInt > 0) d += BIG_NUMBER;
     }
 

@@ -1,11 +1,11 @@
 #include "playtest.h"
 #include "Tactic/tactictest.h"
-#include "Tactic/tacticgoaler.h"
+#include "Tactic/tacticgoalie.h"
 
 PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
     Play(worldmodel, parent)
 {
-    t1 = new TacticGoaler(wm);
+    t1 = new TacticGoalie(wm);
     t1->setID(0);
 }
 
