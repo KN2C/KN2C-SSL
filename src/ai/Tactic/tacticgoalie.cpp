@@ -8,6 +8,21 @@ TacticGoalie::TacticGoalie(WorldModel *worldmodel, QObject *parent) :
 RobotCommand TacticGoalie::getCommand()
 {
     RobotCommand rc;
+    rc.fin_pos.dir = ( wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian();
+
+    double werr1 = fabs(( (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()
+                        - wm->ourRobot[id].pos.dir)) ;
+    if (werr1 > M_PI) werr1 -= 2 * M_PI;
+    if (werr1 < -M_PI) werr1 += 2 * M_PI;
+
+    if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
+        <ROBOT_RADIUS+BALL_RADIUS && werr1*AngleDeg::RAD2DEG<7)
+    {
+        qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
+        rc.kickspeedx=1;
+    }
+    else qDebug()<<"---";
+    qDebug()<<werr1*AngleDeg::RAD2DEG;
 
     if(wm->ball.isValid)
     {
@@ -35,11 +50,11 @@ RobotCommand TacticGoalie::getCommand()
 
                 Vector2D s = goalLine.intersection(ballLine);
 
-                cout<<s.x<<" "<<s.y<< " "<<wm->ball.vel.loc.length()*1000<<endl;
+                //cout<<s.x<<" "<<s.y<< " "<<wm->ball.vel.loc.length()*1000<<endl;
 
                 if(s.y > 1500 || s.y < -1500)
                 {
-                    rc.fin_pos.loc = wm->ourRobot[0].pos.loc;
+                    rc.fin_pos.loc = wm->ourRobot[id].pos.loc;
                     rc.maxSpeed = 2;
                 }
                 else
@@ -50,7 +65,7 @@ RobotCommand TacticGoalie::getCommand()
             }
             else
             {
-                rc.fin_pos.loc = wm->ourRobot[0].pos.loc;
+                rc.fin_pos.loc = wm->ourRobot[id].pos.loc;
                 rc.maxSpeed = 2;
             }
         }

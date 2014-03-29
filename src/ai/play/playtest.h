@@ -13,6 +13,7 @@ public:
 
 private:
     Tactic* t1;
+    Tactic* t2;
 
 };
 

@@ -115,9 +115,9 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     werr1 = ci.mid_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wkp = 3.5;
+    wkp = 2;
     wki = 0;
-    wkd = 1.5;
+    wkd = 1;
     if(fabs(werr1)*AngleDeg::RAD2DEG<90)
     {
         RotationSpeed = 0;
@@ -153,7 +153,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = 0;//RotationSpeed;
+    ans.VW = RotationSpeed;
 
     return ans;
 }
