@@ -10,10 +10,10 @@ RobotCommand TacticTest::getCommand()
 {
     RobotCommand rc;
     rc.maxSpeed = 1;
-rc.fin_pos.dir = 0;
-Vector2D kick_pos =  (wm->ball.pos.loc - Vector2D(3025,0));
-kick_pos.setLength(ROBOT_RADIUS);
-kick_pos = wm->ball.pos.loc + kick_pos;
+    rc.fin_pos.dir = 0;
+    Vector2D kick_pos =  (wm->ball.pos.loc - Vector2D(3025,0));
+    kick_pos.setLength(ROBOT_RADIUS);
+    kick_pos = wm->ball.pos.loc + kick_pos;
     switch (a)
     {
     case 0:

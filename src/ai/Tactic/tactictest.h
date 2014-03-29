@@ -1,7 +1,6 @@
 #ifndef TACTICTEST_H
 #define TACTICTEST_H
 
-#include <QObject>
 #include "tactic.h"
 
 class TacticTest : public Tactic

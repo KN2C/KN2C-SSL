@@ -115,7 +115,7 @@ SOURCES +=	main.cpp \
     ai/play/playtest.cpp \
     ai/Tactic/tactictest.cpp \
     ai/mapsearchnode.cpp \
-    ai/Tactic/tacticgoaler.cpp
+    ai/Tactic/tacticgoalie.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -180,7 +180,7 @@ HEADERS  += \
     3rdparty/stlastar.h \
     3rdparty/fsa.h \
     ai/mapsearchnode.h \
-    ai/Tactic/tacticgoaler.h
+    ai/Tactic/tacticgoalie.h
 
 FORMS    +=	ui/mainwindow.ui
 
