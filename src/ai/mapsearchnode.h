@@ -12,8 +12,9 @@ public:
     Vector2D vec;
     static WorldModel *wm;
     static bool isBallObs; //WTF
+    static int  selfRobot; //WTF
 
-    MapSearchNode() {isBallObs=false;}
+    MapSearchNode() {}
     MapSearchNode(Vector2D v) {vec = v;}
 
     float GoalDistanceEstimate( MapSearchNode &nodeGoal );

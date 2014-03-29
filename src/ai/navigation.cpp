@@ -59,10 +59,13 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 {
     Q_UNUSED(points);
     Position mypos = wm->ourRobot[id].pos;
-    if(points) points->append(mypos.loc); // ?
     //return (mypos.loc - rc.fin_pos.loc).length();
+    if(points) points->append(mypos.loc); // ?
 
     AStarSearch<MapSearchNode> astarsearch;
+    MapSearchNode::wm = wm;
+    MapSearchNode::isBallObs = rc.isBallObs;
+    MapSearchNode::selfRobot = id;
 
     MapSearchNode nodeStart;
     MapSearchNode nodeEnd;

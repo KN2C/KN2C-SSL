@@ -3,6 +3,7 @@
 
 WorldModel *MapSearchNode::wm;
 bool MapSearchNode::isBallObs;
+int  MapSearchNode::selfRobot;
 
 bool MapSearchNode::IsSameState(MapSearchNode &rhs)
 {
@@ -43,7 +44,33 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
 float MapSearchNode::GetCost(MapSearchNode &successor)
 {
+    double BIG_NUMBER = 1000000;
     Segment2D seg(vec, successor.vec);
-    return 0;
-    // TODO
+    double d = seg.length();
+
+    if(isBallObs && wm->ball.isValid)
+    {
+        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
+        int hasInt = bc.intersection(seg, NULL, NULL);
+        if(hasInt > 0) d += BIG_NUMBER;
+    }
+
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    {
+        if(i == selfRobot) continue;
+        if(!wm->ourRobot[i].isValid) continue;
+        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
+        int hasInt = bc.intersection(seg, NULL, NULL);
+        if(hasInt > 0) d += BIG_NUMBER;
+    }
+
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    {
+        if(!wm->oppRobot[i].isValid) continue;
+        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
+        int hasInt = bc.intersection(seg, NULL, NULL);
+        if(hasInt > 0) d += BIG_NUMBER;
+    }
+
+    return d;
 }
