@@ -257,7 +257,8 @@ public: // methods
 			// The user helps us to do this, and we keep the new nodes in
 			// m_Successors ...
 
-			m_Successors.clear(); // empty vector of successor nodes to n
+            // @Faraz
+            // m_Successors.clear(); // empty vector of successor nodes to n
 
 			// User provides this functions and uses AddSuccessor to add each successor of
 			// node 'n' to m_Successors
