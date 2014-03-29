@@ -38,9 +38,9 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     Vector2D parent = Vector2D(100000,100000);
     if(parent_node) parent = parent_node->vec;
 
-    qDebug() << "GetSuccessors";
-    qDebug() << "point" << vec.x << vec.y;
-    qDebug() << "parent" << parent.x << parent.y;
+    //qDebug() << "GetSuccessors";
+    //qDebug() << "point" << vec.x << vec.y;
+    //qDebug() << "parent" << parent.x << parent.y;
 
     if(isBallObs && wm->ball.isValid)
     {
@@ -74,10 +74,10 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
         MapSearchNode node3;
         MapSearchNode node4;
 
-        node1.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
-        node2.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
-        node3.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
-        node4.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+        node1.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
+        node2.vec = wm->ourRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
+        node3.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
+        node4.vec = wm->ourRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
 
         if(node1.vec != parent)
             astarsearch->AddSuccessor(node1);
@@ -98,10 +98,10 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
         MapSearchNode node3;
         MapSearchNode node4;
 
-        node1.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
-        node2.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
-        node3.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), +(ROBOT_RADIUS*4));
-        node4.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*4), -(ROBOT_RADIUS*4));
+        node1.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
+        node2.vec = wm->oppRobot[i].pos.loc + Vector2D(+(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
+        node3.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), +(ROBOT_RADIUS*2));
+        node4.vec = wm->oppRobot[i].pos.loc + Vector2D(-(ROBOT_RADIUS*2), -(ROBOT_RADIUS*2));
 
         if(node1.vec != parent)
             astarsearch->AddSuccessor(node1);
@@ -137,7 +137,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
         Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
         Vector2D sol1, sol2;
         int hasInt = bc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        if(hasInt > 1) d += BIG_NUMBER;
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
@@ -147,7 +147,7 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
         Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
         Vector2D sol1, sol2;
         int hasInt = rc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        if(hasInt > 1) d += BIG_NUMBER;
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
@@ -156,9 +156,9 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
         Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
         Vector2D sol1, sol2;
         int hasInt = rc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        if(hasInt > 1) d += BIG_NUMBER;
     }
 
-    qDebug() << "GetCost" << vec.x << vec.y << "TO" << successor.vec.x << successor.vec.y << "=" << d;
+    //qDebug() << "GetCost" << vec.x << vec.y << "TO" << successor.vec.x << successor.vec.y << "=" << d;
     return d;
 }
