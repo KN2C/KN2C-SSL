@@ -18,11 +18,14 @@ RobotCommand TacticGoalie::getCommand()
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
             <ROBOT_RADIUS+BALL_RADIUS && werr1*AngleDeg::RAD2DEG<7)
     {
-        qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
+        //qDebug()<<"KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
         rc.kickspeedx=1;
     }
-    else qDebug()<<"---";
-    qDebug()<<werr1*AngleDeg::RAD2DEG;
+    else
+    {
+        //qDebug()<<"---";
+    }
+    //qDebug()<<werr1*AngleDeg::RAD2DEG;
 
     if(wm->ball.isValid)
     {
