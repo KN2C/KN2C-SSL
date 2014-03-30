@@ -9,7 +9,7 @@ TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
 RobotCommand TacticTest::getCommand()
 {
     RobotCommand rc;
-    rc.maxSpeed = 1;
+    rc.maxSpeed = 2;
     rc.fin_pos.dir = 0;
     Vector2D kick_pos =  (wm->ball.pos.loc - Vector2D(-3025,0));
     kick_pos.setLength(ROBOT_RADIUS);
@@ -42,7 +42,7 @@ RobotCommand TacticTest::getCommand()
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-            <ROBOT_RADIUS+BALL_RADIUS*2.5 && fabs(werr1*AngleDeg::RAD2DEG)<7)
+            <ROBOT_RADIUS+BALL_RADIUS-10 && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
         qDebug()<<"test:KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
         rc.kickspeedx=2;

@@ -45,7 +45,7 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
 
 
-    double b_dist = BALL_RADIUS + ROBOT_RADIUS * 5;
+    double b_dist = BALL_RADIUS + ROBOT_RADIUS ;
 
     if(isBallObs && wm->ball.isValid)
     {

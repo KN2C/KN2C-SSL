@@ -55,7 +55,7 @@ RobotCommand TacticGoalie::getCommand()
 
                 //cout<<s.x<<" "<<s.y<< " "<<wm->ball.vel.loc.length()*1000<<endl;
 
-                if(s.y > 1500 || s.y < -1500)
+                if(s.y > 350 || s.y < -350)
                 {
                     rc.fin_pos.loc = wm->ourRobot[id].pos.loc;
                     rc.maxSpeed = 2;
