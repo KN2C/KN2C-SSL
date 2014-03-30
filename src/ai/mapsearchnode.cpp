@@ -36,7 +36,8 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 {
     //Q_UNUSED(astarsearch)
     //Q_UNUSED(parent_node)
-    Vector2D parent = Vector2D(100000,100000);
+    Vector2D v2invd = Vector2D(100000,100000);
+    Vector2D parent = v2invd;
     if(parent_node) parent = parent_node->vec;
 
     //qDebug() << "GetSuccessors";
@@ -44,104 +45,66 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     //qDebug() << "parent" << parent.x << parent.y;
 
 
+    auto   obs    = getObsCircle();
 
-    double b_dist = BALL_RADIUS + ROBOT_RADIUS ;
+    //----------
+    Position rpos = wm->ourRobot[selfRobot].pos;
+    Vector2D bloc = wm->ball.pos.loc;
+    double bang = (bloc - rpos.loc).dir().radian() - rpos.dir;
+    if (bang >  M_PI) bang -= 2 * M_PI;
+    if (bang < -M_PI) bang += 2 * M_PI;
 
-    if(isBallObs && wm->ball.isValid)
+    if(wm->ball.isValid && (isBallObs | (isKickObs && fabs(bang) > M_PI_2)))
     {
-        qDebug()<<"BallObs" << MapSearchNode::selfRobot;
-
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
-        node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
-        node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
-        node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);
-        node4.vec = wm->ball.pos.loc + Vector2D(-b_dist, -b_dist);
-
-        if(node1.vec != parent)
-            astarsearch->AddSuccessor(node1);
-        if(node2.vec != parent)
-            astarsearch->AddSuccessor(node2);
-        if(node3.vec != parent)
-            astarsearch->AddSuccessor(node3);
-        if(node4.vec != parent)
-            astarsearch->AddSuccessor(node4);
-    }
-
-    if(!isBallObs && isKickObs && wm->ball.isValid)
-    {
-        double bang = (wm->ball.pos.loc - wm->ourRobot[MapSearchNode::selfRobot].pos.loc).dir().radian()
-                     - wm->ourRobot[MapSearchNode::selfRobot].pos.dir;
-        if (bang >  M_PI) bang -= 2 * M_PI;
-        if (bang < -M_PI) bang += 2 * M_PI;
-        if(fabs(bang)>M_PI_2)
+        bool ret_now = false;
+        for(int i=0; i<obs.size(); i++)
         {
-            qDebug()<<"BallObs posht" << MapSearchNode::selfRobot;
+            if(obs[i].contains(vec))
+            {
+                double p_dist = ROBOT_RADIUS * 2;
 
-            MapSearchNode node1;
-            MapSearchNode node2;
-            MapSearchNode node3;
-            MapSearchNode node4;
+                MapSearchNode node1;
+                MapSearchNode node2;
+                MapSearchNode node3;
+                MapSearchNode node4;
 
-            node1.vec = wm->ball.pos.loc + Vector2D(+b_dist, +b_dist);
-            node2.vec = wm->ball.pos.loc + Vector2D(+b_dist, -b_dist);
-            node3.vec = wm->ball.pos.loc + Vector2D(-b_dist, +b_dist);
-            node4.vec = wm->ball.pos.loc + Vector2D(-b_dist, -b_dist);
+                node1.vec = obs[i].center() + Vector2D(+p_dist, +p_dist);
+                node2.vec = obs[i].center() + Vector2D(+p_dist, -p_dist);
+                node3.vec = obs[i].center() + Vector2D(-p_dist, +p_dist);
+                node4.vec = obs[i].center() + Vector2D(-p_dist, -p_dist);
 
-            if(node1.vec != parent)
-                astarsearch->AddSuccessor(node1);
-            if(node2.vec != parent)
-                astarsearch->AddSuccessor(node2);
-            if(node3.vec != parent)
-                astarsearch->AddSuccessor(node3);
-            if(node4.vec != parent)
-                astarsearch->AddSuccessor(node4);
+                if(node1.vec == parent) node1.vec =v2invd;
+                if(node2.vec == parent) node2.vec =v2invd;
+                if(node3.vec == parent) node3.vec =v2invd;
+                if(node4.vec == parent) node4.vec =v2invd;
+
+                MapSearchNode ans;
+                ans.vec = vec;
+                ans = vec.dist(ans.vec) < vec.dist(node1.vec) ? ans : node1;
+                ans = vec.dist(ans.vec) < vec.dist(node2.vec) ? ans : node2;
+                ans = vec.dist(ans.vec) < vec.dist(node3.vec) ? ans : node3;
+                ans = vec.dist(ans.vec) < vec.dist(node4.vec) ? ans : node4;
+
+                astarsearch->AddSuccessor(ans);
+                ret_now = true;
+            }
         }
+        if(ret_now) return true;
     }
+    //----------
 
-    double r_dist = ROBOT_RADIUS * 3;
-
-    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    double p_dist = ROBOT_RADIUS * 3;
+    for(int i=0; i<obs.size(); i++)
     {
-        if(i == selfRobot) continue;
-        if(!wm->ourRobot[i].isValid) continue;
-
         MapSearchNode node1;
         MapSearchNode node2;
         MapSearchNode node3;
         MapSearchNode node4;
 
-        node1.vec = wm->ourRobot[i].pos.loc + Vector2D(+r_dist, +r_dist);
-        node2.vec = wm->ourRobot[i].pos.loc + Vector2D(+r_dist, -r_dist);
-        node3.vec = wm->ourRobot[i].pos.loc + Vector2D(-r_dist, +r_dist);
-        node4.vec = wm->ourRobot[i].pos.loc + Vector2D(-r_dist, -r_dist);
-
-        if(node1.vec != parent)
-            astarsearch->AddSuccessor(node1);
-        if(node2.vec != parent)
-            astarsearch->AddSuccessor(node2);
-        if(node3.vec != parent)
-            astarsearch->AddSuccessor(node3);
-        if(node4.vec != parent)
-            astarsearch->AddSuccessor(node4);
-    }
-
-    for(int i=0; i<PLAYERS_MAX_NUM; i++)
-    {
-        if(!wm->oppRobot[i].isValid) continue;
-
-        MapSearchNode node1;
-        MapSearchNode node2;
-        MapSearchNode node3;
-        MapSearchNode node4;
-
-        node1.vec = wm->oppRobot[i].pos.loc + Vector2D(+r_dist, +r_dist);
-        node2.vec = wm->oppRobot[i].pos.loc + Vector2D(+r_dist, -r_dist);
-        node3.vec = wm->oppRobot[i].pos.loc + Vector2D(-r_dist, +r_dist);
-        node4.vec = wm->oppRobot[i].pos.loc + Vector2D(-r_dist, -r_dist);
+        node1.vec = obs[i].center() + Vector2D(+p_dist, +p_dist);
+        node2.vec = obs[i].center() + Vector2D(+p_dist, -p_dist);
+        node3.vec = obs[i].center() + Vector2D(-p_dist, +p_dist);
+        node4.vec = obs[i].center() + Vector2D(-p_dist, -p_dist);
 
         if(node1.vec != parent)
             astarsearch->AddSuccessor(node1);
@@ -168,30 +131,47 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
 {
     if(IsSameState(successor)) return 0;
 
-    double BIG_NUMBER = 1000000;
     Segment2D seg(vec, successor.vec);
     double d = seg.length();
 
+    auto obs = getObsCircle();
+    for(int i=0; i<obs.size(); i++)
+    {
+        Vector2D sol1, sol2;
+        if(obs[i].intersection(seg, &sol1, &sol2) > 1) d += 1000000;
+    }
+
+    //qDebug() << "GetCost" << vec.x << vec.y << "TO" << successor.vec.x << successor.vec.y << "=" << d;
+    return d;
+}
+
+
+QList<Circle2D> MapSearchNode::getObsCircle()
+{
+    QList<Circle2D> result;
+
+    double b_rad = ROBOT_RADIUS;
+    double r_rad = ROBOT_RADIUS * 3;
+
     if(isBallObs && wm->ball.isValid)
     {
-        Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
-        Vector2D sol1, sol2;
-        int hasInt = bc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        Circle2D c(wm->ball.pos.loc, b_rad);
+        result.append(c);
     }
 
     if(!isBallObs && isKickObs && wm->ball.isValid)
     {
-        double bang = (wm->ball.pos.loc - wm->ourRobot[MapSearchNode::selfRobot].pos.loc).dir().radian()
-                     - wm->ourRobot[MapSearchNode::selfRobot].pos.dir;
+        Position rpos = wm->ourRobot[selfRobot].pos;
+        Vector2D bloc = wm->ball.pos.loc;
+
+        double bang = (bloc - rpos.loc).dir().radian() - rpos.dir;
         if (bang >  M_PI) bang -= 2 * M_PI;
         if (bang < -M_PI) bang += 2 * M_PI;
-        if(fabs(bang)>M_PI_2)
+
+        if(fabs(bang) > M_PI_2)
         {
-            Circle2D bc(wm->ball.pos.loc, BALL_RADIUS + ROBOT_RADIUS);
-            Vector2D sol1, sol2;
-            int hasInt = bc.intersection(seg, &sol1, &sol2);
-            if(hasInt > 0) d += BIG_NUMBER;
+            Circle2D c(wm->ball.pos.loc, b_rad);
+            result.append(c);
         }
     }
 
@@ -199,21 +179,16 @@ float MapSearchNode::GetCost(MapSearchNode &successor)
     {
         if(i == selfRobot) continue;
         if(!wm->ourRobot[i].isValid) continue;
-        Circle2D rc(wm->ourRobot[i].pos.loc, ROBOT_RADIUS*2);
-        Vector2D sol1, sol2;
-        int hasInt = rc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        Circle2D c(wm->ourRobot[i].pos.loc, r_rad);
+        result.append(c);
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         if(!wm->oppRobot[i].isValid) continue;
-        Circle2D rc(wm->oppRobot[i].pos.loc, ROBOT_RADIUS*2);
-        Vector2D sol1, sol2;
-        int hasInt = rc.intersection(seg, &sol1, &sol2);
-        if(hasInt > 0) d += BIG_NUMBER;
+        Circle2D c(wm->oppRobot[i].pos.loc, r_rad);
+        result.append(c);
     }
 
-    //qDebug() << "GetCost" << vec.x << vec.y << "TO" << successor.vec.x << successor.vec.y << "=" << d;
-    return d;
+    return result;
 }

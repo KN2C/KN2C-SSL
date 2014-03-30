@@ -8,6 +8,8 @@ TacticGoalie::TacticGoalie(WorldModel *worldmodel, QObject *parent) :
 RobotCommand TacticGoalie::getCommand()
 {
     RobotCommand rc;
+    if(!wm->ourRobot[id].isValid) return rc;
+
     rc.fin_pos.dir = ( wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian();
 
     double werr1 = (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()

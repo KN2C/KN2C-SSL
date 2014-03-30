@@ -9,6 +9,8 @@ TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
 RobotCommand TacticTest::getCommand()
 {
     RobotCommand rc;
+    if(!wm->ourRobot[id].isValid) return rc;
+
     rc.maxSpeed = 2;
     rc.fin_pos.dir = 0;
     Vector2D kick_pos =  (wm->ball.pos.loc - Vector2D(-3025,0));

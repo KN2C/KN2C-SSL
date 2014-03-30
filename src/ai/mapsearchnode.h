@@ -1,6 +1,7 @@
 #ifndef MAPSEARCHNODE_H
 #define MAPSEARCHNODE_H
 
+#include <QList>
 #include "geom.h"
 #include "3rdparty/stlastar.h"
 
@@ -23,6 +24,10 @@ public:
     bool GetSuccessors( AStarSearch<MapSearchNode> *astarsearch, MapSearchNode *parent_node );
     float GetCost( MapSearchNode &successor );
     bool IsSameState( MapSearchNode &rhs );
+
+private:
+    QList<Circle2D> getObsCircle();
+
 };
 
 #endif // MAPSEARCHNODE_H
