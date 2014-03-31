@@ -115,7 +115,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     werr1 = ci.mid_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wkp = 2;
+    wkp = 1.5;
     wki = 0;
     wkd = 1;
     if(fabs(werr1)*AngleDeg::RAD2DEG<90)
