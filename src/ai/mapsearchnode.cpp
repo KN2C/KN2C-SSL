@@ -63,20 +63,27 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
             {
                 double p_dist = ROBOT_RADIUS * 2;
 
-                MapSearchNode node1;
-                MapSearchNode node2;
-                MapSearchNode node3;
-                MapSearchNode node4;
+                MapSearchNode node1, node2, node3, node4;
+                MapSearchNode node5, node6, node7, node8;
+
 
                 node1.vec = obs[i].center() + Vector2D(+p_dist, +p_dist);
                 node2.vec = obs[i].center() + Vector2D(+p_dist, -p_dist);
                 node3.vec = obs[i].center() + Vector2D(-p_dist, +p_dist);
                 node4.vec = obs[i].center() + Vector2D(-p_dist, -p_dist);
+                node5.vec = obs[i].center() + Vector2D(0, +p_dist);
+                node6.vec = obs[i].center() + Vector2D(0, -p_dist);
+                node7.vec = obs[i].center() + Vector2D(+p_dist, 0);
+                node8.vec = obs[i].center() + Vector2D(-p_dist, 0);
 
                 if(node1.vec == parent) node1.vec =v2invd;
                 if(node2.vec == parent) node2.vec =v2invd;
                 if(node3.vec == parent) node3.vec =v2invd;
                 if(node4.vec == parent) node4.vec =v2invd;
+                if(node5.vec == parent) node5.vec =v2invd;
+                if(node6.vec == parent) node6.vec =v2invd;
+                if(node7.vec == parent) node7.vec =v2invd;
+                if(node8.vec == parent) node8.vec =v2invd;
 
                 MapSearchNode ans;
                 ans.vec = vec;
@@ -84,9 +91,14 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
                 ans = vec.dist(ans.vec) < vec.dist(node2.vec) ? ans : node2;
                 ans = vec.dist(ans.vec) < vec.dist(node3.vec) ? ans : node3;
                 ans = vec.dist(ans.vec) < vec.dist(node4.vec) ? ans : node4;
+                ans = vec.dist(ans.vec) < vec.dist(node5.vec) ? ans : node5;
+                ans = vec.dist(ans.vec) < vec.dist(node6.vec) ? ans : node6;
+                ans = vec.dist(ans.vec) < vec.dist(node7.vec) ? ans : node7;
+                ans = vec.dist(ans.vec) < vec.dist(node8.vec) ? ans : node8;
 
                 astarsearch->AddSuccessor(ans);
                 ret_now = true;
+                return true;
             }
         }
         if(ret_now) return true;

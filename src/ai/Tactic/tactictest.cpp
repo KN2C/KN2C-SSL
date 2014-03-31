@@ -16,7 +16,11 @@ RobotCommand TacticTest::getCommand()
     Vector2D kick_pos =  (wm->ball.pos.loc - Vector2D(-3025,0));
     kick_pos.setLength(ROBOT_RADIUS);
     kick_pos = wm->ball.pos.loc + kick_pos;
-    rc.fin_pos.loc = kick_pos;
+
+    Vector2D tmp = wm->ball.pos.loc - kick_pos;
+    Vector2D tmp2 = wm->ball.pos.loc - wm->ourRobot[id].pos.loc ;
+    rc.fin_pos.loc = wm->ball.pos.loc - (tmp + tmp2)/2;
+    rc.useNav = false;
     rc.fin_pos.dir = (Vector2D(-3025,0) - wm->ourRobot[id].pos.loc  ).dir().radian();
     //    switch (a)
     //    {
@@ -44,7 +48,7 @@ RobotCommand TacticTest::getCommand()
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
     if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length()
-            <ROBOT_RADIUS+BALL_RADIUS-10 && fabs(werr1*AngleDeg::RAD2DEG)<7)
+            <ROBOT_RADIUS+BALL_RADIUS && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
         qDebug()<<"test:KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
         rc.kickspeedx=2;
