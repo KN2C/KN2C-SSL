@@ -23,17 +23,6 @@ QList<int> Knowledge::ActiveAgents()
     return ans;
 }
 
-QList<int> Knowledge::findRole(QString name)
-{
-    QList<int> ans;
-    for(int i=0; i< PLAYERS_MAX_NUM; i++)
-    {
-        if(_sr->roles[i]->Name() == name && _wm->ourRobot[i].isValid)
-            ans.append(i);
-    }
-    return ans;
-}
-
 QList<int> Knowledge::findNearestTo(Vector2D loc)
 {
     QMap<double, int> smap;

@@ -10,7 +10,6 @@ public:
     explicit Knowledge(WorldModel* wm, QObject *parent = 0);
     int CountActiveAgents();
     QList<int> ActiveAgents();
-    QList<int> findRole(QString name);
     QList<int> findNearestTo(Vector2D loc);
     int findOppAttacker();
 

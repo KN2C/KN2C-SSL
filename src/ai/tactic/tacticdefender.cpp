@@ -15,5 +15,18 @@ RobotCommand TacticDefender::getCommand()
 {
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
+
+
+
+
+
+
+
+
+
+    rc.useNav = false;
+    rc.isBallObs = false;
+    rc.isKickObs = false;
+
     return rc;
 }

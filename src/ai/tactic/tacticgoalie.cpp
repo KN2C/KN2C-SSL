@@ -237,10 +237,10 @@ RobotCommand TacticGoalie::getCommand()
         rc.maxSpeed = 2;
     }
 
-
     rc.useNav = false;
     rc.isBallObs = false;
     rc.isKickObs = false;
+
     return rc;
 }
 
