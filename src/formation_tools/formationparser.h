@@ -3,6 +3,7 @@
 
 #include "knowledge.h"
 #include "worldmodel.h"
+#include "formationdata.h"
 #include <QFile>
 
 class FormationParser

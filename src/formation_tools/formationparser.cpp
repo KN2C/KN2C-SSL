@@ -10,6 +10,7 @@ QList<FormationData>* FormationParser::parse(QString fileName)
         QTextStream in(&formationFile);
         qDebug() << "Formation for " << in.readLine() << " Robots!";
 
+
         while(!in.atEnd())
         {
             QString str = in.readLine();

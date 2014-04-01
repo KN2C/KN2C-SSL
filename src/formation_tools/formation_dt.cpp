@@ -38,7 +38,6 @@
 
 #include <segment_2d.h>
 #include <line_2d.h>
-//#include <rcsc/math_util.h>
 
 #include <sstream>
 #include <cstdio>
@@ -61,46 +60,13 @@ FormationDT::FormationDT(int robotNum)
   
      */
 void
-FormationDT::createFormationTable(PlayMode pm)
+FormationDT::createFormationTable(GameState state)
 {
     FormationParser formationParser;
 
-    switch(pm)
-    {
-    case DirectFreeKickOur:
-    case IndirectFreeKickOur:
-    {
-        QString fileName = ":/resources/formations/formation_";
-        fileName += QString::number(M_robotNum) + "/FreeKickUs.conf";
-        M_sample_vector = formationParser.parse(fileName);
-        break;
-    }
-    case DirectFreeKickOpp:
-    case IndirectFreeKickOpp:
-    {
-        QString fileName = ":/resources/formations/formation_";
-        fileName += QString::number(M_robotNum) + "/FreeKickOpp.conf";
-        M_sample_vector = formationParser.parse(fileName);
-        break;
-    }
-    case PenaltyKickOur:
-    case PenaltyKickOpp:
-    case KickOffOur:
-    case KickOffOpp:
-    case GameOn:
-    case Halt:
-    case Stop:
-    {
-        QString fileName = ":/resources/formations/formation_";
-        fileName += QString::number(M_robotNum) + "/Normal.conf";
-        M_sample_vector = formationParser.parse(fileName);
-        break;
-    }
-    default:
-    {
-        break;
-    }
-    }
+    QString fileName = ":/Resources/Formations/formation_";
+    fileName += QString::number(M_robotNum) + "/" + QString::number((int)state) + ".conf";
+    M_sample_vector = formationParser.parse(fileName);
 
     qDebug() << "Formation" << M_robotNum << "- Parsed Successfully";
     train();

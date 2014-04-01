@@ -32,9 +32,10 @@
 #ifndef RCSC_FORMATION_FORMATION_DT_H
 #define RCSC_FORMATION_FORMATION_DT_H
 
-#include "geom/delaunay_triangulation.h"
+#include "delaunay_triangulation.h"
 #include "formationdata.h"
-#include "etc/base.h"
+#include "worldmodel.h"
+#include "base.h"
 
 #include <QList>
 
@@ -57,7 +58,7 @@ public:
     */
     FormationDT(int robotNum);
 
-    void createFormationTable(PlayMode pm);
+    void createFormationTable(GameState state);
     void train();
     Vector2D getPosition( const int unum,
                           const Vector2D & focus_point ) const;
