@@ -7,7 +7,7 @@ WorldModel::WorldModel(OutputBuffer *outputBuffer)
     gs = STATE_Null;
     gs_last = STATE_Null;
     isSim = false;
-    kn = new Knowledge(this, this);
+    kn = new Knowledge(this);
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
