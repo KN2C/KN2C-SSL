@@ -129,18 +129,7 @@ SOURCES +=	main.cpp \
     ai/play/playkickoffopp.cpp \
     ai/play/playkickoffour.cpp \
     ai/play/playpenaltyopp.cpp \
-    ai/play/playpenaltyour.cpp \
-    formation/formation.cpp \
-    formation/formation_bpn.cpp \
-    formation/formation_cdt.cpp \
-    formation/formation_dt.cpp \
-    formation/formation_knn.cpp \
-    formation/formation_ngnet.cpp \
-    formation/formation_rbf.cpp \
-    formation/formation_sbsp.cpp \
-    formation/formation_static.cpp \
-    formation/formation_uva.cpp \
-    formation/sample_data.cpp
+    ai/play/playpenaltyour.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -223,18 +212,7 @@ HEADERS  += \
     ai/play/playkickoffopp.h \
     ai/play/playkickoffour.h \
     ai/play/playpenaltyopp.h \
-    ai/play/playpenaltyour.h \
-    formation/formation.h \
-    formation/formation_bpn.h \
-    formation/formation_cdt.h \
-    formation/formation_dt.h \
-    formation/formation_knn.h \
-    formation/formation_ngnet.h \
-    formation/formation_rbf.h \
-    formation/formation_sbsp.h \
-    formation/formation_static.h \
-    formation/formation_uva.h \
-    formation/sample_data.h
+    ai/play/playpenaltyour.h
 
 FORMS    +=	ui/mainwindow.ui
 
