@@ -1,16 +1,13 @@
 #ifndef KNOWLEDGE_H
 #define KNOWLEDGE_H
 
-#include <QObject>
 #include "worldmodel.h"
-#include "strategyresult.h"
-#include "role.h"
 
 class Knowledge : public QObject
 {
     Q_OBJECT
 public:
-    explicit Knowledge(WorldModel* wm, StrategyResult* sr, QObject *parent = 0);
+    explicit Knowledge(WorldModel* wm, QObject *parent = 0);
     int CountActiveAgents();
     QList<int> ActiveAgents();
     QList<int> findRole(QString name);
@@ -19,7 +16,6 @@ public:
 
 private:
     WorldModel* _wm;
-    StrategyResult* _sr;
 
 signals:
 

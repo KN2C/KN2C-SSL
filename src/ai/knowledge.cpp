@@ -1,12 +1,9 @@
 #include "knowledge.h"
-#include "strategy.h"
 
-Knowledge::Knowledge(WorldModel *wm, StrategyResult *sr, QObject *parent) :
+Knowledge::Knowledge(WorldModel *wm, QObject *parent) :
     QObject(parent),
-    _wm(wm),
-    _sr(sr)
+    _wm(wm)
 {
-
 }
 
 int Knowledge::CountActiveAgents()
@@ -68,4 +65,3 @@ int Knowledge::findOppAttacker()
     }
     return ans;
 }
-
