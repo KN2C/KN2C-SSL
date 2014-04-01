@@ -121,7 +121,8 @@ SOURCES +=	main.cpp \
     ai/tactic/tacticballtracker.cpp \
     ai/tactic/tacticcircle.cpp \
     ai/tactic/tacticformation.cpp \
-    ai/play/playstop.cpp
+    ai/play/playstop.cpp \
+    ai/play/playhalt.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -196,7 +197,8 @@ HEADERS  += \
     ai/tactic/tacticcircle.h \
     ai/tactic/tacticformation.h \
     ai/tactics.h \
-    ai/play/playstop.h
+    ai/play/playstop.h \
+    ai/play/playhalt.h
 
 FORMS    +=	ui/mainwindow.ui
 
