@@ -10,6 +10,17 @@ static bool IsInsideGolieArea(Vector2D pos)
         Field::ourGoalCC_L.dist(Field::ourGoalCC_R) / 2));
 }
 
+static void LimitToGoalArea(Vector2D *pos)
+{
+    if(pos->x < Field::ourGoalCenter.x)
+        pos->x = Field::ourGoalCenter.x;
+
+    if(pos->y > Field::ourGoalPost_L.y - ROBOT_RADIUS)
+        pos->y = Field::ourGoalPost_L.y - ROBOT_RADIUS;
+    else if(pos->y < Field::ourGoalPost_R.y + ROBOT_RADIUS)
+        pos->y = Field::ourGoalPost_R.y + ROBOT_RADIUS;
+}
+
 TacticGoalie::TacticGoalie(WorldModel *worldmodel, QObject *parent) :
     Tactic(worldmodel, parent)
 {
@@ -33,7 +44,7 @@ RobotCommand TacticGoalie::getCommand()
                 if(wm->oppRobot[i].isValid)
                 {
                     double dist;
-                    if((dist = wm->oppRobot[i].pos.loc.dist(wm->ball.pos.loc)) < attackerDist && dist < 1000)
+                    if((dist = wm->oppRobot[i].pos.loc.dist(wm->ball.pos.loc)) < attackerDist && dist < 700)
                     {
                         attackerID = i;
                         attackerDist = dist;
@@ -47,13 +58,14 @@ RobotCommand TacticGoalie::getCommand()
                 // Ball is moving.
                 if(wm->ball.vel.loc.length() > 0.03)
                 {
-                    Line2D ballLine = Line2D(Vector2D(wm->ball.pos.loc), Vector2D(wm->ball.pos.loc + wm->ball.vel.loc * 1000));
-                    Vector2D s = Field::leftLine.intersection(ballLine);
+                    Ray2D ballRay = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir());
+                    Vector2D s = ballRay.intersection(Field::leftLine);
 
                     // Ball is moving toward goal.
-                    if(wm->ball.vel.loc.x < 0 && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
-                    {                        
+                    if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
+                    {
                         rc.fin_pos.loc = s;
+                        LimitToGoalArea(&rc.fin_pos.loc);
                         rc.fin_pos.loc.x += 60;
                         rc.maxSpeed = 2;
                     }
@@ -65,12 +77,12 @@ RobotCommand TacticGoalie::getCommand()
 
                         Vector2D dest = Field::ourGoalCenter;
                         dest.y += (dR - dL) / 2;
-                        dest.x += 60;
 
                         rc.fin_pos.loc = dest;
+                        LimitToGoalArea(&rc.fin_pos.loc);
                         rc.maxSpeed = 2;
                     }
-                }                
+                }
                 // Ball is not moving.
                 else
                 {
@@ -78,10 +90,11 @@ RobotCommand TacticGoalie::getCommand()
                     double dR = wm->ball.pos.loc.dist(Field::ourGoalPost_R);
 
                     Vector2D dest = Field::ourGoalCenter;
-                    dest.y += (dR - dL) / 2;
-                    dest.x += 60;
+                    dest.y += (dR - dL) / 2;                    
 
                     rc.fin_pos.loc = dest;
+                    LimitToGoalArea(&rc.fin_pos.loc);
+                    rc.fin_pos.loc.x += 60;
                     rc.maxSpeed = 2;
                 }
             }
@@ -91,13 +104,14 @@ RobotCommand TacticGoalie::getCommand()
                 // Ball is moving.
                 if(wm->ball.vel.loc.length() > 0.7)
                 {
-                    Line2D ballLine = Line2D(Vector2D(wm->ball.pos.loc), Vector2D(wm->ball.pos.loc + wm->ball.vel.loc * 1000));
-                    Vector2D s = Field::leftLine.intersection(ballLine);
+                    Ray2D ballRay = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir());
+                    Vector2D s = ballRay.intersection(Field::leftLine);
 
                     // Ball is moving toward goal.
-                    if(wm->ball.vel.loc.x < 0 && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
+                    if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
                     {
                         rc.fin_pos.loc = s;
+                        LimitToGoalArea(&rc.fin_pos.loc);
                         rc.fin_pos.loc.x += 60;
                         rc.maxSpeed = 2;
                     }
@@ -109,9 +123,10 @@ RobotCommand TacticGoalie::getCommand()
 
                         Vector2D dest = Field::ourGoalCenter;
                         dest.y += (dR - dL) / 2;
-                        dest.x += 60;
 
                         rc.fin_pos.loc = dest;
+                        LimitToGoalArea(&rc.fin_pos.loc);
+                        rc.fin_pos.loc.x += 60;
                         rc.maxSpeed = 2;
                     }
                 }
@@ -122,15 +137,11 @@ RobotCommand TacticGoalie::getCommand()
                                             AngleDeg(wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG));
                     Vector2D s = robotRay.intersection(Field::leftLine);
 
-                    // Attacker robot oriented toward our goal.
-                    if(fabs(wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG) > 90)
+                    // Attacker robot oriented toward left line.
+                    if(s != Vector2D::INVALIDATED)
                     {
-                        if(s.y > Field::ourGoalCC_L.y - ROBOT_RADIUS)
-                            s.y = Field::ourGoalCC_L.y - ROBOT_RADIUS;
-                        else if(s.y < Field::ourGoalCC_R.y + ROBOT_RADIUS)
-                            s.y = Field::ourGoalCC_R.y + ROBOT_RADIUS;
-
                         rc.fin_pos.loc = s;
+                        LimitToGoalArea(&rc.fin_pos.loc);
                         rc.fin_pos.loc.x += 60;
                         rc.maxSpeed = 2;
                     }
@@ -142,12 +153,8 @@ RobotCommand TacticGoalie::getCommand()
                         // Position blocking.
                         if(s != Vector2D::INVALIDATED)
                         {
-                            if(s.y > Field::ourGoalCC_L.y - ROBOT_RADIUS)
-                                s.y = Field::ourGoalCC_L.y - ROBOT_RADIUS;
-                            else if(s.y < Field::ourGoalCC_R.y + ROBOT_RADIUS)
-                                s.y = Field::ourGoalCC_R.y + ROBOT_RADIUS;
-
                             rc.fin_pos.loc = s;
+                            LimitToGoalArea(&rc.fin_pos.loc);
                             rc.fin_pos.loc.x += 60;
                             rc.maxSpeed = 2;
                         }
@@ -157,10 +164,11 @@ RobotCommand TacticGoalie::getCommand()
                             double dR = wm->ball.pos.loc.dist(Field::ourGoalPost_R);
 
                             Vector2D dest = Field::ourGoalCenter;
-                            dest.y += (dR - dL)/2;
-                            dest.x += 60;
+                            dest.y += (dR - dL) / 2;
 
                             rc.fin_pos.loc = dest;
+                            LimitToGoalArea(&rc.fin_pos.loc);
+                            rc.fin_pos.loc.x += 60;
                             rc.maxSpeed = 2;
                         }
                     }
@@ -171,17 +179,16 @@ RobotCommand TacticGoalie::getCommand()
         else
         {
             // Ball is moving.
-            if(wm->ball.vel.loc.length()>0.86)
+            if(wm->ball.vel.loc.length() > 0.85)
             {
-                Line2D ballLine = Line2D(Vector2D(wm->ball.pos.loc), Vector2D(wm->ball.pos.loc + wm->ball.vel.loc * 1000));
-
-                Vector2D s = Field::leftLine.intersection(ballLine);
+                Ray2D ballRay = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir());
+                Vector2D s = ballRay.intersection(Field::leftLine);
 
                 // Ball is moving toward goal.
-                if(wm->ball.vel.loc.x < 0 && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
+                if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
                 {
-                    qDebug()<<"ball is moving inside goal. " << wm->ourRobot[0].pos.loc.x;
                     rc.fin_pos.loc = s;
+                    LimitToGoalArea(&rc.fin_pos.loc);
                     rc.fin_pos.loc.x += 60;
                     rc.maxSpeed = 2;
                 }
@@ -192,10 +199,11 @@ RobotCommand TacticGoalie::getCommand()
                     double dR = wm->ball.pos.loc.dist(Field::ourGoalPost_R);
 
                     Vector2D dest = Field::ourGoalCenter;
-                    dest.y += (dR - dL)/2;
-                    dest.x += 60;
+                    dest.y += (dR - dL) / 2;
 
                     rc.fin_pos.loc = dest;
+                    LimitToGoalArea(&rc.fin_pos.loc);
+                    rc.fin_pos.loc.x += 60;
                     rc.maxSpeed = 2;
                 }
             }
@@ -206,12 +214,8 @@ RobotCommand TacticGoalie::getCommand()
                 rc.fin_pos.loc.x -= ROBOT_RADIUS;
                 if(rc.fin_pos.loc.x < Field::ourGoalCenter.x + 60)
 
-                rc.fin_pos.dir = 0;//(wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian();
+                rc.fin_pos.dir = 0;
                 rc.maxSpeed = 2;
-      //          double werr1 = (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian()
-        //                              - wm->ourRobot[id].pos.dir;
-    //            if (werr1 > M_PI) werr1 -= M_2PI;
-    //            if (werr1 < -M_PI) werr1 += M_2PI;
 
                 if((wm->ourRobot[id].pos.loc-wm->ball.pos.loc).length() < (ROBOT_RADIUS + BALL_RADIUS))
                 {

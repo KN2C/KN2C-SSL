@@ -51,7 +51,7 @@ RobotCommand TacticTest::getCommand()
             <ROBOT_RADIUS+BALL_RADIUS && fabs(werr1*AngleDeg::RAD2DEG)<7)
     {
         qDebug()<<"test:KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
-        rc.kickspeedx=2;
+        rc.kickspeedx=5;
     }
     else
     {
