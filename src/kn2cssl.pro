@@ -193,7 +193,8 @@ HEADERS  += \
     ai/knowledge.h \
     ai/tactic/tacticballtracker.h \
     ai/tactic/tacticcircle.h \
-    ai/tactic/tacticformation.h
+    ai/tactic/tacticformation.h \
+    ai/tactics.h
 
 FORMS    +=	ui/mainwindow.ui
 

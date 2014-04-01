@@ -3,9 +3,7 @@
 
 #include <QObject>
 #include "play.h"
-#include "tactic/tactictest.h"
-#include "tactic/tacticgoalie.h"
-#include "tactic/tacticdefender.h"
+#include "tactics.h"
 
 class PlayTest : public Play
 {
