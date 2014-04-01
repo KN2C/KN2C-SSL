@@ -119,7 +119,17 @@ SOURCES +=	main.cpp \
     ai/tactic/tacticattacker.cpp \
     ai/knowledge.cpp \
     ai/tactic/tacticballtracker.cpp \
-    ai/tactic/tacticcircle.cpp
+    ai/tactic/tacticcircle.cpp \
+    ai/tactic/tacticformation.cpp \
+    ai/play/playstop.cpp \
+    ai/play/playhalt.cpp \
+    ai/play/playfreekickopp.cpp \
+    ai/play/playfreekickour.cpp \
+    ai/play/playgameon.cpp \
+    ai/play/playkickoffopp.cpp \
+    ai/play/playkickoffour.cpp \
+    ai/play/playpenaltyopp.cpp \
+    ai/play/playpenaltyour.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -191,7 +201,18 @@ HEADERS  += \
     ai/tactic/tacticattacker.h \
     ai/knowledge.h \
     ai/tactic/tacticballtracker.h \
-    ai/tactic/tacticcircle.h
+    ai/tactic/tacticcircle.h \
+    ai/tactic/tacticformation.h \
+    ai/tactics.h \
+    ai/play/playstop.h \
+    ai/play/playhalt.h \
+    ai/play/playfreekickopp.h \
+    ai/play/playfreekickour.h \
+    ai/play/playgameon.h \
+    ai/play/playkickoffopp.h \
+    ai/play/playkickoffour.h \
+    ai/play/playpenaltyopp.h \
+    ai/play/playpenaltyour.h
 
 FORMS    +=	ui/mainwindow.ui
 
@@ -200,168 +221,4 @@ OTHER_FILES += \
 
 RESOURCES += \
     resources.qrc
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

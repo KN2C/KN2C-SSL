@@ -11,6 +11,7 @@
 #include "geom.h"
 #include "game_state.h"
 #include "ref_protocol.h"
+#include "knowledge.h"
 
 class WorldModel
 {
@@ -25,6 +26,7 @@ public:
     GameStateType gs_last;
     GameState cmgs;
     bool isSim;
+    Knowledge *kn;
 };
 
 #endif // WORLDMODEL_H

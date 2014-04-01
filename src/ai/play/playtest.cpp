@@ -1,7 +1,4 @@
 #include "playtest.h"
-#include "tactic/tactictest.h"
-#include "tactic/tacticgoalie.h"
-#include "tactic/tacticdefender.h"
 
 PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
     Play(worldmodel, parent)

@@ -1,11 +1,7 @@
 #ifndef PLAYTEST_H
 #define PLAYTEST_H
 
-#include <QObject>
 #include "play.h"
-#include "tactic/tactictest.h"
-#include "tactic/tacticgoalie.h"
-#include "tactic/tacticdefender.h"
 
 class PlayTest : public Play
 {

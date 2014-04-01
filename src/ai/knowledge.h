@@ -1,7 +1,10 @@
 #ifndef KNOWLEDGE_H
 #define KNOWLEDGE_H
 
-#include "worldmodel.h"
+#include <QtCore>
+#include "geom.h"
+
+class WorldModel;
 
 class Knowledge : public QObject
 {
