@@ -114,7 +114,8 @@ SOURCES +=	main.cpp \
     ai/mapsearchnode.cpp \
     ai/tactic/tacticgoalie.cpp \
     ai/tactic/tacticdefender.cpp \
-    ai/tactic/tacticstop.cpp
+    ai/tactic/tacticstop.cpp \
+    ai/tactic/tactichalt.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -181,7 +182,8 @@ HEADERS  += \
     ai/mapsearchnode.h \
     ai/tactic/tacticgoalie.h \
     ai/tactic/tacticdefender.h \
-    ai/tactic/tacticstop.h
+    ai/tactic/tacticstop.h \
+    ai/tactic/tactichalt.h
 
 FORMS    +=	ui/mainwindow.ui
 
