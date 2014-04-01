@@ -118,16 +118,52 @@ RobotCommand TacticGoalie::getCommand()
                 // Ball is not moving.
                 else
                 {
-                    Line2D robotLine = Line2D(Vector2D(wm->oppRobot[attackerID].pos.loc), Vector2D(wm->oppRobot[attackerID].pos.loc +
-                                              Vector2D::polar2vector(100, wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG)));
-                    Vector2D s = Field::leftLine.intersection(robotLine);
-                    if(s.y > 350)
-                        s.y = 350 - ROBOT_RADIUS;
-                    else if(s.y < 350)
-                        s.y = -350 + ROBOT_RADIUS;
+                    Ray2D robotRay = Ray2D(wm->oppRobot[attackerID].pos.loc,
+                                            AngleDeg(wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG));
+                    Vector2D s = robotRay.intersection(Field::leftLine);
 
-                    rc.fin_pos.loc = s;
-                    rc.maxSpeed = 2;
+                    // Attacker robot oriented toward our goal.
+                    if(fabs(wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG) > 90)
+                    {
+                        if(s.y > Field::ourGoalCC_L.y - ROBOT_RADIUS)
+                            s.y = Field::ourGoalCC_L.y - ROBOT_RADIUS;
+                        else if(s.y < Field::ourGoalCC_R.y + ROBOT_RADIUS)
+                            s.y = Field::ourGoalCC_R.y + ROBOT_RADIUS;
+
+                        rc.fin_pos.loc = s;
+                        rc.fin_pos.loc.x += 60;
+                        rc.maxSpeed = 2;
+                    }
+                    // Attacker robot is not oriented toward our goal.
+                    else
+                    {
+                        Ray2D r = Ray2D(wm->oppRobot[attackerID].pos.loc, wm->ball.pos.loc);
+                        Vector2D s = r.intersection(Field::leftLine);
+                        // Position blocking.
+                        if(s != Vector2D::INVALIDATED)
+                        {
+                            if(s.y > Field::ourGoalCC_L.y - ROBOT_RADIUS)
+                                s.y = Field::ourGoalCC_L.y - ROBOT_RADIUS;
+                            else if(s.y < Field::ourGoalCC_R.y + ROBOT_RADIUS)
+                                s.y = Field::ourGoalCC_R.y + ROBOT_RADIUS;
+
+                            rc.fin_pos.loc = s;
+                            rc.fin_pos.loc.x += 60;
+                            rc.maxSpeed = 2;
+                        }
+                        else
+                        {
+                            double dL = wm->ball.pos.loc.dist(Field::ourGoalPost_L);
+                            double dR = wm->ball.pos.loc.dist(Field::ourGoalPost_R);
+
+                            Vector2D dest = Field::ourGoalCenter;
+                            dest.y += (dR - dL)/2;
+                            dest.x += 60;
+
+                            rc.fin_pos.loc = dest;
+                            rc.maxSpeed = 2;
+                        }
+                    }
                 }
             }
         }
