@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include "play.h"
+#include "tactic/tactictest.h"
+#include "tactic/tacticgoalie.h"
+#include "tactic/tacticdefender.h"
 
 class PlayTest : public Play
 {
@@ -12,9 +15,10 @@ public:
     virtual Tactic* getTactic(int id);
 
 private:
-    Tactic* t1;
-    Tactic* t2;
-
+    TacticGoalie* t1;
+    TacticTest* t2;
+    TacticDefender* t3;
+    TacticDefender* t4;
 };
 
 #endif // PLAYTEST_H
