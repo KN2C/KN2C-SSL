@@ -1,6 +1,7 @@
 #ifndef TACTICS_H
 #define TACTICS_H
 
+#include "tactic.h"
 #include "tactic/tacticattacker.h"
 #include "tactic/tacticballtracker.h"
 #include "tactic/tacticcircle.h"

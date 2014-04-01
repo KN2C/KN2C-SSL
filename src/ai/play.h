@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "worldmodel.h"
-#include "tactic.h"
+#include "tactics.h"
 
 class Play : public QObject
 {

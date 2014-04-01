@@ -1,4 +1,5 @@
 #include "knowledge.h"
+#include "worldmodel.h"
 
 Knowledge::Knowledge(WorldModel *wm, QObject *parent) :
     QObject(parent),
