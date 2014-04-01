@@ -112,7 +112,12 @@ SOURCES +=	main.cpp \
     ai/play/playtest.cpp \
     ai/tactic/tactictest.cpp \
     ai/mapsearchnode.cpp \
-    ai/tactic/tacticgoalie.cpp
+    ai/tactic/tacticgoalie.cpp \
+    ai/tactic/tacticdefender.cpp \
+    ai/tactic/tacticstop.cpp \
+    ai/tactic/tactichalt.cpp \
+    ai/tactic/tacticattacker.cpp \
+    ai/knowledge.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -177,7 +182,12 @@ HEADERS  += \
     3rdparty/stlastar.h \
     3rdparty/fsa.h \
     ai/mapsearchnode.h \
-    ai/tactic/tacticgoalie.h
+    ai/tactic/tacticgoalie.h \
+    ai/tactic/tacticdefender.h \
+    ai/tactic/tacticstop.h \
+    ai/tactic/tactichalt.h \
+    ai/tactic/tacticattacker.h \
+    ai/knowledge.h
 
 FORMS    +=	ui/mainwindow.ui
 
