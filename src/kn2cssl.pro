@@ -50,7 +50,10 @@ MOC_DIR = ../tmp/.moc
 RCC_DIR = ../tmp/.rcc
 UI_DIR = ../tmp/.ui
 
-LIBS += -lprotobuf
+win32: LIBS += -L$$PWD/../ -lprotobuf
+win32: INCLUDEPATH += $$PWD/../
+win32: DEPENDPATH += $$PWD/../
+unix:  LIBS += -lprotobuf
 
 INCLUDEPATH += ssl
 INCLUDEPATH += ssl/sslvision
