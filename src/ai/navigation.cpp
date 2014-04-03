@@ -22,21 +22,19 @@ void Navigation::setWorldModel(WorldModel *wm)
 
 ControllerInput Navigation::calc(RobotCommand rc)
 {
-    Position mypos = wm->ourRobot[id].pos;
-    Position myvel = wm->ourRobot[id].vel;
-
     ControllerInput ci;
-    ci.cur_pos = mypos;
-    ci.cur_vel = myvel;
+    ci.cur_pos = wm->ourRobot[id].pos;
+    ci.cur_vel = wm->ourRobot[id].vel;
     ci.fin_pos  = rc.fin_pos;
     ci.fin_vel  = rc.fin_vel;
 
-    //rc.useNav = false; //DISABLE A-STAR
-    if(rc.useNav == false || (rc.fin_pos.loc - mypos.loc).length() < ROBOT_RADIUS)
+    //rc.useNav = false; //TOTALLY DISABLE A-STAR
+    double direct_dist = ci.cur_pos.loc.dist(ci.fin_pos.loc);
+    if(rc.useNav == false || direct_dist < ROBOT_RADIUS)
     {
         ci.mid_pos = rc.fin_pos;
         ci.mid_vel = rc.fin_vel;
-        ci.fin_dist = (ci.cur_pos.loc - ci.fin_pos.loc).length();
+        ci.fin_dist = direct_dist;
     }
     else
     {
@@ -61,9 +59,8 @@ ControllerInput Navigation::calc(RobotCommand rc)
 double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
 {
     Q_UNUSED(points);
-    Position mypos = wm->ourRobot[id].pos;
-    double pathL = 0;
-    //return (mypos.loc - rc.fin_pos.loc).length();
+    if(rc.useNav == false)
+        return wm->ourRobot[id].pos.loc.dist(rc.fin_pos.loc);
 
     AStarSearch<MapSearchNode> astarsearch;
     MapSearchNode::wm = wm;
@@ -74,7 +71,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     MapSearchNode nodeStart;
     MapSearchNode nodeEnd;
 
-    nodeStart.vec = mypos.loc;
+    nodeStart.vec = wm->ourRobot[id].pos.loc;
     nodeEnd.vec = rc.fin_pos.loc;
 
     //qDebug()<< "----- NAV START -----";
@@ -94,6 +91,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     }
     while(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SEARCHING);
 
+    double pathL = 0;
     if(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_SUCCEEDED)
     {
         //qDebug() << "AStarSearch SUCCEEDED";
@@ -116,7 +114,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     }
     else if(SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED)
     {
-        qDebug() << "AStarSearch FAILED";
+        qDebug() << "AStarSearch FAILED" << id;
     }
     astarsearch.EnsureMemoryFreed();
 
