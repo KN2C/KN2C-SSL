@@ -11,7 +11,10 @@
 *.lai
 *.la
 *.a
+*.dll
+*.exe
 
 *.pro.user
 build-KN2CSSL-*
 tmp/*
+build-*
