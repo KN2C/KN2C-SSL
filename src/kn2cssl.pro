@@ -50,7 +50,7 @@ MOC_DIR = ../tmp/.moc
 RCC_DIR = ../tmp/.rcc
 UI_DIR = ../tmp/.ui
 
-LIBS += -lprotobuf
+#LIBS += -lprotobuf
 
 INCLUDEPATH += ssl
 INCLUDEPATH += ssl/sslvision
@@ -93,9 +93,7 @@ SOURCES +=	main.cpp \
     ai/ai.cpp \
     geom/angle_deg.cpp \
     geom/circle_2d.cpp \
-    geom/composite_region_2d.cpp \
     geom/convex_hull.cpp \
-    geom/delaunay_triangulation.cpp \
     geom/line_2d.cpp \
     geom/matrix_2d.cpp \
     geom/polygon_2d.cpp \
@@ -167,9 +165,7 @@ HEADERS  += \
     ai/robotcommand.h \
     geom/angle_deg.h \
     geom/circle_2d.h \
-    geom/composite_region_2d.h \
     geom/convex_hull.h \
-    geom/delaunay_triangulation.h \
     geom/line_2d.h \
     geom/matrix_2d.h \
     geom/polygon_2d.h \
@@ -222,3 +218,8 @@ OTHER_FILES += \
 RESOURCES += \
     resources.qrc
 
+
+unix:!macx|win32: LIBS += -L$$PWD/../ -lprotobuf
+
+INCLUDEPATH += $$PWD/../
+DEPENDPATH += $$PWD/../

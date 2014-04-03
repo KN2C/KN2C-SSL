@@ -8,7 +8,8 @@ grSim::grSim(QString ip, int port, TeamColorType color, OutputBuffer* buffer, QO
 {
     qDebug() << "grSim Initialization...";
     _isYellow = (color==COLOR_YELLOW)?true:false;
-    _socket.connectToHost(QHostAddress(ip), port);
+    //_socket.connectToHost(QHostAddress(ip), port);
+    _socket.connectToHost(QHostAddress(QString("127.0.0.1")), port);
     _timer.setInterval(20);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(sendPacket()));
 

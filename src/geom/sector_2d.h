@@ -174,7 +174,7 @@ public:
           {
               div += 360.0;
           }
-          return ( 2.0 * M_min_radius * M_PI ) * ( div / 360.0 );
+          return ( 2.0 * M_min_radius * AngleDeg::PI ) * ( div / 360.0 );
       }
 
     /*!
@@ -188,7 +188,7 @@ public:
           {
               div += 360.0;
           }
-          return ( 2.0 * M_max_radius * M_PI ) * ( div / 360.0 );
+          return ( 2.0 * M_max_radius * AngleDeg::PI ) * ( div / 360.0 );
       }
 };
 
