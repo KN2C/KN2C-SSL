@@ -140,7 +140,7 @@ static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offset
     double cy = Field::oppGoalCC_R.y;
     double offset = (Field::oppGoalCC_L.y - Field::oppGoalCC_R.y) / offsetStep;
 
-    bool s;
+    bool s, ts = false;
     while(ibest < maxCount && cy < Field::oppGoalPost_L.y)
     {
         s = false;
@@ -154,6 +154,7 @@ static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offset
                 if(c.intersection(l, nullptr, nullptr))
                 {
                     s = true;
+                    ts = true;
                     break;
                 }
             }
@@ -167,10 +168,19 @@ static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offset
         cy += offset;
     }
 
-    *vOut = new Vector2D[ibest];
-    for(int i = 0; i < ibest; ++i)
+    if(ts)
     {
-        (*vOut)[i] = v[i];
+        *vOut = new Vector2D[ibest];
+        for(int i = 0; i < ibest; ++i)
+        {
+            (*vOut)[i] = v[i];
+        }
+    }
+    else
+    {
+        *vOut = new Vector2D[1];
+        (*vOut)[0] = Field::oppGoalCenter;
+        ibest = 1;
     }
 
     delete[] v;
@@ -265,8 +275,11 @@ RobotCommand TacticAttacker::getCommand()
                     rc.fin_pos = pos;
 
                     // We can kick right now.
-                    if(IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc, 15, 2, 7))
+                    if(IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc, 15, 2, 4))
                     {
+                        //qDebug() << "Kick dir:" << Ray2D(wm->ourRobot[id].pos.loc, AngleDeg(wm->ourRobot[id].pos.dir * AngleDeg::RAD2DEG)).intersection(Field::rightLine).y;
+                        qDebug() << "Kick dir:" << wm->ourRobot[id].pos.dir * AngleDeg::RAD2DEG;
+                        qDebug() << "Kick adjust dir: " << pos.dir * AngleDeg::RAD2DEG;
                         rc.kickspeedx = 5;
                     }
 
@@ -324,5 +337,5 @@ RobotCommand TacticAttacker::getCommand()
 
     rc.useNav = true;
     rc.isBallObs = false;
-    rc.isKickObs = false;
+    rc.isKickObs = true;
 }
