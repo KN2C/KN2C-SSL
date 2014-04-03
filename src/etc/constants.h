@@ -9,10 +9,6 @@
 #define FIELD_MAX_Y 2250
 #define BALL_RADIUS 22
 #define ROBOT_RADIUS 90
-//public static double MaxX = 3010;
-//public static double MinX = -1500;
-//public static double MaxY = 2025;
-//public static double MinY = -2025;
 
 
 // Vision constants
@@ -35,31 +31,44 @@
 
 namespace Field
 {
-const Line2D leftLine(Vector2D(-3025,-2025), Vector2D(-3025, 2025));
-const Line2D midLine(Vector2D(0,-2025), Vector2D(0, 2025));
-const Line2D rightLine(Vector2D(3025,-2025), Vector2D(3025, 2025));
+const double MaxX = 3025;
+const double MinX = -3025;
+const double MaxY = 2025;
+const double MinY = -2025;
 
-const Line2D upLine(Vector2D(-3025, 2025), Vector2D(3025, 2025));
-const Line2D bottomLine(Vector2D(-3025,-2025), Vector2D(3025, -2025));
+const Vector2D upperLeftCorner(MinX, MaxY);
+const Vector2D upperRightCorner(MaxX, MaxY);
+const Vector2D bottomLeftCorner(MinX, MinY);
+const Vector2D bottomRightCorner(MaxX, MinY);
+
+const Line2D leftLine(Vector2D(MinX,MinY), Vector2D(MinX, MaxY));
+const Line2D midLine(Vector2D(0,MinY), Vector2D(0, MaxY));
+const Line2D rightLine(Vector2D(MaxX, MinY), Vector2D(MaxX, MaxY));
+
+const Line2D upLine(Vector2D(MinX, MaxY), Vector2D(MaxX, MaxY));
+const Line2D bottomLine(Vector2D(MinX, MinY), Vector2D(MaxX, MinY));
 
 const double centerCircle_R = 500;
 const double goalCircle_R = 800;
 const double goalCircleEX_R = 800 + ROBOT_RADIUS + 60;
+const double goalCircleDEF_R = goalCircleEX_R + 400;
 
-const Vector2D ourGoalCenter(-3025, 0);
-const Vector2D ourGoalPost_L(-3025, 350);
-const Vector2D ourGoalPost_R(-3025, -350);
-const Vector2D ourGoalCC_L(-3025, 175);
-const Vector2D ourGoalCC_R(-3025, -175);
-//const Vector2D ourGoalFront_R(-3025, -175);
+// Ours.
+const Vector2D ourGoalCenter(MinX, 0);
+const Vector2D ourGoalPost_L(MinX, 350);
+const Vector2D ourGoalPost_R(MinX, -350);
+const Vector2D ourGoalCC_L(MinX, 175);
+const Vector2D ourGoalCC_R(MinX, -175);
 
-const Vector2D ourDef_L(-3025, 975);
-const Vector2D ourDef_R(-3025, -975);
+const Vector2D ourDefPost_L(MinX, 975);
+const Vector2D ourDefPost_R(MinX, -975);
 
-//const Vector2D oppGoal(3025, 0);
-//const Vector2D center(0, 0);
-//const Vector2D oppPenalty(2560, 0);
-//const Vector2D ourPenalty(-2560, 0);
+// Opps.
+const Vector2D oppGoalCenter(MaxX, 0);
+const Vector2D oppGoalPost_L(MaxX, 350);
+const Vector2D oppGoalPost_R(MaxX, -350);
+const Vector2D oppGoalCC_L(MaxX, 175);
+const Vector2D oppGoalCC_R(MaxX, -175);
 
 
 //const Vector2D oppPenalty_Shoot = new Vector2D(3010, 500);

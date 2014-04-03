@@ -106,8 +106,8 @@ double
 Sector2D::area() const
 {
     double circle_area
-        = ( radiusMax() * radiusMax() * M_PI )
-        - ( radiusMin() * radiusMin() * M_PI );
+        = ( radiusMax() * radiusMax() * AngleDeg::PI )
+        - ( radiusMin() * radiusMin() * AngleDeg::PI );
     double angle_width
         = ( angleRightEnd() - angleLeftStart() ).degree();
     if ( angle_width < 0.0 )

@@ -406,9 +406,9 @@ real avg_angle(real left,real right)
 {
   real result;
 
-  if(left < right) left += 2*M_PI;
+  if(left < right) left += 2*AngleDeg::PI;
   result = (left + right)/2;
-  if(result > M_PI) result -= 2*M_PI;
+  if(result > AngleDeg::PI) result -= 2*AngleDeg::PI;
 
   return(result);
 }
