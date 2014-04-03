@@ -34,7 +34,7 @@
 
 #include <geom/angle_deg.h>
 #include <geom/circle_2d.h>
-//#include <geom/delaunay_triangulation.h>
+#include <geom/delaunay_triangulation.h>
 #include <geom/line_2d.h>
 #include <geom/matrix_2d.h>
 #include <geom/polygon_2d.h>
