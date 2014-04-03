@@ -11,5 +11,6 @@
 #include "tactic/tactichalt.h"
 #include "tactic/tacticstop.h"
 #include "tactic/tactictest.h"
+#include "tactic/tactictest2.h"
 
 #endif // TACTICS_H
