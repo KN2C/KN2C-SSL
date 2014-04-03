@@ -132,7 +132,8 @@ SOURCES +=	main.cpp \
     ai/play/playkickoffopp.cpp \
     ai/play/playkickoffour.cpp \
     ai/play/playpenaltyopp.cpp \
-    ai/play/playpenaltyour.cpp
+    ai/play/playpenaltyour.cpp \
+    ai/tactic/tactictest2.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -215,7 +216,8 @@ HEADERS  += \
     ai/play/playkickoffopp.h \
     ai/play/playkickoffour.h \
     ai/play/playpenaltyopp.h \
-    ai/play/playpenaltyour.h
+    ai/play/playpenaltyour.h \
+    ai/tactic/tactictest2.h
 
 FORMS    +=	ui/mainwindow.ui
 
