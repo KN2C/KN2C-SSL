@@ -42,8 +42,6 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     if(parent_node) parent = parent_node->vec;
     //qDebug() << "parent" << parent.x << parent.y;
 
-    auto obs = getObsCircle();
-
     //----------
     Position rpos = wm->ourRobot[selfRobot].pos;
     Vector2D bloc = wm->ball.pos.loc;
@@ -51,53 +49,45 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     if (bang >  M_PI) bang -= 2 * M_PI;
     if (bang < -M_PI) bang += 2 * M_PI;
 
-    if(wm->ball.isValid && (isBallObs | (isKickObs && fabs(bang) > M_PI_2)))
+    if(wm->ball.isValid && (isBallObs || (isKickObs && fabs(bang) > M_PI_4)))
     {
-        for(int i=0; i<obs.size(); i++)
+        //qDebug() << "ball is obs";
+        Circle2D bc(wm->ball.pos.loc, ROBOT_RADIUS + BALL_RADIUS);
+        if(bc.contains(vec))
         {
-            if(obs[i].contains(vec))
+            int    p_count = 8;
+            double p_dist = ROBOT_RADIUS * 2 + BALL_RADIUS;
+
+            for(int i=0; i<p_count; i++)
             {
-                int    p_count = 8;
-                double p_dist = ROBOT_RADIUS * 2;
+                Vector2D v(p_dist, p_dist);
+                v.rotate(360/p_count * i);
+                MapSearchNode node = bc.center() + v;
 
-                for(int i=0; i<p_count; i++)
-                {
-                    Vector2D v(p_dist, p_dist);
-                    v.rotate(360/p_count * i);
-                    MapSearchNode node = obs[i].center() + v;
-
-                    if(node.vec != parent) astarsearch->AddSuccessor(node);
-                }
-
-                /*
-                MapSearchNode ans;
-                ans.vec = vec;
-                ans = vec.dist(ans.vec) < vec.dist(node1.vec) ? ans : node1;
-                ans = vec.dist(ans.vec) < vec.dist(node2.vec) ? ans : node2;
-                ans = vec.dist(ans.vec) < vec.dist(node3.vec) ? ans : node3;
-                ans = vec.dist(ans.vec) < vec.dist(node4.vec) ? ans : node4;
-                ans = vec.dist(ans.vec) < vec.dist(node5.vec) ? ans : node5;
-                ans = vec.dist(ans.vec) < vec.dist(node6.vec) ? ans : node6;
-                ans = vec.dist(ans.vec) < vec.dist(node7.vec) ? ans : node7;
-                ans = vec.dist(ans.vec) < vec.dist(node8.vec) ? ans : node8;
-                */
-
-                return true;
+                if(node.vec != parent) astarsearch->AddSuccessor(node);
             }
+
+            //MapSearchNode ans;
+            //ans.vec = vec;
+            //ans = vec.dist(ans.vec) < vec.dist(node1.vec) ? ans : node1;
+
+            //qDebug() << "vec in ball obs";
+            return true;
         }
     }
     //----------
 
+    auto obs = getObsCircle();
 
     for(int i=0; i<obs.size(); i++)
     {
         int    p_count = 8;
-        double p_dist  = ROBOT_RADIUS * 3;
+        double p_dist  = ROBOT_RADIUS * 2;
 
-        for(int i=0; i<p_count; i++)
+        for(int j=0; j<p_count; j++)
         {
             Vector2D v(p_dist, p_dist);
-            v.rotate(360/p_count * i);
+            v.rotate(360/p_count * j);
             MapSearchNode node = obs[i].center() + v;
 
             if(node.vec != parent) astarsearch->AddSuccessor(node);
@@ -138,8 +128,8 @@ QList<Circle2D> MapSearchNode::getObsCircle()
 {
     QList<Circle2D> result;
 
-    double b_rad = ROBOT_RADIUS;
-    double r_rad = ROBOT_RADIUS * 3;
+    double b_rad = ROBOT_RADIUS + BALL_RADIUS;
+    double r_rad = ROBOT_RADIUS * 2;
 
     if(isBallObs && wm->ball.isValid)
     {
@@ -156,7 +146,7 @@ QList<Circle2D> MapSearchNode::getObsCircle()
         if (bang >  M_PI) bang -= 2 * M_PI;
         if (bang < -M_PI) bang += 2 * M_PI;
 
-        if(fabs(bang) > M_PI_2)
+        if(fabs(bang) > M_PI_4)
         {
             Circle2D c(wm->ball.pos.loc, b_rad);
             result.append(c);

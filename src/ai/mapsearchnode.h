@@ -25,8 +25,7 @@ public:
     float GetCost( MapSearchNode &successor );
     bool IsSameState( MapSearchNode &rhs );
 
-private:
-    QList<Circle2D> getObsCircle();
+    static QList<Circle2D> getObsCircle();
 
 };
 

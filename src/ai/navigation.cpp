@@ -72,7 +72,50 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     MapSearchNode nodeEnd;
 
     nodeStart.vec = wm->ourRobot[id].pos.loc;
-    nodeEnd.vec = rc.fin_pos.loc;
+
+    auto obs = MapSearchNode::getObsCircle();
+    bool is_fin_obs = false;
+    for(int i=0; i<obs.size(); i++)
+    {
+        if(obs[i].contains(rc.fin_pos.loc))
+        {
+            Circle2D c(obs[i].center(), obs[i].radius() + BALL_RADIUS);
+            if(rc.fin_pos.loc == obs[i].center()) rc.fin_pos.loc += Vector2D(-1,0);
+            Line2D l(obs[i].center(), rc.fin_pos.loc);
+            Vector2D ans1, ans2;
+            int ans = c.intersection(l, &ans1, &ans2);
+            switch (ans)
+            {
+            case 0:
+                qDebug() << "0 !!!";
+                //qDebug() << c.center().x << c.center().y << c.radius();
+                //qDebug() << l.a() << l.b() << l.c();
+                //qDebug() << wm->ball.pos.loc.x << wm->ball.pos.loc.y;
+                //qDebug() << rc.fin_pos.loc.x << rc.fin_pos.loc.y;
+                break;
+            case 1:
+                //qDebug() << "1";
+                nodeEnd.vec = ans1;
+                is_fin_obs = true;
+                break;
+            case 2:
+                //qDebug() << "2";
+                if(ans1.dist2(rc.fin_pos.loc) < ans2.dist2(rc.fin_pos.loc))
+                    nodeEnd.vec = ans1;
+                else
+                    nodeEnd.vec = ans2;
+                is_fin_obs = true;
+                break;
+            default:
+                qDebug() << "DEF";
+                break;
+            }
+
+            //qDebug() << "FIN_POS chaned" << rc.fin_pos.loc.x << rc.fin_pos.loc.y << nodeEnd.vec.x << nodeEnd.vec.y;
+            break;
+        }
+    }
+    if(!is_fin_obs) nodeEnd.vec = rc.fin_pos.loc;
 
     //qDebug()<< "----- NAV START -----";
     //qDebug()<< "start" << nodeStart.vec.x << nodeStart.vec.y;
