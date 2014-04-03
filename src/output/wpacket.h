@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QtEndian>
 
-#include <netinet/in.h>
+//#include <netinet/in.h>
 
 #define WP_SOP QByteArray::fromHex("a55a") // Start of Packet
 #define WP_EOP QByteArray::fromHex("80")   // End   of Packet
