@@ -11,10 +11,10 @@ public:
     virtual Tactic* getTactic(int id);
 
 private:
-    TacticGoalie* t1;
-    TacticTest* t2;
-    TacticDefender* t3;
-    TacticDefender* t4;
+    TacticGoalie* t0;
+    TacticDefender* t1;
+    TacticDefender* t2;
+    TacticAttacker* t3;
 };
 
 #endif // PLAYTEST_H
