@@ -48,6 +48,7 @@ for (int i=0; i<pck.robots_##__COLOR__##_size(); ++i) \
         Position tp; \
         tp.loc = Vector2D(pck.robots_##__COLOR__(i).x()*ourSide, pck.robots_##__COLOR__(i).y()*ourSide); \
         tp.dir = pck.robots_##__COLOR__(i).orientation()+(1.0-ourSide)*M_PI_2; \
+        if(tp.dir>M_PI) tp.dir -= M_2PI; \
         pt.push_back(tp); \
         _wm->__TEAM__##Robot[rid].seenAt(pt, time, cid); \
     } \
