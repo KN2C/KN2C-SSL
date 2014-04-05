@@ -13,6 +13,11 @@ PlayCalibration::PlayCalibration(WorldModel *worldmodel, QObject *parent) :
     t2->setID(0);
 }
 
+int PlayCalibration::enterCondition()
+{
+    return 1;
+}
+
 Tactic* PlayCalibration::getTactic(int id)
 {
     if(id==0)
@@ -20,4 +25,3 @@ Tactic* PlayCalibration::getTactic(int id)
 
     return NULL;
 }
-

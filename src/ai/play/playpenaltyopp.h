@@ -9,6 +9,7 @@ class PlayPenaltyOpp : public Play
 public:
     explicit PlayPenaltyOpp(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticGoalie* t1;

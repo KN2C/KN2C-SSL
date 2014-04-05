@@ -15,6 +15,11 @@ PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
     t3->setDefenderID(2, 1);
 }
 
+int PlayGameOn::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayGameOn::getTactic(int id)
 {
     if(id==0)

@@ -27,6 +27,11 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
     t4->setAttackerID(2, 1);
 }
 
+int PlayTest::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayTest::getTactic(int id)
 {
     if(id==0)

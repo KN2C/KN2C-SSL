@@ -6,6 +6,11 @@ PlayHalt::PlayHalt(WorldModel *worldmodel, QObject *parent) :
 
 }
 
+int PlayHalt::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayHalt::getTactic(int id)
 {
     return NULL;

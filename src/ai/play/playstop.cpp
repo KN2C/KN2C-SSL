@@ -15,6 +15,11 @@ PlayStop::PlayStop(WorldModel *worldmodel, QObject *parent) :
     t3->setDefenderID(2, 1);
 }
 
+int PlayStop::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayStop::getTactic(int id)
 {
     if(id==0)

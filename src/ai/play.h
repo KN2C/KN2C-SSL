@@ -11,6 +11,7 @@ class Play : public QObject
 public:
     explicit Play(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id) = 0;
+    virtual int enterCondition() = 0;
 
 protected:
     WorldModel *wm;

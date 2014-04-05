@@ -9,6 +9,7 @@ class PlayCalibration : public Play
 public:
     explicit PlayCalibration(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticTestKickRange *t0;

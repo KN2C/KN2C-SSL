@@ -9,6 +9,7 @@ class PlayHalt : public Play
 public:
     explicit PlayHalt(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
 

@@ -26,7 +26,7 @@ private slots:
     void timer_timeout();
 
 private:
-    Play *play;
+    QList<Play*> plays;
 
 };
 

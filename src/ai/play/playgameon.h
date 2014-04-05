@@ -9,6 +9,7 @@ class PlayGameOn : public Play
 public:
     explicit PlayGameOn(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticGoalie* t1;

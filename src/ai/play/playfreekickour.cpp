@@ -15,6 +15,11 @@ PlayFreeKickOur::PlayFreeKickOur(WorldModel *worldmodel, QObject *parent) :
     t3->setDefenderID(2, 1);
 }
 
+int PlayFreeKickOur::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayFreeKickOur::getTactic(int id)
 {
     if(id==0)

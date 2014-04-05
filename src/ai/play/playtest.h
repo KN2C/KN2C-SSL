@@ -9,6 +9,7 @@ class PlayTest : public Play
 public:
     explicit PlayTest(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticGoalie* t0;

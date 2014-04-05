@@ -9,6 +9,7 @@ class PlayFreeKickOpp : public Play
 public:
     explicit PlayFreeKickOpp(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticGoalie* t1;

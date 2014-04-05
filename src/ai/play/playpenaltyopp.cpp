@@ -15,6 +15,11 @@ PlayPenaltyOpp::PlayPenaltyOpp(WorldModel *worldmodel, QObject *parent) :
     t3->setDefenderID(2, 1);
 }
 
+int PlayPenaltyOpp::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayPenaltyOpp::getTactic(int id)
 {
     if(id==0)

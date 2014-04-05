@@ -9,6 +9,7 @@ class PlayKickoffOur : public Play
 public:
     explicit PlayKickoffOur(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
     void setCanKick(bool ck) { _cankick=ck; }
 
 protected:

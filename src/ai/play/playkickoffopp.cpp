@@ -15,6 +15,11 @@ PlayKickoffOpp::PlayKickoffOpp(WorldModel *worldmodel, QObject *parent) :
     t3->setDefenderID(2, 1);
 }
 
+int PlayKickoffOpp::enterCondition()
+{
+    return 0;
+}
+
 Tactic* PlayKickoffOpp::getTactic(int id)
 {
     if(id==0)

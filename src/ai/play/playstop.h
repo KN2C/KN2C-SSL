@@ -9,6 +9,7 @@ class PlayStop : public Play
 public:
     explicit PlayStop(WorldModel *worldmodel, QObject *parent = 0);
     virtual Tactic* getTactic(int id);
+    virtual int enterCondition();
 
 private:
     TacticGoalie* t1;
