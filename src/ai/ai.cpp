@@ -60,6 +60,7 @@ void AI::timer_timeout()
     }
 
     Play *play = plays[max_i];
+    play->execute();
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {

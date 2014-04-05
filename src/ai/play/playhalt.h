@@ -8,6 +8,7 @@ class PlayHalt : public Play
     Q_OBJECT
 public:
     explicit PlayHalt(WorldModel *worldmodel, QObject *parent = 0);
+    virtual void execute();
     virtual Tactic* getTactic(int id);
     virtual int enterCondition();
 

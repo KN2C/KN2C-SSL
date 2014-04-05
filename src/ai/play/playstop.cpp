@@ -20,14 +20,9 @@ int PlayStop::enterCondition()
     return 0;
 }
 
-Tactic* PlayStop::getTactic(int id)
+void PlayStop::execute()
 {
-    if(id==0)
-        return t1;
-    if(id==1)
-        return t2;
-    if(id==2)
-        return t3;
-
-    return NULL;
+    tactics[0] = t1;
+    tactics[1] = t2;
+    tactics[2] = t3;
 }

@@ -15,13 +15,10 @@ PlayCalibration::PlayCalibration(WorldModel *worldmodel, QObject *parent) :
 
 int PlayCalibration::enterCondition()
 {
-    return 1;
+    return 100;
 }
 
-Tactic* PlayCalibration::getTactic(int id)
+void PlayCalibration::execute()
 {
-    if(id==0)
-        return t2;
-
-    return NULL;
+    tactics[0] = t2;
 }

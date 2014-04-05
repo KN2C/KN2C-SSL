@@ -32,18 +32,11 @@ int PlayTest::enterCondition()
     return 0;
 }
 
-Tactic* PlayTest::getTactic(int id)
+void PlayTest::execute()
 {
-    if(id==0)
-        return t0;
-    if(id==1)
-        return t1;
-    if(id==2)
-        return t2;
-    if(id==3)
-        return t3;
-    if(id==4)
-        return t4;
-
-    return NULL;
+    tactics[0] = t0;
+    tactics[1] = t1;
+    tactics[2] = t2;
+    tactics[3] = t3;
+    tactics[4] = t4;
 }

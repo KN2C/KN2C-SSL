@@ -8,7 +8,8 @@ class PlayPenaltyOur : public Play
     Q_OBJECT
 public:
     explicit PlayPenaltyOur(WorldModel *worldmodel, QObject *parent = 0);
-    virtual Tactic* getTactic(int id);
+    virtual void execute();
+    //virtual Tactic* getTactic(int id);
     virtual int enterCondition();
     void setCanKick(bool ck) { _cankick=ck; }
 
