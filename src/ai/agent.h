@@ -6,6 +6,16 @@
 #include "robotcommand.h"
 #include "navigation.h"
 
+enum AgentStatus
+{
+    Idle,
+    Passing,
+    Kicking,
+    FollowingBall,
+    BlockingPass,
+    BlockingRobot
+};
+
 class WorldModel;
 
 class Agent : public Robot
@@ -19,6 +29,8 @@ public:
 
     void SendCommand(RobotCommand rc);
     void Halt();
+
+    AgentStatus Status;
 
     RobotData rd;   //received data from robot
     Position  vel2; //speed from motors speed received from robot

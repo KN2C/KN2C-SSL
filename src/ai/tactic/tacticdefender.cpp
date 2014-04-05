@@ -180,22 +180,55 @@ static bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
     {
         if(s1.x > Field::ourGoalCenter.x && s1.y > Field::ourGoalCC_L.y)
         {
-            *vOut = s1;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s1;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         if(s2.x > Field::ourGoalCenter.x && s2.y > Field::ourGoalCC_L.y)
         {
-            *vOut = s2;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s2;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
     else if(sCount == 1)
     {
         if(s1.x > Field::ourGoalCenter.x && s1.y > Field::ourGoalCC_L.y)
         {
-            *vOut = s1;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s1;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 
@@ -205,22 +238,55 @@ static bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
     {
         if(s1.x > Field::ourGoalCenter.x && s1.y < Field::ourGoalCC_R.y)
         {
-            *vOut = s1;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s1;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         if(s2.x > Field::ourGoalCenter.x && s2.y < Field::ourGoalCC_R.y)
         {
-            *vOut = s2;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s2;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
     else if(sCount == 1)
     {
         if(s1.x > Field::ourGoalCenter.x && s1.y < Field::ourGoalCC_R.y)
         {
-            *vOut = s1;
-            return true;
+            if(vOut != nullptr)
+            {
+                *vOut = s1;
+            }
+
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 
@@ -230,20 +296,30 @@ static bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
     {
         if(s1.y <= Field::ourGoalCC_L.y && s1.y >= Field::ourGoalCC_R.y)
         {
-            *vOut = s1;
+            if(vOut != nullptr)
+            {
+                *vOut = s1;
+            }
 
-            return true;
+            if(target.dist(Field::ourGoalCenter) > Field::goalCircle_R)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 
     return false;
 }
 
-static Vector2D GotoDefaultLoc(int def_t, int def_c)
+static Vector2D GotoDefaultLoc(int total, int current)
 {
     Vector2D out;
 
-    switch (def_t) {
+    switch (total) {
     case 1: // One defender.
     {
         out = Field::ourGoalCenter;
@@ -252,7 +328,7 @@ static Vector2D GotoDefaultLoc(int def_t, int def_c)
         break;
     case 2: // Two defenders.
     {
-        switch (def_c) {
+        switch (current) {
         case 0: // Left defender.
         {
             out = Field::ourGoalCC_L;
@@ -270,7 +346,7 @@ static Vector2D GotoDefaultLoc(int def_t, int def_c)
         break;
     case 3: // Three defenders.
     {
-        switch (def_c) {
+        switch (current) {
         case 0: // Left defender.
         {
             out = Field::ourGoalCC_L;
@@ -300,6 +376,8 @@ static Vector2D GotoDefaultLoc(int def_t, int def_c)
 TacticDefender::TacticDefender(WorldModel *worldmodel, QObject *parent) :
     Tactic(worldmodel, parent)
 {
+    def_t = 1;
+    def_c = 0;
 }
 
 void TacticDefender::setDefenderID(int total, int current)
@@ -311,10 +389,10 @@ void TacticDefender::setDefenderID(int total, int current)
 RobotCommand TacticDefender::getCommand()
 {
     RobotCommand rc;
-    if(!wm->ourRobot[id].isValid) return rc;
+    if(!wm->ourRobot[id].isValid || def_t < 1 || def_c >= def_t) return rc;
 
-    double ballMoveThreshold = 0.05, ballKickThreshold = 1;
-    double attackerRangeThreshold = 500, warnerRangeThreshold = 2600;
+    double ballMoveThreshold = 0.1, ballKickThreshold = 1;
+    double attackerRangeThreshold = 500, warnerRangeThreshold = 2700;
 
     // There is a ball in the field.
     if(wm->ball.isValid && IsInsideField(wm->ball.pos.loc))
@@ -412,8 +490,8 @@ RobotCommand TacticDefender::getCommand()
                     if(wm->ball.vel.loc.length() > ballMoveThreshold)
                     {
                         Ray2D ballRay = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir());
-                        Ray2D ballRayOL = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir() + 3);
-                        Ray2D ballRayOR = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir() - 3);
+                        Ray2D ballRayOL = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir() + 2);
+                        Ray2D ballRayOR = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir() - 2);
 
                         Vector2D s = ballRay.intersection(Field::leftLine);
                         Vector2D p;
@@ -518,11 +596,9 @@ RobotCommand TacticDefender::getCommand()
                     Vector2D p = wm->ball.pos.loc;
                     Ray2D ray1 = Ray2D(p, wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG);
                     Ray2D ray2 = Ray2D(p, (p - wm->oppRobot[attackerID].pos.loc).dir());
-                    Vector2D q1 = ray1.intersection(Field::leftLine);
-                    Vector2D q2 = ray2.intersection(Field::leftLine);
 
-                    bool ret1 = ExtractDefendPoint(p, q1, &r1);
-                    bool ret2 = ExtractDefendPoint(p, q1, &r2);
+                    bool ret1 = ExtractDefendPoint(p, r1, nullptr);
+                    bool ret2 = ExtractDefendPoint(p, r2, nullptr);
 
                     if(ret1 && !ret2)
                     {
@@ -534,16 +610,13 @@ RobotCommand TacticDefender::getCommand()
                     }
                     else if(ret1 && ret2)
                     {
+                        Vector2D q1, q2;
                         Circle2D circle(p, 100);
                         circle.intersection(ray1, &q1, nullptr);
                         circle.intersection(ray2, &q2, nullptr);
 
-                        r = Ray2D(p, (q1 + q2) * 0.5).intersection(Field::leftLine);
-
-                        if(!ExtractDefendPoint(p, (q1 + q2) * 0.5, &r))
-                        {
-                            ExtractDefendPoint(p, Field::ourGoalCenter, &r);
-                        }
+                        q1 = Ray2D(p, (q1 + q2) * 0.5).intersection(Field::leftLine);
+                        ExtractDefendPoint(p, q1, &r);
                     }
                     else
                     {
@@ -559,7 +632,7 @@ RobotCommand TacticDefender::getCommand()
                     case 2:
                     {
                         Vector2D a, b;
-                        ResolvePosition(r, 2 * ROBOT_RADIUS, &a, &b);
+                        ResolvePosition(r, ROBOT_RADIUS, &a, &b);
 
                         if(def_c == 0)
                         {
@@ -580,7 +653,7 @@ RobotCommand TacticDefender::getCommand()
                         else
                         {
                             Vector2D a, b;
-                            ResolvePosition(r, 2 * ROBOT_RADIUS, &a, &b);
+                            ResolvePosition(r, ROBOT_RADIUS, &a, &b);
 
                             if(def_c == 0)
                             {
@@ -602,11 +675,10 @@ RobotCommand TacticDefender::getCommand()
             // Warner robot found.
             else
             {
+                Vector2D pa[3], pb[3];
                 // Ball is not moving. [II]&[IV]
                 if(wm->ball.vel.loc.length() < ballMoveThreshold)
                 {
-                    Vector2D pa[3], pb[3];
-
                     // There is no attacker.
                     if(attackerID == -1)
                     {
@@ -646,26 +718,26 @@ RobotCommand TacticDefender::getCommand()
                             }
                         }
                     }
-                    // There is an attacker.
+                    // There are attacker and warner.
                     else
                     {
-                        Vector2D r, r1, r2;
+                        Vector2D r;
                         Vector2D p = wm->ball.pos.loc;
                         Ray2D ray1 = Ray2D(p, wm->oppRobot[attackerID].pos.dir * AngleDeg::RAD2DEG);
                         Ray2D ray2 = Ray2D(p, (p - wm->oppRobot[attackerID].pos.loc).dir());
                         Vector2D q1 = ray1.intersection(Field::leftLine);
                         Vector2D q2 = ray2.intersection(Field::leftLine);
 
-                        bool ret1 = ExtractDefendPoint(p, q1, &r1);
-                        bool ret2 = ExtractDefendPoint(p, q1, &r2);
+                        bool ret1 = ExtractDefendPoint(p, q1, nullptr);
+                        bool ret2 = ExtractDefendPoint(p, q2, nullptr);
 
                         if(ret1 && !ret2)
                         {
-                            r = r1;
+                            r = q1;
                         }
                         else if(ret2 && !ret1)
                         {
-                            r = r2;
+                            r = q2;
                         }
                         else if(ret1 && ret2)
                         {
@@ -674,11 +746,6 @@ RobotCommand TacticDefender::getCommand()
                             circle.intersection(ray2, &q2, nullptr);
 
                             r = Ray2D(p, (q1 + q2) * 0.5).intersection(Field::leftLine);
-
-                            if(!ExtractDefendPoint(p, (q1 + q2) * 0.5, &r))
-                            {
-                                ExtractDefendPoint(p, Field::ourGoalCenter, &r);
-                            }
                         }
                         else
                         {
@@ -708,63 +775,39 @@ RobotCommand TacticDefender::getCommand()
                     case 1:
                     {
                         Vector2D temp;
-                        if(ExtractDefendPoint(pa[0], pb[0], &temp))
+                        if(!ExtractDefendPoint(pa[0], pb[0], &temp))
                         {
                             rc.fin_pos.loc = temp;
-                            rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
                         }
                         else
                         {
                             rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                            rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
                         }
+                        rc.fin_pos.dir = 0;
+                        rc.maxSpeed = 2;
                     }
                         break;
                     // Two defenders.
                     case 2:
                     {
                         Vector2D temp1, temp2;
-                        bool a = ExtractDefendPoint(pa[0], pb[0], &temp1);
-                        bool b = ExtractDefendPoint(pa[1], pb[1], &temp2);
+                        if(!ExtractDefendPoint(pa[0], pb[0], &temp1))
+                        {
+                            temp1 = GotoDefaultLoc(def_t, def_c);
+                        }
 
-                        if(!a && !b)
+                        if(!ExtractDefendPoint(pa[1], pb[1], &temp2))
                         {
-                            rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
+                            temp2 = GotoDefaultLoc(def_t, def_c);
                         }
-                        else if(a && !b)
+
+                        if((def_c == 0 && temp1.y < temp2.y) || (def_c == 1 && temp1.y > temp2.y))
                         {
-                            if((def_c == 0 && temp1.y < 0) || (def_c == 1 && temp1.y > 0))
-                            {
-                                rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                            }
-                            else
-                            {
-                                rc.fin_pos.loc = temp1;
-                            }
-                        }
-                        else if(!a && b)
-                        {
-                            if((def_c == 0 && temp2.y < 0) || (def_c == 1 && temp2.y > 0))
-                            {
-                                rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                            }
-                            else
-                            {
-                                rc.fin_pos.loc = temp2;
-                            }
+                            rc.fin_pos.loc = temp2;
                         }
                         else
                         {
-                            if((def_c == 0 && temp1.y < 0) || (def_c == 1 && temp1.y > 0))
-                            {
-                                rc.fin_pos.loc = temp2;
-                            }
-                            else
-                            {
-                                rc.fin_pos.loc = temp1;
-                            }
+                            rc.fin_pos.loc = temp1;
                         }
 
                         rc.fin_pos.dir = 0;
@@ -775,60 +818,35 @@ RobotCommand TacticDefender::getCommand()
                     case 3:
                     {
                         Vector2D temp1, temp2, temp3;
-                        bool a = ExtractDefendPoint(pa[0], pb[0], &temp1);
-                        bool b = ExtractDefendPoint(pa[1], pb[1], &temp2);
-                        bool c = ExtractDefendPoint(pa[2], pb[2], &temp3);
+                        if(!ExtractDefendPoint(pa[0], pb[0], &temp1))
+                        {
+                            temp1 = GotoDefaultLoc(def_t, def_c);
+                        }
+
+                        if(!ExtractDefendPoint(pa[1], pb[1], &temp2))
+                        {
+                            temp2 = GotoDefaultLoc(def_t, def_c);
+                        }
+
+                        if(!ExtractDefendPoint(pa[2], pb[2], &temp3))
+                        {
+                            temp3 = GotoDefaultLoc(def_t, def_c);
+                        }
 
                         if(def_c != 2)
                         {
-                            if(!a && !b)
+                            if((def_c == 0 && temp1.y < temp2.y) || (def_c == 1 && temp1.y > temp2.y))
                             {
-                                rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                            }
-                            else if(a && !b)
-                            {
-                                if((def_c == 0 && temp1.y < 0) || (def_c == 1 && temp1.y > 0))
-                                {
-                                    rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                                }
-                                else
-                                {
-                                    rc.fin_pos.loc = temp1;
-                                }
-                            }
-                            else if(!a && b)
-                            {
-                                if((def_c == 0 && temp2.y < 0) || (def_c == 1 && temp2.y > 0))
-                                {
-                                    rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                                }
-                                else
-                                {
-                                    rc.fin_pos.loc = temp2;
-                                }
+                                rc.fin_pos.loc = temp2;
                             }
                             else
                             {
-                                if((def_c == 0 && temp1.y < 0) || (def_c == 1 && temp1.y > 0))
-                                {
-                                    rc.fin_pos.loc = temp2;
-                                }
-                                else
-                                {
-                                    rc.fin_pos.loc = temp1;
-                                }
+                                rc.fin_pos.loc = temp1;
                             }
                         }
                         else
                         {
-                            if(c)
-                            {
-                                rc.fin_pos.loc = temp3;
-                            }
-                            else
-                            {
-                                rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
-                            }
+                            rc.fin_pos.loc = temp3;
                         }
 
                         rc.fin_pos.dir = 0;
@@ -851,7 +869,111 @@ RobotCommand TacticDefender::getCommand()
                     }
                     else
                     {
-                        rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
+                        if(warnerCount == 1)
+                        {
+                            pa[0] = wm->oppRobot[warnerID[0]].pos.loc;
+                            pb[0] = Field::ourGoalCenter;
+
+                            pa[1] = wm->ball.pos.loc;
+                            pb[1] = Field::ourGoalCenter;
+
+                            pa[2] = wm->ball.pos.loc;
+                            pb[2] = Field::ourGoalCenter;
+                        }
+                        else
+                        {
+                            pa[0] = wm->oppRobot[warnerID[0]].pos.loc;
+                            pb[0] = Field::ourGoalCenter;
+
+                            pa[1] = wm->oppRobot[warnerID[1]].pos.loc;
+                            pb[1] = Field::ourGoalCenter;
+
+                            pa[2] = wm->ball.pos.loc;
+                            pb[2] = Field::ourGoalCenter;
+                        }
+
+                        switch (def_t) {
+                        // One defender.
+                        case 1:
+                        {
+                            Vector2D temp;
+                            if(!ExtractDefendPoint(pa[0], pb[0], &temp))
+                            {
+                                temp = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            rc.fin_pos.loc = temp;
+                            rc.fin_pos.dir = 0;
+                            rc.maxSpeed = 2;
+                        }
+                            break;
+                        // Two defenders.
+                        case 2:
+                        {
+                            Vector2D temp1, temp2;
+                            if(!ExtractDefendPoint(pa[0], pb[0], &temp1))
+                            {
+                                temp1 = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            if(!ExtractDefendPoint(pa[1], pb[1], &temp2))
+                            {
+                                temp2 = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            if((def_c == 0 && temp1.y < temp2.y) || (def_c == 1 && temp1.y > temp2.y))
+                            {
+                                rc.fin_pos.loc = temp2;
+                            }
+                            else
+                            {
+                                rc.fin_pos.loc = temp1;
+                            }
+
+                            rc.fin_pos.dir = 0;
+                            rc.maxSpeed = 2;
+                        }
+                            break;
+                        // Three defenders.
+                        case 3:
+                        {
+                            Vector2D temp1, temp2, temp3;
+                            if(!ExtractDefendPoint(pa[0], pb[0], &temp1))
+                            {
+                                temp1 = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            if(!ExtractDefendPoint(pa[1], pb[1], &temp2))
+                            {
+                                temp2 = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            if(!ExtractDefendPoint(pa[2], pb[2], &temp3))
+                            {
+                                temp1 = GotoDefaultLoc(def_t, def_c);
+                            }
+
+                            if(def_c != 2)
+                            {
+                                if((def_c == 0 && temp1.y < temp2.y) || (def_c == 1 && temp1.y > temp2.y))
+                                {
+                                    rc.fin_pos.loc = temp2;
+                                }
+                                else
+                                {
+                                    rc.fin_pos.loc = temp1;
+                                }
+                            }
+                            else
+                            {
+                                rc.fin_pos.loc = temp3;
+                            }
+
+                            rc.fin_pos.dir = 0;
+                            rc.maxSpeed = 2;
+                        }
+                            break;
+                        }
                     }
 
                     rc.fin_pos.dir = 0;
@@ -884,8 +1006,8 @@ RobotCommand TacticDefender::getCommand()
     rc.fin_pos.dir = 0;
     rc.maxSpeed = 2;
 
-    rc.useNav = false;
-    rc.isBallObs = false;
+    rc.useNav = true;
+    rc.isBallObs = true;
     rc.isKickObs = false;
 
     return rc;

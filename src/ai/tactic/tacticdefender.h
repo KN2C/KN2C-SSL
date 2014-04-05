@@ -13,6 +13,7 @@ public:
 
 protected:
     int def_t;
+    // 0= Left, 1= Right, 2= Mid
     int def_c;
 
 };

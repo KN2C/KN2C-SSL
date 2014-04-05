@@ -15,6 +15,7 @@ private:
     TacticDefender* t1;
     TacticDefender* t2;
     TacticAttacker* t3;
+    TacticAttacker* t4;
 };
 
 #endif // PLAYTEST_H
