@@ -86,4 +86,24 @@ void MainWindow::on_updatetimer_timeout()
         ui->txtWM->append("opp[" + QString::number(i) + "] (" + r + ")(" + s + ") : " +QString::number(sc->wm->oppRobot[i].isValid));
     }
 
+    sc->wm->var[0] = ui->spnvar0->value();
+    ui->txtvar0->setText(QString::number(sc->wm->var[0]));
+    sc->wm->var[1] = ui->spnvar1->value();
+    ui->txtvar1->setText(QString::number(sc->wm->var[1]));
+    sc->wm->var[2] = ui->spnvar2->value();
+    ui->txtvar2->setText(QString::number(sc->wm->var[2]));
+    sc->wm->var[3] = ui->spnvar3->value();
+    ui->txtvar3->setText(QString::number(sc->wm->var[3]));
+    sc->wm->var[4] = ui->spnvar4->value();
+    ui->txtvar4->setText(QString::number(sc->wm->var[4]));
+    sc->wm->var[5] = ui->spnvar5->value();
+    ui->txtvar5->setText(QString::number(sc->wm->var[5]));
+    sc->wm->var[6] = ui->spnvar6->value();
+    ui->txtvar6->setText(QString::number(sc->wm->var[6]));
+    sc->wm->var[7] = ui->spnvar7->value();
+    ui->txtvar7->setText(QString::number(sc->wm->var[7]));
+    sc->wm->var[8] = ui->spnvar8->value();
+    ui->txtvar8->setText(QString::number(sc->wm->var[8]));
+    sc->wm->var[9] = ui->spnvar9->value();
+    ui->txtvar9->setText(QString::number(sc->wm->var[9]));
 }

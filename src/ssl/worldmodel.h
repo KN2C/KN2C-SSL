@@ -27,6 +27,7 @@ public:
     GameState cmgs;
     bool isSim;
     Knowledge *kn;
+    double var[10];
 };
 
 #endif // WORLDMODEL_H

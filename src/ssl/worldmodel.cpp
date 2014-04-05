@@ -15,4 +15,7 @@ WorldModel::WorldModel(OutputBuffer *outputBuffer)
         ourRobot[i].setOutputBuffer(outputBuffer);
         ourRobot[i].setWorldModel(this);
     }
+
+    for(int i=0; i<10; i++)
+        var[i] = 0;
 }
