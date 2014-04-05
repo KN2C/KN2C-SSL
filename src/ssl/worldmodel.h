@@ -28,6 +28,10 @@ public:
     bool isSim;
     Knowledge *kn;
     double var[10];
+    // 0: kick activation dist
+    // 1: kick activation angle
+    // 2: kick precision angle
+    // 3: prediction sliding factor
 };
 
 #endif // WORLDMODEL_H

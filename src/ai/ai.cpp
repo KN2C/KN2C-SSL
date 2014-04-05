@@ -1,5 +1,6 @@
 #include "ai.h"
 #include "play/playtest.h"
+#include "play/playcalibration.h"
 
 AI::AI(WorldModel *worldmodel, OutputBuffer *outputbuffer, QObject *parent) :
     QObject(parent),
@@ -9,7 +10,7 @@ AI::AI(WorldModel *worldmodel, OutputBuffer *outputbuffer, QObject *parent) :
     qDebug() << "AI Initialization...";
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
 
-    play = new PlayTest(wm);
+    play = new PlayCalibration(wm);
 }
 
 void AI::Start()
