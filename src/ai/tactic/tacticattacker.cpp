@@ -108,7 +108,7 @@ static bool IsInsideGolieArea(Vector2D pos)
                              Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
 }
 
-static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offsetStep, uint maxCount, Vector2D **vOut, double beamWidth = 0)
+static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offsetStep, uint maxCount, Vector2D *vOut, double beamWidth = 0)
 {
     if(offsetStep <= 0 || maxCount < 1 || origin == Vector2D::INVALIDATED || oppRobots == nullptr)
     {
@@ -117,7 +117,7 @@ static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offset
 
     uint ibest = 0;
     Vector2D target;
-    Vector2D *v = new Vector2D[maxCount];
+    Vector2D v[100];
 
     double cy = Field::oppGoalCC_R.y;
     double offset = offsetStep;
@@ -154,28 +154,24 @@ static uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offset
     {
         if(ibest != 0)
         {
-            if(vOut != nullptr)
+            if(vOut != NULL)
             {
-                *vOut = new Vector2D[ibest];
                 for(uint i = 0; i < ibest; ++i)
                 {
-                    (*vOut)[i] = v[i];
+                    vOut[i] = v[i];
                 }
             }
         }
     }
     else
     {
-        if(vOut != nullptr)
+        if(vOut != NULL)
         {
-            *vOut = new Vector2D[1];
-            (*vOut)[0] = Field::oppGoalCenter;
+            vOut[0] = Field::oppGoalCenter;
         }
 
         ibest = 1;
     }
-
-    delete[] v;
 
     return ibest;
 }
@@ -434,8 +430,8 @@ RobotCommand TacticAttacker::getCommand()
                 if(myDistToBall < ballInHandRange)
                 {
                     uint bestID = 0;
-                    Vector2D *t;
-                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, wm->oppRobot, 30, 70, &t, BALL_RADIUS);
+                    Vector2D t[100];
+                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, wm->oppRobot, 30, 70, t, BALL_RADIUS);
 
                     // There is a hole :)
                     if(rcount > 0)
@@ -492,8 +488,6 @@ RobotCommand TacticAttacker::getCommand()
                                 rc.kickspeedx = 6;
                             }
                         }
-
-                        delete[] t;
                     }
                     // There is no hole, pass to other robots.
                     else
