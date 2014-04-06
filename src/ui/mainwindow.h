@@ -25,6 +25,8 @@ private:
 
 private slots:
     void on_updatetimer_timeout();
+    void on_btnSaveVars_clicked();
+    void on_btnLoadVars_clicked();
 
 private:
     Ui::MainWindow *ui;

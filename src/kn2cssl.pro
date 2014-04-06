@@ -246,7 +246,8 @@ HEADERS  += \
 FORMS    +=	ui/mainwindow.ui
 
 OTHER_FILES += \
-    ../config/settings.ini
+    ../config/settings.ini \
+    ../config/vars.ini
 
 RESOURCES += \
     resources.qrc

@@ -40,7 +40,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabHome">
        <attribute name="title">
@@ -132,7 +132,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -483,6 +483,32 @@
           </layout>
          </item>
         </layout>
+       </widget>
+       <widget class="QPushButton" name="btnSaveVars">
+        <property name="geometry">
+         <rect>
+          <x>630</x>
+          <y>120</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save Vars</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnLoadVars">
+        <property name="geometry">
+         <rect>
+          <x>630</x>
+          <y>80</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Load Vars</string>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tabWM">

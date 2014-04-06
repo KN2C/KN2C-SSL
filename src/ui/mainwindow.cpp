@@ -13,6 +13,7 @@ MainWindow::MainWindow(Soccer *soccer, QWidget *parent) :
     //ui->txtLog->append(SerialPort::ListPorts());
     _render = new RenderArea(soccer);
     ui->gridRender->addWidget(_render);
+    this->on_btnLoadVars_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -106,4 +107,66 @@ void MainWindow::on_updatetimer_timeout()
     ui->txtvar8->setText(QString::number(sc->wm->var[8]));
     sc->wm->var[9] = ui->spnvar9->value();
     ui->txtvar9->setText(QString::number(sc->wm->var[9]));
+}
+
+void MainWindow::on_btnSaveVars_clicked()
+{
+    Settings s("vars.ini");
+    s.SetValue("vars" , "var0", ui->txtvar0->text());
+    s.SetValue("vars" , "var1", ui->txtvar1->text());
+    s.SetValue("vars" , "var2", ui->txtvar2->text());
+    s.SetValue("vars" , "var3", ui->txtvar3->text());
+    s.SetValue("vars" , "var4", ui->txtvar4->text());
+    s.SetValue("vars" , "var5", ui->txtvar5->text());
+    s.SetValue("vars" , "var6", ui->txtvar6->text());
+    s.SetValue("vars" , "var7", ui->txtvar7->text());
+    s.SetValue("vars" , "var8", ui->txtvar8->text());
+    s.SetValue("vars" , "var9", ui->txtvar9->text());
+
+}
+
+void MainWindow::on_btnLoadVars_clicked()
+{
+    Settings s("vars.ini");
+
+    QString var0 = s.Get("vars", "var0");
+    ui->txtvar0->setText(var0);
+    ui->spnvar0->setValue(var0.toInt());
+
+    QString var1 = s.Get("vars", "var1");
+    ui->txtvar1->setText(var1);
+    ui->spnvar1->setValue(var1.toInt());
+
+    QString var2 = s.Get("vars", "var2");
+    ui->txtvar2->setText(var2);
+    ui->spnvar2->setValue(var2.toInt());
+
+    QString var3 = s.Get("vars", "var3");
+    ui->txtvar3->setText(var3);
+    ui->spnvar3->setValue(var3.toInt());
+
+    QString var4 = s.Get("vars", "var4");
+    ui->txtvar4->setText(var4);
+    ui->spnvar4->setValue(var4.toInt());
+
+    QString var5 = s.Get("vars", "var5");
+    ui->txtvar5->setText(var5);
+    ui->spnvar5->setValue(var5.toInt());
+
+    QString var6 = s.Get("vars", "var6");
+    ui->txtvar6->setText(var6);
+    ui->spnvar6->setValue(var6.toInt());
+
+    QString var7 = s.Get("vars", "var7");
+    ui->txtvar7->setText(var7);
+    ui->spnvar7->setValue(var7.toInt());
+
+    QString var8 = s.Get("vars", "var8");
+    ui->txtvar8->setText(var8);
+    ui->spnvar8->setValue(var8.toInt());
+
+    QString var9 = s.Get("vars", "var9");
+    ui->txtvar9->setText(var9);
+    ui->spnvar9->setValue(var9.toInt());
+
 }
