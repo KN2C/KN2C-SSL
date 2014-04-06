@@ -50,10 +50,26 @@ MOC_DIR = ../tmp/.moc
 RCC_DIR = ../tmp/.rcc
 UI_DIR = ../tmp/.ui
 
-win32: LIBS += -L$$PWD/../ -lprotobuf
-win32: INCLUDEPATH += $$PWD/../
-win32: DEPENDPATH += $$PWD/../
 unix:  LIBS += -lprotobuf
+
+win32
+{
+    QMAKE_CXXFLAGS += -U__STRICT_ANSI__
+    LIBS += -L$$PWD/../ -lprotobuf
+    INCLUDEPATH += $$PWD/../
+    DEPENDPATH += $$PWD/../
+
+
+    INCLUDEPATH += C:/boost_1_55_0/
+    INCLUDEPATH += C:/boost_1_55_0/boost/
+#   INCLUDEPATH += C:/protobuf-2.5.0/src/
+    INCLUDEPATH += C:/protobuf-2.4.1/src/
+
+    LIBS += -LC:/boost_1_55_0/lib
+#   LIBS += -lboost_serialization-mgw46-mt-d-1_55
+#   LIBS += -lboost_filesystem-mgw46-mt-d-1_55
+#   LIBS += -lboost_system-mgw46-mt-d-1_55
+}
 
 INCLUDEPATH += ssl
 INCLUDEPATH += ssl/sslvision
