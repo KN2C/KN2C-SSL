@@ -26,14 +26,17 @@ public:
     explicit MobileObject();
     void seenAt(vector<Position> p, double t, int camera);
 
-    double time;
     bool isValid;
+
     Position pos;
+    double time;
+    int camera;
+
     Position vel;
 
 protected:
     PositionTimeCamera last_postc[LAST_COUNT];
-    void appendPostc(PositionTimeCamera postc);
+    void appendPostc(PositionTimeCamera &postc);
 
 private:
     QTimer timer_seen;
