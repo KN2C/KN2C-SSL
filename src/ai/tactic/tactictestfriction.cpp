@@ -48,31 +48,6 @@ static bool IsReadyForKick(Position current, Position desired, Vector2D ballPos,
 }
 
 
-static Vector2D PredictDestination(Vector2D mPos, Vector2D mVel, Vector2D pos, double speed, double slideFactor, double timeStep = 200, double timeout = 5000)
-{
-    if(speed <= 0 || timeStep <= 0 || timeout / timeStep > 250)
-    {
-        qDebug() << "Prediction error.";
-        return mPos;
-    }
-
-    Vector2D cx;
-    Vector2D d = mVel.normalizedVector();
-    for(double t = 0; t < timeout; t+= timeStep)
-    {
-        cx = mPos + mVel * t - d * ((0.5 * slideFactor * t * t) + ROBOT_RADIUS + 30);
-        if(pos.dist(cx) < speed * t)
-        {
-            qDebug() << "Predicted at t: " << t;
-            return cx;
-        }
-    }
-
-    qDebug() << "Prediction failed.";
-    return mPos;
-}
-
-
 TacticTestFriction::TacticTestFriction(WorldModel *worldmodel, QObject *parent) :
     Tactic(worldmodel, parent)
 {
@@ -83,20 +58,38 @@ RobotCommand TacticTestFriction::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    if(wm->ball.isValid && wm->ball.vel.loc.length() > 0.07 && wm->ball.pos.loc.x >100)
-    {
-    Vector2D v = PredictDestination(wm->ball.pos.loc, wm->ball.vel.loc, wm->ourRobot[id].pos.loc, 1.7, wm->var[3] / 500, 50);
-    Position p = AdjustKickPoint(v, Field::oppGoalCenter);
+    double speed = 1.45;
 
-    rc.fin_pos = p;
+    if(wm->ball.isValid && wm->ball.pos.loc.x >100 && wm->ball.pos.loc.x < 2000)
+    {
+        Vector2D v;
+        if(wm->ball.vel.loc.length() > 0.06)
+        {
+            v = wm->kn->PredictDestination(wm->ourRobot[id].pos.loc, wm->ball.pos.loc, speed , wm->ball.vel.loc, wm->var[3] / 250);
+        }
+        else
+        {
+            v = wm->ball.pos.loc;
+        }
+
+        //Vector2D v = PredictDestination(wm->ball.pos.loc, wm->ball.vel.loc, wm->ourRobot[id].pos.loc, 1.7, wm->var[3] / 500, 50);
+        Position p = AdjustKickPoint(v, Field::oppGoalCenter);
+
+        rc.fin_pos = p;
+
+        if(IsReadyForKick(wm->ourRobot[id].pos, p, wm->ball.pos.loc, wm->var[0], wm->var[1], wm->var[2]))
+        {
+            rc.kickspeedx = 6;
+        }
     }
     else
     {
         rc.fin_pos.loc = Vector2D(200,900);
     }
 
+    rc.fin_pos.dir = (Field::oppGoalCenter - wm->ourRobot[id].pos.loc).dir().radian();
 
-    rc.maxSpeed = 1.7;
+    rc.maxSpeed = speed;
 
     return rc;
 }

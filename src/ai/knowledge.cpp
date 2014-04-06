@@ -55,3 +55,56 @@ int Knowledge::findOppAttacker()
     }
     return ans;
 }
+
+
+Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, double sourceSpeed, Vector2D targetSpeed, double factor)
+{
+    if(factor < 0)
+    {
+        factor = 0;
+    }
+
+    double Vm = sourceSpeed;
+    double k = Vm / targetSpeed.length();
+    double gamaT = targetSpeed.dir().radian();
+    Vector2D delta;
+
+    delta = targetPos - sourcePos;
+    double landa = atan2(delta.y, delta.x);
+    double theta = gamaT - landa;
+
+    if (theta > AngleDeg::PI)
+    {
+        theta -= 2 * AngleDeg::PI;
+    }
+
+    if (theta < - AngleDeg::PI)
+    {
+        theta += 2 * AngleDeg::PI;
+    }
+
+    double dlta = 0;
+    if(k != 0 && fabs(sin(theta) / k) < 1)
+    {
+        dlta = asin(sin(theta)/k);
+    }
+    // No solution.
+    else
+    {
+        return Vector2D::INVALIDATED;
+    }
+
+    double tf = factor * (delta.length() / 1000) / (Vm*cos(dlta) - targetSpeed.length() * cos(theta));
+
+    // No solution.
+    if(tf < 0)
+    {
+        return Vector2D::INVALIDATED;
+    }
+
+    double catchDist = targetSpeed.length() * tf * 1000;
+    Vector2D catchDiff(catchDist * cos(gamaT), catchDist * sin(gamaT));
+
+    return targetPos + catchDiff;
+}
+

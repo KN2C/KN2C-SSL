@@ -16,6 +16,18 @@ enum AgentStatus
     BlockingRobot
 };
 
+enum AgentRole
+{
+    NoRole = 0,
+    AttackerLeft,
+    AttackerRight,
+    AttackerMid,
+    DefenderLeft,
+    DefenderRight,
+    DefenderMid,
+    Golie
+};
+
 class WorldModel;
 
 class Agent : public Robot
@@ -30,6 +42,7 @@ public:
     void SendCommand(RobotCommand rc);
     void Halt();
 
+    AgentRole   Role;
     AgentStatus Status;
 
     RobotData rd;   //received data from robot

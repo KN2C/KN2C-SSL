@@ -1,6 +1,9 @@
 #ifndef PLAYGAMEON_H
 #define PLAYGAMEON_H
 
+#ifndef PLAYNORMAL_H
+#define PLAYNORMAL_H
+
 #include "play.h"
 
 class PlayGameOn : public Play
@@ -13,10 +16,15 @@ public:
     virtual int enterCondition();
 
 private:
-    TacticGoalie* t1;
-    TacticDefender* t2;
-    TacticDefender* t3;
-
+    TacticGoalie* tGolie;
+    TacticDefender* tDefenderLeft;
+    TacticDefender* tDefenderRight;
+    TacticDefender* tDefenderMid;
+    TacticAttacker* tAttackerLeft;
+    TacticAttacker* tAttackerRight;
+    TacticAttacker* tAttackerMid;
 };
+
+#endif // PLAYNORMAL_H
 
 #endif // PLAYGAMEON_H

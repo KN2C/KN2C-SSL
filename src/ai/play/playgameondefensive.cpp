@@ -1,6 +1,6 @@
-#include "playgameon.h"
+#include "playgameondefensive.h"
 
-PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
+PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent) :
     Play(worldmodel, parent)
 {
     // Goaler.
@@ -14,23 +14,14 @@ PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
 
     // Mid defender.
     tDefenderMid = new TacticDefender(wm);
-
-    // Left attacker.
-    tAttackerLeft = new TacticAttacker(wm);
-
-    // Right attacker.
-    tAttackerRight = new TacticAttacker(wm);
-
-    // Mid attacker.
-    tAttackerMid = new TacticAttacker(wm);
 }
 
-int PlayGameOn::enterCondition()
+int PlayGameOnDefensive::enterCondition()
 {
     // TODO: decide on game state.
 
     // Activator condition.
-    if(wm->kn->ActiveAgents().size() > 3)
+    if(wm->kn->ActiveAgents().size() < 4)
     {
         return 100;
     }
@@ -38,44 +29,25 @@ int PlayGameOn::enterCondition()
     return 0;
 }
 
-void PlayGameOn::execute()
+void PlayGameOnDefensive::execute()
 {
     QList<int> agents = wm->kn->ActiveAgents();
     QList<int> badRoleAgents;
     QList<AgentRole> roles;
 
-    // We always have two defenders in this play mode.
-    tDefenderLeft->setDefenderID(2, 0);
-    tDefenderRight->setDefenderID(2, 1);
-
     // Define roles according to agents count.
     switch (agents.size()) {
-    case 4:
-        roles.append(AgentRole::DefenderLeft);
-        roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
+    case 2:
+        roles.append(AgentRole::DefenderMid);
 
-        tAttackerMid->setAttackerID(1, 0);
+        tDefenderMid->setDefenderID(1, 0);
         break;
-    case 5:
+    case 3:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerLeft);
-        roles.append(AgentRole::AttackerRight);
 
-        tAttackerLeft->setAttackerID(2, 0);
-        tAttackerRight->setAttackerID(2, 1);
-        break;
-    case 6:
-        roles.append(AgentRole::DefenderLeft);
-        roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerLeft);
-        roles.append(AgentRole::AttackerRight);
-        roles.append(AgentRole::AttackerMid);
-
-        tAttackerLeft->setAttackerID(3, 0);
-        tAttackerRight->setAttackerID(3, 1);
-        tAttackerMid->setAttackerID(3, 2);
+        tDefenderMid->setDefenderID(2, 0);
+        tDefenderMid->setDefenderID(2, 1);
         break;
     }
 
@@ -112,18 +84,6 @@ void PlayGameOn::execute()
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
         switch (wm->ourRobot[*itAgent].Role) {
-        case AgentRole::AttackerLeft:
-            tAttackerLeft->setID(*itAgent);
-            tactics[*itAgent] = tAttackerLeft;
-            break;
-        case AgentRole::AttackerRight:
-            tAttackerRight->setID(*itAgent);
-            tactics[*itAgent] = tAttackerRight;
-            break;
-        case AgentRole::AttackerMid:
-            tAttackerMid->setID(*itAgent);
-            tactics[*itAgent] = tAttackerMid;
-            break;
         case AgentRole::DefenderLeft:
             tDefenderLeft->setID(*itAgent);
             tactics[*itAgent] = tDefenderLeft;

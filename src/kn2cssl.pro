@@ -133,11 +133,11 @@ SOURCES +=	main.cpp \
     ai/play/playkickoffour.cpp \
     ai/play/playpenaltyopp.cpp \
     ai/play/playpenaltyour.cpp \
-    ai/tactic/tactictest2.cpp \
     ai/tactic/tactictestkickrange.cpp \
     ai/tactic/tactictestkickprecision.cpp \
     ai/play/playcalibration.cpp \
-    ai/tactic/tactictestfriction.cpp
+    ai/tactic/tactictestfriction.cpp \
+    ai/play/playgameondefensive.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -221,11 +221,11 @@ HEADERS  += \
     ai/play/playkickoffour.h \
     ai/play/playpenaltyopp.h \
     ai/play/playpenaltyour.h \
-    ai/tactic/tactictest2.h \
     ai/tactic/tactictestkickrange.h \
     ai/play/playcalibration.h \
     ai/tactic/tactictestkickprecision.h \
-    ai/tactic/tactictestfriction.h
+    ai/tactic/tactictestfriction.h \
+    ai/play/playgameondefensive.h
 
 FORMS    +=	ui/mainwindow.ui
 

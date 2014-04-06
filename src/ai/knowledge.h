@@ -16,6 +16,7 @@ public:
     QList<int> findNearestTo(Vector2D loc);
     int findOppAttacker();
 
+    Vector2D PredictDestination(Vector2D sourcePos, Vector2D targetPos, double sourceSpeed, Vector2D targetSpeed, double factor = 1.3);
 private:
     WorldModel* _wm;
 
