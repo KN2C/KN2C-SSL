@@ -314,7 +314,7 @@ RobotCommand TacticAttacker::getCommand()
                 {
                     uint bestID = 0;
                     Vector2D t[100];
-                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, wm->oppRobot, 30, 70, t, BALL_RADIUS);
+                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, wm->oppRobot, 30, 70, t, 2 * BALL_RADIUS);
 
                     // There is a hole :)
                     if(rcount > 0)
