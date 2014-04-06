@@ -56,9 +56,56 @@ int Knowledge::findOppAttacker()
     return ans;
 }
 
+bool Knowledge::IsInsideRect(Vector2D pos, Vector2D topLeft, Vector2D bottomRight)
+{
+    return (pos.x > topLeft.x && pos.x < bottomRight.x &&
+            pos.y > bottomRight.y && pos.y < topLeft.y);
+}
+
+void Knowledge::ClampToRect(Vector2D *pos, Vector2D topLeft, Vector2D bottomRight)
+{
+    if(pos->x > bottomRight.x)
+    {
+        pos->x = bottomRight.x;
+    }
+    else if(pos->x < topLeft.x)
+    {
+        pos->x = topLeft.x;
+    }
+
+    if(pos->y > topLeft.y)
+    {
+        pos->y = topLeft.y;
+    }
+    else if(pos->y < bottomRight.y)
+    {
+        pos->y = bottomRight.y;
+    }
+}
+
+bool Knowledge::IsInsideField(Vector2D pos)
+{
+    return IsInsideRect(pos, Field::upperLeftCorner, Field::bottomRightCorner);
+}
+
+bool Knowledge::IsInsideGoalShape(Vector2D pos, double goalLeftX, double goalRadius, double goalCcOffset)
+{
+    double x = pos.x - goalLeftX;
+    Vector2D ccl(goalLeftX, goalCcOffset / 2), ccr(goalLeftX, -goalCcOffset / 2);
+
+    return (pos.dist(ccl) <= goalRadius || pos.dist(ccr) <= goalRadius ||
+            (x >= 0 && x <= goalRadius && fabs(pos.y) <= goalCcOffset / 2));
+}
+
+bool Knowledge::IsInsideGolieArea(Vector2D pos)
+{
+    return IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircle_R,
+                             Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
+}
 
 Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, double sourceSpeed, Vector2D targetSpeed, double factor)
 {
+    factor /= 250.0;
     if(factor < 0)
     {
         factor = 0;
@@ -91,6 +138,7 @@ Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, d
     // No solution.
     else
     {
+        qDebug() << "Prediction: No solution.";
         return Vector2D::INVALIDATED;
     }
 
@@ -99,6 +147,7 @@ Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, d
     // No solution.
     if(tf < 0)
     {
+        qDebug() << "Prediction: No solution.";
         return Vector2D::INVALIDATED;
     }
 
@@ -108,3 +157,72 @@ Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, d
     return targetPos + catchDiff;
 }
 
+bool Knowledge::CanKick(Position robotPos, Vector2D ballPos)
+{
+    double distThreshold = _wm->var[0], degThreshold = _wm->var[1] / 10;
+
+    AngleDeg d1((ballPos - robotPos.loc).dir());
+    AngleDeg d2(robotPos.dir * AngleDeg::RAD2DEG);
+    if(fabs((d1 - d2).degree()) < degThreshold || (360.0 - fabs((d1 - d2).degree())) < degThreshold)
+    {
+        if(robotPos.loc.dist(ballPos) < distThreshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Knowledge::IsReadyForKick(Position current, Position desired, Vector2D ballPos)
+{
+    double degThreshold = _wm->var[2] / 10;
+
+    if(fabs((current.dir - desired.dir) * AngleDeg::RAD2DEG) < degThreshold ||
+            (360.0 - fabs((current.dir - desired.dir) * AngleDeg::RAD2DEG)) < degThreshold)
+    {
+        return CanKick(current, ballPos);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Knowledge::ReachedToPos(Position current, Position desired, double distThreshold, double degThreshold)
+{
+    if(current.loc.dist(desired.loc) < distThreshold)
+    {
+        if(fabs((current.dir - desired.dir) * AngleDeg::RAD2DEG) < degThreshold ||
+                (360.0 - fabs((current.dir - desired.dir) * AngleDeg::RAD2DEG)) < degThreshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+
+Position Knowledge::AdjustKickPoint(Vector2D ballPos, Vector2D target, int kickSpeed)
+{
+    Position p;
+    Vector2D dir = (ballPos - target).normalizedVector();
+    dir.scale(ROBOT_RADIUS - (25 - kickSpeed));
+
+    p.loc = ballPos + dir;
+    p.dir = (-dir).dir().radian();
+
+    return p;
+}

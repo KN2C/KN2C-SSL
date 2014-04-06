@@ -35,6 +35,9 @@ void PlayGameOnDefensive::execute()
     QList<int> badRoleAgents;
     QList<AgentRole> roles;
 
+    // Assign golie role to predefined golie id.
+    wm->ourRobot[GOLIE_ID].Role = AgentRole::Golie;
+
     // Define roles according to agents count.
     switch (agents.size()) {
     case 2:
@@ -72,8 +75,7 @@ void PlayGameOnDefensive::execute()
     // Assign role to badrole agents.
     for(QList<int>::iterator itAgent = badRoleAgents.begin(); itAgent != badRoleAgents.end(); ++itAgent)
     {
-        // One role is reserved for golie, don't change 1 to 0
-        if(roles.size() > 1)
+        if(roles.size() > 0)
         {
             wm->ourRobot[*itAgent].Role = roles[0];
             roles.removeAt(0);
@@ -84,6 +86,10 @@ void PlayGameOnDefensive::execute()
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
         switch (wm->ourRobot[*itAgent].Role) {
+        case AgentRole::Golie:
+            tGolie->setID(*itAgent);
+            tactics[*itAgent] = tGolie;
+            break;
         case AgentRole::DefenderLeft:
             tDefenderLeft->setID(*itAgent);
             tactics[*itAgent] = tDefenderLeft;

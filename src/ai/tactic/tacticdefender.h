@@ -16,6 +16,11 @@ protected:
     // 0= Left, 1= Right, 2= Mid
     int def_c;
 
+private:
+    int  ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b);
+    bool IsInsideDefendArea(Vector2D pos);
+    bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut);
+    Vector2D GotoDefaultLoc(int total, int current);
 };
 
 #endif // TACTICDEFENDER_H

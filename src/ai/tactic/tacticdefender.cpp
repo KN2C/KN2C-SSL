@@ -1,42 +1,30 @@
 #include "tacticdefender.h"
 
-static bool CanKick(Position robotPos, Vector2D ballPos, double distLimit, double degLimit)
+TacticDefender::TacticDefender(WorldModel *worldmodel, QObject *parent) :
+    Tactic(worldmodel, parent)
 {
-    if(robotPos.loc.dist(ballPos) < distLimit)
-    {
-        AngleDeg d1((ballPos - robotPos.loc).dir());
-        AngleDeg d2(robotPos.dir * AngleDeg::RAD2DEG);
-        if(fabs((d1 - d2).degree()) < degLimit || (360.0 - fabs((d1 - d2).degree())) < degLimit)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-    return false;
-    }
+    def_t = 1;
+    def_c = 0;
 }
 
-static bool IsInsideField(Vector2D pos)
+void TacticDefender::setDefenderID(int total, int current)
 {
-    return pos.x > Field::MinX && pos.x < Field::MaxX &&
-           pos.y > Field::MinY && pos.y < Field::MaxY;
+    def_t = total;
+    def_c = current;
 }
 
-static bool IsInsideGoalShape(Vector2D pos, double goalLeftX, double goalRadius, double goalCcOffset)
+bool TacticDefender::IsInsideDefendArea(Vector2D pos)
 {
-    double x = pos.x - goalLeftX;
-    Vector2D ccl(goalLeftX, goalCcOffset / 2), ccr(goalLeftX, -goalCcOffset / 2);
+    bool a = wm->kn->IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircleEX_R,
+                                 Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
 
-    return (pos.dist(ccl) <= goalRadius || pos.dist(ccr) <= goalRadius ||
-       (x >= 0 && x <= goalRadius && fabs(pos.y) <= goalCcOffset / 2));
+    bool b = wm->kn->IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircleDEF_R,
+                                 Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
+
+    return !a && b;
 }
 
-static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
+int TacticDefender:: ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
 {
     int s1, s2, s3;
     Circle2D c(pos, range);
@@ -60,7 +48,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
     int r = Field::goalCircleEX_R - 20;
     int offset = Field::ourGoalCC_L.dist(Field::ourGoalCC_R);
 
-    if(t < 2 && s1 > 0 && !IsInsideGoalShape(p1, x, r, offset))
+    if(t < 2 && s1 > 0 && !wm->kn->IsInsideGoalShape(p1, x, r, offset))
     {
         if(t == 0)
         {
@@ -73,7 +61,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
         t++;
     }
 
-    if(t < 2 && s1 > 1 && !IsInsideGoalShape(p2, x, r, offset))
+    if(t < 2 && s1 > 1 && !wm->kn->IsInsideGoalShape(p2, x, r, offset))
     {
         if(t == 0)
         {
@@ -87,7 +75,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
 
     }
 
-    if(t < 2 && s2 > 0 && !IsInsideGoalShape(p3, x, r, offset))
+    if(t < 2 && s2 > 0 && !wm->kn->IsInsideGoalShape(p3, x, r, offset))
     {
         if(t == 0)
         {
@@ -100,7 +88,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
         t++;
     }
 
-    if(t < 2 && s2 > 1 && !IsInsideGoalShape(p4, x, r, offset))
+    if(t < 2 && s2 > 1 && !wm->kn->IsInsideGoalShape(p4, x, r, offset))
     {
         if(t == 0)
         {
@@ -113,7 +101,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
         t++;
     }
 
-    if(t < 2 && s3 > 0 && !IsInsideGoalShape(p5, x, r, offset))
+    if(t < 2 && s3 > 0 && !wm->kn->IsInsideGoalShape(p5, x, r, offset))
     {
         if(t == 0)
         {
@@ -126,7 +114,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
         t++;
     }
 
-    if(t < 2 && s3 > 1 && !IsInsideGoalShape(p6, x, r, offset))
+    if(t < 2 && s3 > 1 && !wm->kn->IsInsideGoalShape(p6, x, r, offset))
     {
         if(t == 0)
         {
@@ -142,24 +130,7 @@ static int ResolvePosition(Vector2D pos, double range, Vector2D *a, Vector2D *b)
     return t;
 }
 
-static bool IsInsideGolieArea(Vector2D pos)
-{
-    return IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircle_R,
-                             Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
-}
-
-static bool IsInsideDefendArea(Vector2D pos)
-{
-    bool a = IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircleEX_R,
-                                 Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
-
-    bool b = IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircleDEF_R,
-                                 Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
-
-    return !a && b;
-}
-
-static bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
+bool TacticDefender::ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
 {
     if(origin == Vector2D::INVALIDATED || target == Vector2D::INVALIDATED)
     {
@@ -315,7 +286,7 @@ static bool ExtractDefendPoint(Vector2D origin, Vector2D target, Vector2D *vOut)
     return false;
 }
 
-static Vector2D GotoDefaultLoc(int total, int current)
+Vector2D TacticDefender::GotoDefaultLoc(int total, int current)
 {
     Vector2D out;
 
@@ -373,19 +344,6 @@ static Vector2D GotoDefaultLoc(int total, int current)
     return out;
 }
 
-TacticDefender::TacticDefender(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
-{
-    def_t = 1;
-    def_c = 0;
-}
-
-void TacticDefender::setDefenderID(int total, int current)
-{
-    def_t = total;
-    def_c = current;
-}
-
 RobotCommand TacticDefender::getCommand()
 {
     RobotCommand rc;
@@ -395,7 +353,7 @@ RobotCommand TacticDefender::getCommand()
     double attackerRangeThreshold = 500, warnerRangeThreshold = 2700;
 
     // There is a ball in the field.
-    if(wm->ball.isValid && IsInsideField(wm->ball.pos.loc))
+    if(wm->ball.isValid && wm->kn->IsInsideField(wm->ball.pos.loc))
     {
         // Ball is in defensive area.
         if(IsInsideDefendArea(wm->ball.pos.loc))
@@ -431,14 +389,14 @@ RobotCommand TacticDefender::getCommand()
             }
 
             // Kick if you can.
-            if(CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc, ROBOT_RADIUS + BALL_RADIUS*2.5, 7))
+            if(wm->kn->CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc))
             {
                 qDebug()<<"Defender " << def_c << ":KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
                 rc.kickspeedx = 5;
             }
         }
         // Ball is out of defensive and golie area.
-        else if(!IsInsideGolieArea(wm->ball.pos.loc))
+        else if(!wm->kn->IsInsideGolieArea(wm->ball.pos.loc))
         {
             int warnerCount = 0;
             int attackerID = -1, warnerID[def_t];

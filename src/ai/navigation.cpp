@@ -87,7 +87,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
             switch (ans)
             {
             case 0:
-                qDebug() << "0 !!!";
+                qDebug() << "NAV 0 !!!";
                 //qDebug() << c.center().x << c.center().y << c.radius();
                 //qDebug() << l.a() << l.b() << l.c();
                 //qDebug() << wm->ball.pos.loc.x << wm->ball.pos.loc.y;

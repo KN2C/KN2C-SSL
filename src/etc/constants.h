@@ -5,25 +5,25 @@
 
 // global constants
 #define PLAYERS_MAX_NUM 12
-#define FIELD_MAX_X 3250
-#define FIELD_MAX_Y 2250
-#define BALL_RADIUS 22
-#define ROBOT_RADIUS 90
-
+#define FIELD_MAX_X     3250
+#define FIELD_MAX_Y     2250
+#define BALL_RADIUS     22
+#define ROBOT_RADIUS    90
+#define GOLIE_ID        0
 
 // Vision constants
-#define CAMERA_NUM 2
-#define VOBJ_MAX_NUM 5
-#define MIN_CONF 0.1
+#define CAMERA_NUM      2
+#define VOBJ_MAX_NUM    5
+#define MIN_CONF        0.1
 #define VISION_TIMEDOUT 1000.0
-#define MAX_RADIOUS 2000
+#define MAX_RADIOUS     2000
 
 
 // Timer speeds
-#define TRANSMITTER_TIMER 50
-#define AI_TIMER 40
-#define AGENT_TIMER 20
-#define COACH_TIMER 40
+#define TRANSMITTER_TIMER   50
+#define AI_TIMER            40
+#define AGENT_TIMER         20
+#define COACH_TIMER         40
 
 //public static int PLAYER_THREAD_SLEEP = 30;
 //public static int COACH_THREAD_SLEEP = 20;
@@ -69,7 +69,6 @@ const Vector2D oppGoalPost_L(MaxX, 350);
 const Vector2D oppGoalPost_R(MaxX, -350);
 const Vector2D oppGoalCC_L(MaxX, 175);
 const Vector2D oppGoalCC_R(MaxX, -175);
-
 
 //const Vector2D oppPenalty_Shoot = new Vector2D(3010, 500);
 

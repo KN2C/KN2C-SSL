@@ -11,7 +11,7 @@ public:
     virtual RobotCommand getCommand();
 
 private:
-
+    void LimitToGoalArea(Vector2D *pos);
 };
 
 #endif // TACTICGOALIE_H

@@ -44,6 +44,9 @@ void PlayGameOn::execute()
     QList<int> badRoleAgents;
     QList<AgentRole> roles;
 
+    // Assign golie role to predefined golie id.
+    wm->ourRobot[GOLIE_ID].Role = AgentRole::Golie;
+
     // We always have two defenders in this play mode.
     tDefenderLeft->setDefenderID(2, 0);
     tDefenderRight->setDefenderID(2, 1);
@@ -100,8 +103,7 @@ void PlayGameOn::execute()
     // Assign role to badrole agents.
     for(QList<int>::iterator itAgent = badRoleAgents.begin(); itAgent != badRoleAgents.end(); ++itAgent)
     {
-        // One role is reserved for golie, don't change 1 to 0
-        if(roles.size() > 1)
+        if(roles.size() > 0)
         {
             wm->ourRobot[*itAgent].Role = roles[0];
             roles.removeAt(0);
@@ -112,17 +114,9 @@ void PlayGameOn::execute()
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
         switch (wm->ourRobot[*itAgent].Role) {
-        case AgentRole::AttackerLeft:
-            tAttackerLeft->setID(*itAgent);
-            tactics[*itAgent] = tAttackerLeft;
-            break;
-        case AgentRole::AttackerRight:
-            tAttackerRight->setID(*itAgent);
-            tactics[*itAgent] = tAttackerRight;
-            break;
-        case AgentRole::AttackerMid:
-            tAttackerMid->setID(*itAgent);
-            tactics[*itAgent] = tAttackerMid;
+        case AgentRole::Golie:
+            tGolie->setID(*itAgent);
+            tactics[*itAgent] = tGolie;
             break;
         case AgentRole::DefenderLeft:
             tDefenderLeft->setID(*itAgent);
@@ -136,6 +130,18 @@ void PlayGameOn::execute()
             tDefenderMid->setID(*itAgent);
             tactics[*itAgent] = tDefenderMid;
             break;
+        case AgentRole::AttackerLeft:
+            tAttackerLeft->setID(*itAgent);
+            tactics[*itAgent] = tAttackerLeft;
+            break;
+        case AgentRole::AttackerRight:
+            tAttackerRight->setID(*itAgent);
+            tactics[*itAgent] = tAttackerRight;
+            break;
+        case AgentRole::AttackerMid:
+            tAttackerMid->setID(*itAgent);
+            tactics[*itAgent] = tAttackerMid;
+            break;        
         }
     }
 }

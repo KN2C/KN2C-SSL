@@ -1,61 +1,20 @@
 #include "tacticgoalie.h"
 
-static bool CanKick(Position robotPos, Vector2D ballPos, double distLimit, double degLimit)
-{
-    if(robotPos.loc.dist(ballPos) < distLimit)
-    {
-        AngleDeg d1((ballPos - robotPos.loc).dir());
-        AngleDeg d2(robotPos.dir * AngleDeg::RAD2DEG);
-        if(fabs((d1 - d2).degree()) < degLimit || (360.0 - fabs((d1 - d2).degree())) < degLimit)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
-}
-
-static bool IsInsideField(Vector2D pos)
-{
-    return pos.x > Field::MinX && pos.x < Field::MaxX &&
-            pos.y > Field::MinY && pos.y < Field::MaxY;
-}
-
-static bool IsInsideGoalShape(Vector2D pos, double goalLeftX, double goalRadius, double goalCcOffset)
-{
-    double x = pos.x - goalLeftX;
-    Vector2D ccl(goalLeftX, goalCcOffset / 2), ccr(goalLeftX, -goalCcOffset / 2);
-    
-    return (pos.dist(ccl) <= goalRadius || pos.dist(ccr) <= goalRadius ||
-            (x >= 0 && x <= goalRadius && fabs(pos.y) <= goalCcOffset / 2));
-}
-
-static bool IsInsideGolieArea(Vector2D pos)
-{
-    return IsInsideGoalShape(pos, Field::ourGoalCenter.x, Field::goalCircle_R,
-                             Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
-}
-
-static void LimitToGoalArea(Vector2D *pos)
-{
-    if(pos->x < Field::ourGoalCenter.x)
-        pos->x = Field::ourGoalCenter.x;
-    
-    if(pos->y > Field::ourGoalPost_L.y - ROBOT_RADIUS)
-        pos->y = Field::ourGoalPost_L.y - ROBOT_RADIUS;
-    else if(pos->y < Field::ourGoalPost_R.y + ROBOT_RADIUS)
-        pos->y = Field::ourGoalPost_R.y + ROBOT_RADIUS;
-}
 
 TacticGoalie::TacticGoalie(WorldModel *worldmodel, QObject *parent) :
     Tactic(worldmodel, parent)
 {
+}
+
+void TacticGoalie::LimitToGoalArea(Vector2D *pos)
+{
+    if(pos->x < Field::ourGoalCenter.x)
+        pos->x = Field::ourGoalCenter.x;
+
+    if(pos->y > Field::ourGoalPost_L.y - ROBOT_RADIUS)
+        pos->y = Field::ourGoalPost_L.y - ROBOT_RADIUS;
+    else if(pos->y < Field::ourGoalPost_R.y + ROBOT_RADIUS)
+        pos->y = Field::ourGoalPost_R.y + ROBOT_RADIUS;
 }
 
 RobotCommand TacticGoalie::getCommand()
@@ -83,10 +42,10 @@ RobotCommand TacticGoalie::getCommand()
     }
 
     // There is a ball in the field.
-    if(wm->ball.isValid && IsInsideField(wm->ball.pos.loc))
+    if(wm->ball.isValid && wm->kn->IsInsideField(wm->ball.pos.loc))
     {
         // Ball is not inside golie area.
-        if(!IsInsideGolieArea(wm->ball.pos.loc))
+        if(!wm->kn->IsInsideGolieArea(wm->ball.pos.loc))
         {                        
             // No attacker found.
             if(attackerID == -1)
@@ -263,7 +222,7 @@ RobotCommand TacticGoalie::getCommand()
                 rc.maxSpeed = 2;
                 
                 // Kick if you can.
-                if(CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc, ROBOT_RADIUS + BALL_RADIUS * 2.5, 7))
+                if(wm->kn->CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc))
                 {
                     qDebug()<<"Golie: KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
                     rc.kickspeedz = 2;
@@ -271,7 +230,7 @@ RobotCommand TacticGoalie::getCommand()
                 }
 
                 // Turn on navigation if no enemy is nearby.
-                if(attackerID == -1 || !IsInsideGolieArea(wm->oppRobot[attackerID].pos.loc))
+                if(attackerID == -1 || !wm->kn->IsInsideGolieArea(wm->oppRobot[attackerID].pos.loc))
                 {
                     rc.useNav = true;
                     rc.isBallObs = true;
