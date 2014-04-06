@@ -9,6 +9,15 @@ using namespace std;
 #include "geom.h"
 #include "position.h"
 
+#define LAST_COUNT 20
+
+struct PositionTimeCamera
+{
+    Position pos;
+    double time;
+    int camera;
+};
+
 class MobileObject : public QObject
 {
     Q_OBJECT
@@ -23,17 +32,17 @@ public:
     Position vel;
 
 protected:
-    Position last_pos;
-    double last_time;
+    PositionTimeCamera last_postc[LAST_COUNT];
+    void appendPostc(PositionTimeCamera postc);
 
 private:
-    QTimer timer;
-    int    timer_interval;
+    QTimer timer_seen;
+    int    timer_seen_interval;
     QTimer timer_vel;
     int    timer_vel_interval;
 
 private slots:
-    void timer_timeout();
+    void timer_seen_timeout();
     void timer_vel_timeout();
 
 };
