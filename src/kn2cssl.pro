@@ -65,10 +65,10 @@ win32
 #   INCLUDEPATH += C:/protobuf-2.5.0/src/
     INCLUDEPATH += C:/protobuf-2.4.1/src/
 
-    LIBS += -LC:/boost_1_55_0/lib \
-            -lboost_serialization-mgw46-mt-d-1_55 \
-            -lboost_filesystem-mgw46-mt-d-1_55 \
-            -lboost_system-mgw46-mt-d-1_55
+    LIBS += -LC:/boost_1_55_0/lib
+#   LIBS += -lboost_serialization-mgw46-mt-d-1_55
+#   LIBS += -lboost_filesystem-mgw46-mt-d-1_55
+#   LIBS += -lboost_system-mgw46-mt-d-1_55
 }
 
 INCLUDEPATH += ssl
