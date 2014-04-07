@@ -10,21 +10,23 @@ void SSLRefBoxNew::readPendingPacket(QByteArray data, QString ip, int port)
 {
     // check for server ip (& port)
     if(ip=="" && port==0) return;
-    if(paused) return;
 
     SSL_Referee packet;
     bool ans=packet.ParseFromArray(data.data(), data.size());
     if(!ans) return;
 
-    if(_color == COLOR_BLUE)
+    if(!paused)
     {
-        _wm->ref_goalie_our = packet.blue().goalie();
-        _wm->ref_goalie_opp = packet.yellow().goalie();
-    }
-    else
-    {
-        _wm->ref_goalie_our = packet.yellow().goalie();
-        _wm->ref_goalie_opp = packet.blue().goalie();
+        if(_color == COLOR_BLUE)
+        {
+            _wm->ref_goalie_our = packet.blue().goalie();
+            _wm->ref_goalie_opp = packet.yellow().goalie();
+        }
+        else
+        {
+            _wm->ref_goalie_our = packet.yellow().goalie();
+            _wm->ref_goalie_opp = packet.blue().goalie();
+        }
     }
 
     GameStatePacket pck;

@@ -24,7 +24,6 @@ void SSLRefBox::readPendingPacket(QByteArray data, QString ip, int port)
 {
     // check for server ip (& port)
     if(ip=="" && port==0) return;
-    if(paused) return;
 
     GameStatePacket pck;
     pck.cmd=data[0];
@@ -41,6 +40,7 @@ void SSLRefBox::parse(GameStatePacket pck)
 {
     // save last gs packet
     refgs = pck;
+    if(paused) return;
 
     bool ball_moved = _lastBallpos.loc.dist(_wm->ball.pos.loc) > _ball_min;
     _wm->cmgs.transition(pck.cmd, ball_moved);

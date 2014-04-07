@@ -40,7 +40,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabHome">
        <attribute name="title">
@@ -485,10 +485,10 @@
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>30</y>
+          <x>20</x>
+          <y>10</y>
           <width>211</width>
-          <height>147</height>
+          <height>149</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="formLayout">
@@ -551,7 +551,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="label_29">
            <property name="text">
-            <string>RMan</string>
+            <string>R.Man.</string>
            </property>
           </widget>
          </item>
@@ -974,13 +974,13 @@
          </rect>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>600</x>
           <y>10</y>
           <width>151</width>
-          <height>19</height>
+          <height>23</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -1014,7 +1014,7 @@
      <x>0</x>
      <y>0</y>
      <width>793</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
