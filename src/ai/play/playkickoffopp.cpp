@@ -17,7 +17,10 @@ PlayKickoffOpp::PlayKickoffOpp(WorldModel *worldmodel, QObject *parent) :
 
 int PlayKickoffOpp::enterCondition()
 {
-    return 0;
+    if(wm->cmgs.theirKickoff())
+        return 100;
+    else
+        return 0;
 }
 
 void PlayKickoffOpp::execute()

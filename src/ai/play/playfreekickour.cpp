@@ -17,6 +17,11 @@ PlayFreeKickOur::PlayFreeKickOur(WorldModel *worldmodel, QObject *parent) :
 
 int PlayFreeKickOur::enterCondition()
 {
+    if(wm->cmgs.ourFreeKick() || wm->cmgs.ourIndirectKick())
+        return 100;
+    else
+        return 0;
+
     return 0;
 }
 

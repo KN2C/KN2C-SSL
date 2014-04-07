@@ -17,7 +17,10 @@ PlayStop::PlayStop(WorldModel *worldmodel, QObject *parent) :
 
 int PlayStop::enterCondition()
 {
-    return 0;
+    if(wm->gs == STATE_Stop)
+        return 100;
+    else
+        return 0;
 }
 
 void PlayStop::execute()

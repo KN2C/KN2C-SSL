@@ -27,13 +27,10 @@ PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
 
 int PlayGameOn::enterCondition()
 {
-    // TODO: decide on game state.
-
-    // Activator condition.
-    if(wm->kn->ActiveAgents().size() > 3)
-    {
+    if(wm->cmgs.gameOn() && wm->kn->ActiveAgents().size() > 3)
         return 100;
-    }
+    else
+        return 0;
 
     return 0;
 }
@@ -141,7 +138,7 @@ void PlayGameOn::execute()
         case AgentRole::AttackerMid:
             tAttackerMid->setID(*itAgent);
             tactics[*itAgent] = tAttackerMid;
-            break;        
+            break;
         }
     }
 }

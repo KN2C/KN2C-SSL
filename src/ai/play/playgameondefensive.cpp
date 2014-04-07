@@ -18,13 +18,10 @@ PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent
 
 int PlayGameOnDefensive::enterCondition()
 {
-    // TODO: decide on game state.
-
-    // Activator condition.
-    if(wm->kn->ActiveAgents().size() < 4)
-    {
-        return 134;
-    }
+    if(wm->cmgs.gameOn() && wm->kn->ActiveAgents().size() < 4)
+        return 100;
+    else
+        return 0;
 
     return 0;
 }
