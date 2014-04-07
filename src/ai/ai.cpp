@@ -68,6 +68,7 @@ void AI::timer_timeout()
     {
         Tactic *tactic = play->getTactic(i);
         if(tactic == NULL) continue;
+        tactic->setID(i);
         RobotCommand rc = tactic->getCommand();
         wm->ourRobot[i].SendCommand(rc);
     }
