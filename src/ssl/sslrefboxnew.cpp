@@ -89,49 +89,49 @@ void SSLRefBoxNew::updategs(char cmd, bool)
         _wm->gs=STATE_ForceStart;
         break;
     case 5:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Our;
         else
             _wm->gs = STATE_Kick_off_Opp;
         break;
     case 4:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Opp;
         else
             _wm->gs = STATE_Kick_off_Our;
         break;
     case 7:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Our;
         else
             _wm->gs = STATE_Penalty_Opp;
         break;
     case 6:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Opp;
         else
             _wm->gs = STATE_Penalty_Our;
         break;
     case 9:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Our;
         else
             _wm->gs = STATE_Free_kick_Opp;
         break;
     case 8:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Opp;
         else
             _wm->gs = STATE_Free_kick_Our;
         break;
     case 11:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Our;
         else
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         break;
     case 10:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         else
             _wm->gs = STATE_Indirect_Free_kick_Our;

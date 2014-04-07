@@ -38,7 +38,7 @@ Soccer::Soccer(QObject *parent) :
     sslrefbox = 0;
     sslrefboxnew = 0;
 
-    if(1)
+    if(0)
     {
         sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
         sslrefbox->Start();

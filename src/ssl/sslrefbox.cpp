@@ -74,49 +74,49 @@ void SSLRefBox::updategs(char cmd, bool)
         _wm->gs=STATE_ForceStart;
         break;
     case COMM_KICKOFF_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Our;
         else
             _wm->gs = STATE_Kick_off_Opp;
         break;
     case COMM_KICKOFF_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Opp;
         else
             _wm->gs = STATE_Kick_off_Our;
         break;
     case COMM_PENALTY_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Our;
         else
             _wm->gs = STATE_Penalty_Opp;
         break;
     case COMM_PENALTY_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Opp;
         else
             _wm->gs = STATE_Penalty_Our;
         break;
     case COMM_DIRECT_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Our;
         else
             _wm->gs = STATE_Free_kick_Opp;
         break;
     case COMM_DIRECT_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Opp;
         else
             _wm->gs = STATE_Free_kick_Our;
         break;
     case COMM_INDIRECT_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Our;
         else
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         break;
     case COMM_INDIRECT_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         else
             _wm->gs = STATE_Indirect_Free_kick_Our;
