@@ -17,6 +17,7 @@ public:
 
 protected:
     WorldModel *wm;
+    QString param;
     Tactic *tactics[PLAYERS_MAX_NUM];
 
 private:

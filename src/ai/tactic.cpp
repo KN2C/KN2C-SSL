@@ -10,7 +10,10 @@ Tactic::Tactic(QString name, WorldModel *worldmodel, QObject *parent) :
 
 QString Tactic::getName()
 {
-    return name;
+    if(param.size() > 0)
+        return name + " => " + param;
+    else
+        return name;
 }
 
 void Tactic::setID(int id)

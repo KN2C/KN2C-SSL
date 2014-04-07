@@ -11,7 +11,10 @@ Play::Play(QString name, WorldModel *worldmodel, QObject *parent) :
 
 QString Play::getName()
 {
-    return name;
+    if(param.size() > 0)
+        return name + " => " + param;
+    else
+        return name;
 }
 
 Tactic* Play::getTactic(int id)

@@ -16,6 +16,7 @@ public:
 
 protected:
     WorldModel *wm;
+    QString param;
     int id;
 
 private:
