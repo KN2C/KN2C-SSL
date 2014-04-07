@@ -1,7 +1,7 @@
 #include "tacticformation.h"
 
 TacticFormation::TacticFormation(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticFormation", worldmodel, parent)
 {
 }
 

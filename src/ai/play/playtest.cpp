@@ -1,7 +1,7 @@
 #include "playtest.h"
 
 PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayTest", worldmodel, parent)
 {
     // Goaler.
     tGolie = new TacticGoalie(wm);

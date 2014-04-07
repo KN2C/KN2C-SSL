@@ -1,7 +1,7 @@
 #include "playcalibration.h"
 
 PlayCalibration::PlayCalibration(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayCalibration", worldmodel, parent)
 {
     //t0 = new TacticTestKickRange(wm);
     //t0->setID(0);

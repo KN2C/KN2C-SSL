@@ -9,13 +9,17 @@ class Tactic : public QObject
 {
     Q_OBJECT
 public:
-    explicit Tactic(WorldModel *worldmodel, QObject *parent = 0);
+    explicit Tactic(QString name, WorldModel *worldmodel, QObject *parent = 0);
+    QString getName();
     virtual RobotCommand getCommand() = 0;
     void setID(int id);
 
 protected:
     WorldModel *wm;
     int id;
+
+private:
+    QString name;
 
 };
 

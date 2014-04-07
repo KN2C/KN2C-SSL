@@ -1,7 +1,7 @@
 #include "playgameondefensive.h"
 
 PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayGameOnDefensive", worldmodel, parent)
 {
     // Goaler.
     tGolie = new TacticGoalie(wm);

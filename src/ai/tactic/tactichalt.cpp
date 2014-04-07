@@ -1,7 +1,7 @@
 #include "tactichalt.h"
 
 TacticHalt::TacticHalt(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticHalt", worldmodel, parent)
 {
 }
 

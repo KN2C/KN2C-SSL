@@ -9,7 +9,8 @@ class Play : public QObject
 {
     Q_OBJECT
 public:
-    explicit Play(WorldModel *worldmodel, QObject *parent = 0);
+    explicit Play(QString name, WorldModel *worldmodel, QObject *parent = 0);
+    QString getName();
     virtual void execute() = 0;
     virtual Tactic* getTactic(int id);
     virtual int enterCondition() = 0;
@@ -17,6 +18,9 @@ public:
 protected:
     WorldModel *wm;
     Tactic *tactics[PLAYERS_MAX_NUM];
+
+private:
+    QString name;
 
 };
 

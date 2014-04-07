@@ -112,6 +112,47 @@ void MainWindow::timer_timeout()
     ui->txtWM->append("ref_goalie_opp : " + QString::number(sc->wm->ref_goalie_opp));
     ui->txtWM->append("");
 
+    //AI
+    if(sc->ai->getCurrentPlay())
+        ui->txtPlay->setText(sc->ai->getCurrentPlay()->getName());
+    else ui->txtPlay->setText("NULL");
+    if(sc->ai->getCurrentTactic(0))
+        ui->txtTactic_0 ->setText(sc->ai->getCurrentTactic(0) ->getName());
+    else ui->txtTactic_0 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(1))
+        ui->txtTactic_1 ->setText(sc->ai->getCurrentTactic(1) ->getName());
+    else ui->txtTactic_1 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(2))
+        ui->txtTactic_2 ->setText(sc->ai->getCurrentTactic(2) ->getName());
+    else ui->txtTactic_2 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(3))
+        ui->txtTactic_3 ->setText(sc->ai->getCurrentTactic(3) ->getName());
+    else ui->txtTactic_3 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(4))
+        ui->txtTactic_4 ->setText(sc->ai->getCurrentTactic(4) ->getName());
+    else ui->txtTactic_4 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(5))
+        ui->txtTactic_5 ->setText(sc->ai->getCurrentTactic(5) ->getName());
+    else ui->txtTactic_5 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(6))
+        ui->txtTactic_6 ->setText(sc->ai->getCurrentTactic(6) ->getName());
+    else ui->txtTactic_6 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(7))
+        ui->txtTactic_7 ->setText(sc->ai->getCurrentTactic(7) ->getName());
+    else ui->txtTactic_7 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(8))
+        ui->txtTactic_8 ->setText(sc->ai->getCurrentTactic(8) ->getName());
+    else ui->txtTactic_8 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(9))
+        ui->txtTactic_9 ->setText(sc->ai->getCurrentTactic(9) ->getName());
+    else ui->txtTactic_9 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(10))
+        ui->txtTactic_10->setText(sc->ai->getCurrentTactic(10)->getName());
+    else ui->txtTactic_10 ->setText("NULL");
+    if(sc->ai->getCurrentTactic(11))
+        ui->txtTactic_11->setText(sc->ai->getCurrentTactic(11)->getName());
+    else ui->txtTactic_11 ->setText("NULL");
+
     sc->wm->var[0] = ui->spnvar0->value();
     ui->txtvar0->setText(QString::number(sc->wm->var[0]));
     sc->wm->var[1] = ui->spnvar1->value();

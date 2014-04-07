@@ -1,7 +1,7 @@
 #include "tactictestfriction.h"
 
 TacticTestFriction::TacticTestFriction(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticTestFriction", worldmodel, parent)
 {
 }
 

@@ -1,7 +1,7 @@
 #include "playpenaltyopp.h"
 
 PlayPenaltyOpp::PlayPenaltyOpp(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayPenaltyOpp", worldmodel, parent)
 {
     t1 = new TacticGoalie(wm);
     t1->setID(0);

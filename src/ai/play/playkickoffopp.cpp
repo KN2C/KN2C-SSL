@@ -1,7 +1,7 @@
 #include "playkickoffopp.h"
 
 PlayKickoffOpp::PlayKickoffOpp(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayKickoffOpp", worldmodel, parent)
 {
     t1 = new TacticGoalie(wm);
     t1->setID(0);

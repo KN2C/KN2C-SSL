@@ -1,8 +1,7 @@
 #include "tacticgoalie.h"
 
-
 TacticGoalie::TacticGoalie(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticGoalie", worldmodel, parent)
 {
 }
 

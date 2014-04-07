@@ -1,7 +1,7 @@
 #include "tacticcircle.h"
 
 TacticCircle::TacticCircle(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticCircle", worldmodel, parent)
 {
 }
 

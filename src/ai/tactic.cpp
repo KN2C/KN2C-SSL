@@ -1,10 +1,16 @@
 #include "tactic.h"
 
-Tactic::Tactic(WorldModel *worldmodel, QObject *parent) :
-    QObject(parent)
+Tactic::Tactic(QString name, WorldModel *worldmodel, QObject *parent) :
+    QObject(parent),
+    name(name)
 {
     wm = worldmodel;
     id = -1;
+}
+
+QString Tactic::getName()
+{
+    return name;
 }
 
 void Tactic::setID(int id)

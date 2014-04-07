@@ -1,7 +1,7 @@
 #include "playhalt.h"
 
 PlayHalt::PlayHalt(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayHalt", worldmodel, parent)
 {
 
 }

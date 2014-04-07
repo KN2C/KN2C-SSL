@@ -1,9 +1,6 @@
 #ifndef PLAYGAMEON_H
 #define PLAYGAMEON_H
 
-#ifndef PLAYNORMAL_H
-#define PLAYNORMAL_H
-
 #include "play.h"
 
 class PlayGameOn : public Play
@@ -24,7 +21,5 @@ private:
     TacticAttacker* tAttackerRight;
     TacticAttacker* tAttackerMid;
 };
-
-#endif // PLAYNORMAL_H
 
 #endif // PLAYGAMEON_H

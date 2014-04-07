@@ -1,7 +1,7 @@
 #include "tacticattacker.h"
 
 TacticAttacker::TacticAttacker(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticAttacker", worldmodel, parent)
 {
 }
 
