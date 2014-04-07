@@ -29,16 +29,16 @@ void SSLRefBox::readPendingPacket(QByteArray data, QString ip, int port)
     pck.goals_yellow=data[3];
     pck.time_remaining=data[4]*256 + data[5];
 
-    // save last gs packet
-    _wm->refgs = pck;
-
     // parse it
     parse(pck);
 }
 
 void SSLRefBox::parse(GameStatePacket pck)
 {
-    bool ball_moved = _lastBallpos.loc.dist(_wm->ball.pos.loc)>_ball_min;
+    // save last gs packet
+    _wm->refgs = pck;
+
+    bool ball_moved = _lastBallpos.loc.dist(_wm->ball.pos.loc) > _ball_min;
     _wm->cmgs.transition(pck.cmd, ball_moved);
     updategs(pck.cmd, ball_moved);
 
@@ -59,6 +59,7 @@ void SSLRefBox::parse(GameStatePacket pck)
 void SSLRefBox::updategs(char cmd, bool)
 {
     _wm->gs_last=_wm->gs;
+
     switch(cmd)
     {
     case COMM_HALT:

@@ -424,7 +424,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>310</x>
@@ -456,7 +456,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>621</x>
@@ -482,13 +482,13 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>31</y>
           <width>211</width>
-          <height>111</height>
+          <height>114</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="formLayout">
@@ -566,115 +566,231 @@
         <property name="geometry">
          <rect>
           <x>40</x>
-          <y>40</y>
+          <y>20</y>
           <width>321</width>
           <height>27</height>
          </rect>
         </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
           <x>40</x>
-          <y>80</y>
-          <width>612</width>
-          <height>198</height>
+          <y>70</y>
+          <width>711</width>
+          <height>301</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
            <item>
-            <widget class="QLineEdit" name="txtcmgs_1"/>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_1"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_2"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_3"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtcmgs_3"/>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_4"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_5"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_6"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtcmgs_2"/>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_7"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_8"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_9"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_10"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_11"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_12"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
-         <item row="0" column="1">
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
-            <widget class="QLineEdit" name="txtcmgs_4"/>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_13"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_14"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_15"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtcmgs_6"/>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_16"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_17"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_18"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLineEdit" name="txtcmgs_5"/>
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_19"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_20"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_21"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="QLineEdit" name="txtcmgs_22"/>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-         <item row="0" column="2">
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_8"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_7"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_9"/>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="3">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_12"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_10"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_11"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_14"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_15"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_13"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="1">
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_16"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_18"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_17"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="2">
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_20"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_19"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtcmgs_21"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="3">
-          <widget class="QLineEdit" name="txtcmgs_22"/>
          </item>
         </layout>
        </widget>

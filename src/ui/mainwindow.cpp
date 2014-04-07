@@ -32,21 +32,21 @@ void MainWindow::timer_timeout()
 
     if(sc->sslrefbox)
     {
-        ui->txtRefreeSpeed->setText("OLD : " + QString::number(sc->sslrefbox->FPS()));
+        ui->txtRefreeSpeed->setText("old : " + QString::number(sc->sslrefbox->FPS()));
     }
     if(sc->sslrefboxnew)
     {
-        ui->txtRefreeSpeed->setText("NEW : " + QString::number(sc->sslrefboxnew->FPS()));
+        ui->txtRefreeSpeed->setText("new : " + QString::number(sc->sslrefboxnew->FPS()));
     }
     ui->txtRecordSpeed->setText("N/A");
     ui->txtTime->setText(QString::number(sc->wm->time));
     ui->txtTimeBall->setText(QString::number(sc->wm->ball.time));
 
     QString refgs = QString("") + sc->wm->refgs.cmd +
-            ":" +QString::number(sc->wm->refgs.cmd_counter) +
-            ":" + QString::number(sc->wm->refgs.goals_blue) +
-            ":" + QString::number(sc->wm->refgs.goals_yellow) +
-            ":" + QString::number(sc->wm->refgs.time_remaining);
+            " : " +QString::number(sc->wm->refgs.cmd_counter) +
+            " : " + QString::number(sc->wm->refgs.goals_blue) +
+            " : " + QString::number(sc->wm->refgs.goals_yellow) +
+            " : " + QString::number(sc->wm->refgs.time_remaining);
     ui->txtrefgs->setText(refgs);
 
     ui->txtcmgs_1->setText(QString("gameOn : ") + (sc->wm->cmgs.gameOn()?"1":"0"));
@@ -93,7 +93,9 @@ void MainWindow::timer_timeout()
     {
         QString r = QString::number(sc->wm->ourRobot[i].pos.loc.x,'f',2) + " , " + QString::number(sc->wm->ourRobot[i].pos.loc.y,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].pos.dir,'f',2);
         QString s = QString::number(sc->wm->ourRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->ourRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].vel.dir,'f',2);
-        ui->txtWM->append("our[" + QString::number(i) + "] : ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->ourRobot[i].isValid) + "] ");
+        QString id = QString::number(i);
+        if(id.length()<2) id = "0" + id;
+        ui->txtWM->append("our[" + id + "]  : ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->ourRobot[i].isValid) + "] ");
     }
 
     ui->txtWM->append("");
@@ -101,7 +103,9 @@ void MainWindow::timer_timeout()
     {
         QString r = QString::number(sc->wm->oppRobot[i].pos.loc.x,'f',2) + " , " + QString::number(sc->wm->oppRobot[i].pos.loc.y,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].pos.dir,'f',2);
         QString s = QString::number(sc->wm->oppRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->oppRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].vel.dir,'f',2);
-        ui->txtWM->append("opp[" + QString::number(i) + "] :  ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->oppRobot[i].isValid) + "] ");
+        QString id = QString::number(i);
+        if(id.length()<2) id = "0" + id;
+        ui->txtWM->append("opp[" + id + "] :  ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->oppRobot[i].isValid) + "] ");
     }
     ui->txtWM->append("");
     ui->txtWM->append("ref_goalie_our : " + QString::number(sc->wm->ref_goalie_our));

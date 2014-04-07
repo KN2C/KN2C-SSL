@@ -16,7 +16,7 @@ class SSLRefBox : public SSLReceiver
 public:
     explicit SSLRefBox(QString ip, int port, TeamColorType color, float ball_min, WorldModel* wm, QObject *parent = 0);
 
-private:
+protected:
     int _cmdcounter;
     TeamColorType _color;
     unsigned char _lastCMDCounter;
@@ -32,8 +32,8 @@ signals:
 public slots:
 
 
-private slots:
-    void readPendingPacket(QByteArray data, QString ip, int port);
+protected slots:
+    virtual void readPendingPacket(QByteArray data, QString ip, int port);
 
 };
 

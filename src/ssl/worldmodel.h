@@ -21,10 +21,10 @@ public:
     Ball ball;
     Agent ourRobot[PLAYERS_MAX_NUM];
     Robot oppRobot[PLAYERS_MAX_NUM];
-    GameStatePacket refgs;
+    GameStatePacket refgs; // not used
     GameStateType gs;
     GameStateType gs_last;
-    GameState cmgs;
+    GameState cmgs; //referee
     int ref_goalie_our;
     int ref_goalie_opp;
     bool isSim;
