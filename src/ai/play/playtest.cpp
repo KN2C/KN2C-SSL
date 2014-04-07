@@ -23,14 +23,16 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 
     // Mid attacker.
     tAttackerMid = new TacticAttacker(wm);
+
+    tTestKickPrecision = new TacticTestKickPrecision(wm);
 }
 
 int PlayTest::enterCondition()
 {
     // Activator condition.
-    if(wm->kn->ActiveAgents().size() > 3)
+    if(wm->kn->ActiveAgents().size() > 2)
     {
-        return 1000;
+        return 2000;
     }
 
     return 0;
@@ -113,7 +115,7 @@ void PlayTest::execute()
         switch (wm->ourRobot[*itAgent].Role) {
         case AgentRole::Golie:
             tGolie->setID(*itAgent);
-            tactics[*itAgent] = tGolie;
+            tactics[*itAgent] = tTestKickPrecision;
             break;
         case AgentRole::DefenderLeft:
             tDefenderLeft->setID(*itAgent);

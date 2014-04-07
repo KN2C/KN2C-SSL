@@ -290,12 +290,12 @@ RobotCommand TacticAttacker::getCommand()
         else
         {
             qDebug() << "Using prediction...";
-            myPredPos = wm->kn->PredictDestination(wm->ourRobot[id].pos.loc, wm->ball.pos.loc, maxRobotSpeed, wm->ball.vel.loc, wm->var[3]);
+            myPredPos = wm->kn->PredictDestination(wm->ourRobot[id].pos.loc, wm->ball.pos.loc, maxRobotSpeed, wm->ball.vel.loc);
             myPredDist = wm->ourRobot[id].pos.loc.dist(myPredPos);
             if(ourNearestID != -1)
             {
                 friendPredDist = wm->ourRobot[ourNearestID].pos.loc.dist(wm->kn->PredictDestination(wm->ourRobot[ourNearestID].pos.loc,
-                                                                                                    wm->ball.pos.loc, maxRobotSpeed, wm->ball.vel.loc, wm->var[3]));
+                                                                                                    wm->ball.pos.loc, maxRobotSpeed, wm->ball.vel.loc));
             }
             else
             {
