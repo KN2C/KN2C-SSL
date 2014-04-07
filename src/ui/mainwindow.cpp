@@ -3,17 +3,17 @@
 
 MainWindow::MainWindow(Soccer *soccer, QWidget *parent) :
     QMainWindow(parent),
-    _updatetimer(this),
+    timer(this),
     sc(soccer),
     ui(new Ui::MainWindow)
 {
-    _updatetimer.setObjectName("updatetimer");
-    _updatetimer.start(100);
     ui->setupUi(this);
-    //ui->txtLog->append(SerialPort::ListPorts());
+    //ui->txtLog->append(QSerialPort::);
     _render = new RenderArea(soccer);
     ui->gridRender->addWidget(_render);
     this->on_btnLoadVars_clicked();
+    connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
+    timer.start(100);
 }
 
 MainWindow::~MainWindow()
@@ -21,10 +21,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_updatetimer_timeout()
+void MainWindow::timer_timeout()
 {
+    //qDebug() << "ui timer";
+
     ui->txtRefreeSpeed->setText(QString::number(sc->sslvision->FPS()));
-    ui->txtVisionSpeed->setText(QString::number(sc->sslrefbox->FPS()));
+    if(sc->sslrefbox)
+        ui->txtVisionSpeed->setText(QString::number(sc->sslrefbox->FPS()));
+    if(sc->sslrefboxnew)
+        ui->txtVisionSpeed->setText(QString::number(sc->sslrefboxnew->FPS()));
     ui->txtRecordSpeed->setText("N/A");
     ui->txtTime->setText(QString::number((sc->wm->time)));
     ui->txtTimeBall->setText("N/A");
@@ -66,8 +71,6 @@ void MainWindow::on_updatetimer_timeout()
 
     ui->txtcmgs_22->setText(QString("canMove : ") + (sc->wm->cmgs.canMove()?"1":"0"));
 
-
-
     QString ball = QString::number(sc->wm->ball.pos.loc.x,'f',2) + " : " + QString::number(sc->wm->ball.pos.loc.y,'f',2);
     QString s = QString::number(sc->wm->ball.vel.loc.x,'f',2) + " : " + QString::number(sc->wm->ball.vel.loc.y,'f',2);
     ball+= " ( " + s + " ) ";
@@ -86,6 +89,9 @@ void MainWindow::on_updatetimer_timeout()
         QString s = QString::number(sc->wm->oppRobot[i].vel.loc.x,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].vel.loc.y,'f',2)+ " : " + QString::number(sc->wm->oppRobot[i].vel.dir,'f',2);
         ui->txtWM->append("opp[" + QString::number(i) + "] (" + r + ")(" + s + ") : " +QString::number(sc->wm->oppRobot[i].isValid));
     }
+    ui->txtWM->append("");
+    ui->txtWM->append("ref_goalie_our : " + QString::number(sc->wm->ref_goalie_our));
+    ui->txtWM->append("ref_goalie_opp : " + QString::number(sc->wm->ref_goalie_opp));
 
     sc->wm->var[0] = ui->spnvar0->value();
     ui->txtvar0->setText(QString::number(sc->wm->var[0]));

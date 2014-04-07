@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>KN2C SSL v5.00</string>
+   <string>KN2C SSL v7.0.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../resources.qrc">

@@ -9,6 +9,7 @@ Soccer::Soccer(QObject *parent) :
     QString gm = s.Get("Game","Mode");
     QString rip = s.Get(gm, "RefIP");
     int rport = s.Get(gm, "RefPort").toInt();
+    int rportn = s.Get(gm, "RefPortNew").toInt();
     QString vip = s.Get(gm, "VisionIP");
     int vport = s.Get(gm, "VisionPort").toInt();
     QString scolor = s.Get("Team","Color");
@@ -32,9 +33,21 @@ Soccer::Soccer(QObject *parent) :
     wm = new WorldModel(outputbuffer);
     MapSearchNode::wm = wm;
     sslvision = new SSLVision(vip, vport, tcolor, tside, tcam, wm);
-    sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
     sslvision->Start();
-    sslrefbox->Start();
+
+    sslrefbox = 0;
+    sslrefboxnew = 0;
+
+    if(1)
+    {
+        sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
+        sslrefbox->Start();
+    }
+    else
+    {
+        sslrefboxnew = new SSLRefBoxNew(rip, rportn, tcolor, ball_dist, wm);
+        sslrefboxnew->Start();
+    }
 
     // grSim
     if(gamemode==MODE_SIMULATION)

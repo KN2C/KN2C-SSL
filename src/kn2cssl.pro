@@ -154,7 +154,8 @@ SOURCES +=	main.cpp \
     ai/play/playcalibration.cpp \
     ai/tactic/tactictestfriction.cpp \
     ai/play/playgameondefensive.cpp \
-    ssl/sslrefbox/messages/referee.pb.cc
+    ssl/sslrefbox/messages/referee.pb.cc \
+    ssl/sslrefboxnew.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -243,7 +244,8 @@ HEADERS  += \
     ai/tactic/tactictestkickprecision.h \
     ai/tactic/tactictestfriction.h \
     ai/play/playgameondefensive.h \
-    ssl/sslrefbox/messages/referee.pb.h
+    ssl/sslrefbox/messages/referee.pb.h \
+    ssl/sslrefboxnew.h
 
 FORMS    +=	ui/mainwindow.ui
 

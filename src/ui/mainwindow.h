@@ -19,12 +19,12 @@ public:
     ~MainWindow();
 
 private:
-    QTimer _updatetimer;
+    QTimer timer;
     RenderArea *_render;
     Soccer* sc;
 
 private slots:
-    void on_updatetimer_timeout();
+    void timer_timeout();
     void on_btnSaveVars_clicked();
     void on_btnLoadVars_clicked();
 

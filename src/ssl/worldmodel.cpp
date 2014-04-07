@@ -2,8 +2,10 @@
 
 WorldModel::WorldModel(OutputBuffer *outputBuffer)
 {
-    time=0;
-    refgs.cmd=0;
+    time = 0;
+    refgs.cmd = 0;
+    ref_goalie_our = 0;
+    ref_goalie_opp = 0;
     gs = STATE_Null;
     gs_last = STATE_Null;
     isSim = false;

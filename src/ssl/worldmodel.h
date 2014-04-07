@@ -25,8 +25,11 @@ public:
     GameStateType gs;
     GameStateType gs_last;
     GameState cmgs;
+    int ref_goalie_our;
+    int ref_goalie_opp;
     bool isSim;
     Knowledge *kn;
+
     double var[10];
     // 0: kick activation dist
     // 1: kick activation angle

@@ -12,6 +12,7 @@
 #include "transmitter.h"
 #include "worldmodel.h"
 #include "sslrefbox.h"
+#include "sslrefboxnew.h"
 #include "sslvision.h"
 #include "wpacket.h"
 #include "grsim.h"
@@ -30,6 +31,7 @@ public:
     WorldModel* wm;
     SSLVision* sslvision;
     SSLRefBox* sslrefbox;
+    SSLRefBoxNew* sslrefboxnew;
     OutputBuffer* outputbuffer;
     Transmitter* transmitter;
     grSim* grsim;
