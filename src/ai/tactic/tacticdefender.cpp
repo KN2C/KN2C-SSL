@@ -1,7 +1,7 @@
 #include "tacticdefender.h"
 
 TacticDefender::TacticDefender(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticDefender", worldmodel, parent)
 {
     def_t = 1;
     def_c = 0;

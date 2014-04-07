@@ -1,7 +1,7 @@
 #include "playstop.h"
 
 PlayStop::PlayStop(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayStop", worldmodel, parent)
 {
     t1 = new TacticGoalie(wm);
     t1->setID(0);

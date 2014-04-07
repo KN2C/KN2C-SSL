@@ -1,7 +1,7 @@
 #include "tacticballtracker.h"
 
 TacticBallTracker::TacticBallTracker(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticBallTracker", worldmodel, parent)
 {
     _face = Vector2D(3025,0);
 }

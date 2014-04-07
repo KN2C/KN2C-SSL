@@ -1,7 +1,7 @@
 #include "playfreekickour.h"
 
 PlayFreeKickOur::PlayFreeKickOur(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayFreeKickOur", worldmodel, parent)
 {
     t1 = new TacticGoalie(wm);
     t1->setID(0);

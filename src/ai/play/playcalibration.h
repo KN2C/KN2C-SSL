@@ -13,7 +13,6 @@ public:
     virtual int enterCondition();
 
 private:
-    TacticTestKickRange *t0;
     TacticTestKickPrecision *t1;
     TacticTestFriction *t2;
 

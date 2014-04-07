@@ -1,7 +1,7 @@
 #include "playgameon.h"
 
 PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
-    Play(worldmodel, parent)
+    Play("PlayGameOn", worldmodel, parent)
 {
     // Goaler.
     tGolie = new TacticGoalie(wm);

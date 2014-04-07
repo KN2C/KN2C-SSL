@@ -20,6 +20,10 @@ AI::AI(WorldModel *worldmodel, OutputBuffer *outputbuffer, QObject *parent) :
     qDebug() << "AI Initialization...";
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
 
+    current_play = 0;
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+        current_tactic[i] = 0;
+
     plays.append(new PlayCalibration(wm));
     plays.append(new PlayFreeKickOpp(wm));
     plays.append(new PlayFreeKickOur(wm));
@@ -46,6 +50,16 @@ void AI::Stop()
     timer.stop();
 }
 
+Play* AI::getCurrentPlay()
+{
+    return current_play;
+}
+
+Tactic* AI::getCurrentTactic(int i)
+{
+    return current_tactic[i];
+}
+
 void AI::timer_timeout()
 {
     int max_i = 0;
@@ -62,12 +76,15 @@ void AI::timer_timeout()
     }
 
     Play *play = plays[max_i];
+    current_play = play;
     play->execute();
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         Tactic *tactic = play->getTactic(i);
+        current_tactic[i] = tactic;
         if(tactic == NULL) continue;
+        tactic->setID(i);
         RobotCommand rc = tactic->getCommand();
         wm->ourRobot[i].SendCommand(rc);
     }

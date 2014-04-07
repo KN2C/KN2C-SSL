@@ -149,7 +149,6 @@ SOURCES +=	main.cpp \
     ai/play/playkickoffour.cpp \
     ai/play/playpenaltyopp.cpp \
     ai/play/playpenaltyour.cpp \
-    ai/tactic/tactictestkickrange.cpp \
     ai/tactic/tactictestkickprecision.cpp \
     ai/play/playcalibration.cpp \
     ai/tactic/tactictestfriction.cpp \
@@ -239,7 +238,6 @@ HEADERS  += \
     ai/play/playkickoffour.h \
     ai/play/playpenaltyopp.h \
     ai/play/playpenaltyour.h \
-    ai/tactic/tactictestkickrange.h \
     ai/play/playcalibration.h \
     ai/tactic/tactictestkickprecision.h \
     ai/tactic/tactictestfriction.h \

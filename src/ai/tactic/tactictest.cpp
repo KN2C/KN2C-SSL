@@ -1,7 +1,7 @@
 #include "tactictest.h"
 
 TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticTest", worldmodel, parent)
 {
     a = 0;
 }

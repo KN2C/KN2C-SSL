@@ -1,7 +1,7 @@
 #include "tactictestkickprecision.h"
 
 TacticTestKickPrecision::TacticTestKickPrecision(WorldModel *worldmodel, QObject *parent) :
-    Tactic(worldmodel, parent)
+    Tactic("TacticTestKickPrecision", worldmodel, parent)
 {
 }
 

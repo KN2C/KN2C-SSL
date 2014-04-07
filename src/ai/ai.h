@@ -12,6 +12,8 @@ class AI : public QObject
     Q_OBJECT
 public:
     explicit AI(WorldModel* worldmodel, OutputBuffer* outputbuffer, QObject *parent = 0);
+    Play* getCurrentPlay();
+    Tactic* getCurrentTactic(int i);
 
 public slots:
     void Start();
@@ -21,6 +23,8 @@ private:
     WorldModel *wm;
     OutputBuffer *outputbuffer;
     QTimer timer;
+    Play *current_play;
+    Tactic *current_tactic[PLAYERS_MAX_NUM];
 
 private slots:
     void timer_timeout();
