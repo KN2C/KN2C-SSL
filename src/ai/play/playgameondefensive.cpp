@@ -36,7 +36,7 @@ void PlayGameOnDefensive::execute()
     QList<AgentRole> roles;
 
     // Assign golie role to predefined golie id.
-    wm->ourRobot[GOLIE_ID].Role = AgentRole::Golie;
+    wm->ourRobot[wm->ref_goalie_our].Role = AgentRole::Golie;
 
     // Define roles according to agents count.
     switch (agents.size()) {

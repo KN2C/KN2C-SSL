@@ -9,7 +9,6 @@
 #define FIELD_MAX_Y     2250
 #define BALL_RADIUS     22
 #define ROBOT_RADIUS    90
-#define GOLIE_ID        0
 
 // Vision constants
 #define CAMERA_NUM      2
