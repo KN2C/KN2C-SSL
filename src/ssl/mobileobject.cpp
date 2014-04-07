@@ -43,7 +43,7 @@ void MobileObject::timer_vel_timeout()
     //last_time = time;
 }
 
-void MobileObject::seenAt(vector<Position> p, double t, int camera)
+void MobileObject::seenAt(vector<Position> p, double t, int c)
 {
     if(p.size()<1) return;
     isValid = true;
@@ -52,7 +52,7 @@ void MobileObject::seenAt(vector<Position> p, double t, int camera)
 
     PositionTimeCamera ans;
     ans.time = t;
-    ans.camera = camera;
+    ans.camera = c;
 
     int min_i = 0;
     double min_d = pos.loc.dist2(p[0].loc);
@@ -71,10 +71,12 @@ void MobileObject::seenAt(vector<Position> p, double t, int camera)
     ans.pos.dir = pos.dir + (sel_pos.dir - pos.dir) * 0.8;
 
     appendPostc(ans);
+    /*
     camera = ans.camera;
     time = ans.time;
     pos = ans.pos;
     return;
+    */
 
     min_i = 0;
     min_d = pos.loc.dist2(last_postc[0].pos.loc);

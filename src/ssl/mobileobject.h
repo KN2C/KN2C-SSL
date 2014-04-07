@@ -9,7 +9,7 @@ using namespace std;
 #include "geom.h"
 #include "position.h"
 
-#define LAST_COUNT 20
+#define LAST_COUNT 4
 
 struct PositionTimeCamera
 {
@@ -24,7 +24,7 @@ class MobileObject : public QObject
 
 public:
     explicit MobileObject();
-    void seenAt(vector<Position> p, double t, int camera);
+    void seenAt(vector<Position> p, double t, int c);
 
     bool isValid;
 
