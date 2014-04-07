@@ -8,7 +8,10 @@ PlayHalt::PlayHalt(WorldModel *worldmodel, QObject *parent) :
 
 int PlayHalt::enterCondition()
 {
-    return 0;
+    if(wm->cmgs.canMove()==false)
+        return 1000;
+    else
+        return 0;
 }
 
 void PlayHalt::execute()

@@ -17,7 +17,10 @@ PlayKickoffOur::PlayKickoffOur(WorldModel *worldmodel, QObject *parent) :
 
 int PlayKickoffOur::enterCondition()
 {
-    return 0;
+    if(wm->cmgs.ourKickoff() && wm->cmgs.canKickBall() == _cankick)
+        return 100;
+    else
+        return 0;
 }
 
 void PlayKickoffOur::execute()
