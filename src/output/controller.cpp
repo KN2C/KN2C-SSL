@@ -45,8 +45,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     //double time = timer.elapsed()/1000;
     //timer.restart();
 
-    double ap=3;
-    double am=3;
+    double ap=4;
+    double am=4;
 
     /******************************Linear Speed Controller************************************/
     Vector2D LinearSpeed;
@@ -68,7 +68,10 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(u1.length()+ap*.055);
     }
 
-
+    if(LinearSpeed.length()>ci.maxSpeed)
+    {
+        LinearSpeed.setLength(ci.maxSpeed);
+    }
 
     //LinearSpeed = u1 + (LinearSpeed - u1)*0.4;
 
@@ -78,32 +81,32 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<100)
+    if(err1.length()<400)
     {
         kp = 3;
         ki = 0;
-        kd = .124;
+        kd = .014;
         integral = integral + (err1*0.040);
-//    }
-//    else
-//    {
-//        kp = 3;
-//        ki = 0;
-//        kd = 0;
-//        integral = {0,0};
-//    }
+    }
+    else
+    {
+        kp = 3;
+        ki = 0;
+        kd = 0;
+        integral = {0,0};
+    }
     derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
     derived0 = derived0 + (derived1 - derived0)*0.1;
     err0 = ci.cur_pos.loc*0.001;
     LinearSpeed = err1*kp + integral*ki - derived0*kd;
-    }
-    else
-        integral = {0,0};
+//    }
+//    else
+//        integral = {0,0};
     if(LinearSpeed.length()>ci.maxSpeed)
     {
         LinearSpeed.setLength(ci.maxSpeed);
     }
-u1 = LinearSpeed;
+
     //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
