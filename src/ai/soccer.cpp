@@ -64,15 +64,16 @@ Soccer::Soccer(QObject *parent) :
     sslrefbox = 0;
     sslrefboxnew = 0;
 
-    if(0)
-    {
-        sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
-        sslrefbox->Start();
-    }
-    else
+    int refusenew = s.Get(gm, "RefUseNew").toInt();
+    if(refusenew == 1)
     {
         sslrefboxnew = new SSLRefBoxNew(rip, rportn, tcolor, ball_dist, wm);
         sslrefboxnew->Start();
+    }
+    else
+    {
+        sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
+        sslrefbox->Start();
     }
 
     // grSim
