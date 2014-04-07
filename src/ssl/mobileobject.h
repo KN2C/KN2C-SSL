@@ -16,6 +16,11 @@ struct PositionTimeCamera
     Position pos;
     double time;
     int camera;
+    PositionTimeCamera()
+    {
+        time = 0;
+        camera = 0;
+    }
 };
 
 class MobileObject : public QObject
@@ -36,6 +41,7 @@ public:
 
 protected:
     PositionTimeCamera last_postc[LAST_COUNT];
+    PositionTimeCamera vel_postc;
     void appendPostc(PositionTimeCamera &postc);
 
 private:
