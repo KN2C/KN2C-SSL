@@ -45,7 +45,7 @@ void PlayTest::execute()
     QList<AgentRole> roles;
 
     // Assign golie role to predefined golie id.
-    wm->ourRobot[GOLIE_ID].Role = AgentRole::Golie;
+    wm->ourRobot[wm->ref_goalie_our].Role = AgentRole::Golie;
 
     // We always have two defenders in this play mode.
     tDefenderLeft->setDefenderID(2, 0);
