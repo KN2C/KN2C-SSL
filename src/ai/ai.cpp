@@ -11,6 +11,7 @@
 #include "play/playpenaltyour.h"
 #include "play/playstop.h"
 #include "play/playtest.h"
+#include "play/playtest2.h"
 
 AI::AI(WorldModel *worldmodel, OutputBuffer *outputbuffer, QObject *parent) :
     QObject(parent),
@@ -36,6 +37,7 @@ AI::AI(WorldModel *worldmodel, OutputBuffer *outputbuffer, QObject *parent) :
     plays.append(new PlayPenaltyOur(wm));
     plays.append(new PlayStop(wm));
     plays.append(new PlayTest(wm));
+    plays.append(new PlayTest2(wm));
 }
 
 void AI::Start()

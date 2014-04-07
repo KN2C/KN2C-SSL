@@ -12,8 +12,9 @@ RobotCommand TacticCircle::getCommand()
     Vector2D vc;
     vc = wm->ourRobot[id].pos.loc;
     vc.setLength(radius);
-    vc.rotate(10);
-    rc.fin_pos.loc = vc;
-    rc.fin_pos.dir = (wm->ball.pos.loc - wm->ourRobot[id].pos.loc).dir().radian();
+    vc.rotate(50);
+    rc.fin_pos.loc = vc + center;
+    rc.fin_pos.dir = (pointTo - wm->ourRobot[id].pos.loc).dir().radian();
+    rc.maxSpeed = 3;
     return rc;
 }
