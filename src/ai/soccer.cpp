@@ -7,20 +7,45 @@ Soccer::Soccer(QObject *parent) :
     Settings s("settings.ini");
 
     QString gm = s.Get("Game","Mode");
+    log += "Mode : " + gm + "\n";
+
     QString rip = s.Get(gm, "RefIP");
+    log += "RefIP : " + rip + "\n";
+
     int rport = s.Get(gm, "RefPort").toInt();
+    log += "RefPort : " + QString::number(rport) + "\n";
+
     int rportn = s.Get(gm, "RefPortNew").toInt();
+    log += "RefPortNew : " + QString::number(rportn) + "\n";
+
     QString vip = s.Get(gm, "VisionIP");
+    log += "VisionIP : " + rip + "\n";
+
     int vport = s.Get(gm, "VisionPort").toInt();
+    log += "VisionPort : " + QString::number(vport) + "\n";
+
     QString scolor = s.Get("Team","Color");
+    log += "Color : " + scolor + "\n";
     TeamColorType tcolor = (scolor=="Blue")?COLOR_BLUE:COLOR_YELLOW;
+
     QString sside = s.Get("Team","Side");
+    log += "Side : " + sside + "\n";
     TeamSideType tside = (sside=="Right")?SIDE_RIGHT:SIDE_LEFT;
+
     CameraConfigType tcam = (CameraConfigType)s.Get("VisionConfig","UsingCameras").toInt();
+    log += "UsingCameras : " + QString::number(tcam) + "\n";
+
     QString simip = s.Get("grSim", "CommandIP");
+    log += "grSim CommandIP : " + simip + "\n";
+
     int simport = s.Get("grSim", "CommandPort").toInt();
+    log += "grSim CommandPort : " + QString::number(simport) + "\n";
+
     QString serialport = s.Get("Transmitter","SerialPort");
+    log += "SerialPort : " + serialport + "\n";
+
     float ball_dist = s.Get("RefereeConfig", "RefereeBall").toFloat();
+    log += "RefereeBall : " + QString::number(ball_dist) + "\n";
 
     // Game mode
     gamemode = (gm=="Simulation")?MODE_SIMULATION:MODE_REAL;

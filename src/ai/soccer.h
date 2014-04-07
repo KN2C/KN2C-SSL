@@ -27,6 +27,7 @@ public:
     explicit Soccer(QObject *parent = 0);
 
 //private:
+    QString log;
     GameModeType gamemode;
     WorldModel* wm;
     SSLVision* sslvision;
