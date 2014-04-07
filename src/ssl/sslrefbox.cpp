@@ -29,16 +29,16 @@ void SSLRefBox::readPendingPacket(QByteArray data, QString ip, int port)
     pck.goals_yellow=data[3];
     pck.time_remaining=data[4]*256 + data[5];
 
-    // save last gs packet
-    _wm->refgs = pck;
-
     // parse it
     parse(pck);
 }
 
 void SSLRefBox::parse(GameStatePacket pck)
 {
-    bool ball_moved = (_lastBallpos.loc - _wm->ball.pos.loc).length()>_ball_min;
+    // save last gs packet
+    _wm->refgs = pck;
+
+    bool ball_moved = _lastBallpos.loc.dist(_wm->ball.pos.loc) > _ball_min;
     _wm->cmgs.transition(pck.cmd, ball_moved);
     updategs(pck.cmd, ball_moved);
 
@@ -49,26 +49,17 @@ void SSLRefBox::parse(GameStatePacket pck)
         // update command counter
         _lastCMDCounter = pck.cmd_counter;
         // send signal
-        newRefreeCommand();
+        emit newRefreeCommand();
     }
     else    // no new cmd
     {
     }
 }
 
-//GameState NextState=value;
-
-//if (value == GameState.Free_kick_Opp || value == GameState.Kick_off_Opp || value == GameState.Kick_off_Our)
-//{
-//    Saved_Ball_Position = WorldModel.Instance.Ball.Position;
-//    Check_Ball_Position = true;
-//    Ball_Moved = false;
-//    KLogger.Logger.Log("Ball Position Saved.", "GameInfo", KLogger.LogPriority.Info);
-//}
-
 void SSLRefBox::updategs(char cmd, bool)
 {
     _wm->gs_last=_wm->gs;
+
     switch(cmd)
     {
     case COMM_HALT:
@@ -84,49 +75,49 @@ void SSLRefBox::updategs(char cmd, bool)
         _wm->gs=STATE_ForceStart;
         break;
     case COMM_KICKOFF_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Our;
         else
             _wm->gs = STATE_Kick_off_Opp;
         break;
     case COMM_KICKOFF_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Kick_off_Opp;
         else
             _wm->gs = STATE_Kick_off_Our;
         break;
     case COMM_PENALTY_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Our;
         else
             _wm->gs = STATE_Penalty_Opp;
         break;
     case COMM_PENALTY_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Penalty_Opp;
         else
             _wm->gs = STATE_Penalty_Our;
         break;
     case COMM_DIRECT_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Our;
         else
             _wm->gs = STATE_Free_kick_Opp;
         break;
     case COMM_DIRECT_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Free_kick_Opp;
         else
             _wm->gs = STATE_Free_kick_Our;
         break;
     case COMM_INDIRECT_BLUE:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Our;
         else
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         break;
     case COMM_INDIRECT_YELLOW:
-        if (_color)
+        if (_color==COLOR_BLUE)
             _wm->gs = STATE_Indirect_Free_kick_Opp;
         else
             _wm->gs = STATE_Indirect_Free_kick_Our;

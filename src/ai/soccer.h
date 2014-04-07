@@ -12,6 +12,7 @@
 #include "transmitter.h"
 #include "worldmodel.h"
 #include "sslrefbox.h"
+#include "sslrefboxnew.h"
 #include "sslvision.h"
 #include "wpacket.h"
 #include "grsim.h"
@@ -26,10 +27,12 @@ public:
     explicit Soccer(QObject *parent = 0);
 
 //private:
+    QString log;
     GameModeType gamemode;
     WorldModel* wm;
     SSLVision* sslvision;
     SSLRefBox* sslrefbox;
+    SSLRefBoxNew* sslrefboxnew;
     OutputBuffer* outputbuffer;
     Transmitter* transmitter;
     grSim* grsim;

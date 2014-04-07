@@ -103,9 +103,9 @@ bool Knowledge::IsInsideGolieArea(Vector2D pos)
                              Field::ourGoalCC_L.dist(Field::ourGoalCC_R));
 }
 
-Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, double sourceSpeed, Vector2D targetSpeed, double factor)
+Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, double sourceSpeed, Vector2D targetSpeed)
 {
-    factor /= 250.0;
+    double factor = _wm->var[3] / 250.0;
     if(factor < 0)
     {
         factor = 0;

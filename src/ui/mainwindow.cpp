@@ -3,17 +3,17 @@
 
 MainWindow::MainWindow(Soccer *soccer, QWidget *parent) :
     QMainWindow(parent),
-    _updatetimer(this),
+    timer(this),
     sc(soccer),
     ui(new Ui::MainWindow)
 {
-    _updatetimer.setObjectName("updatetimer");
-    _updatetimer.start(100);
     ui->setupUi(this);
-    //ui->txtLog->append(SerialPort::ListPorts());
+    //ui->txtLog->append(QSerialPort::);
     _render = new RenderArea(soccer);
     ui->gridRender->addWidget(_render);
     this->on_btnLoadVars_clicked();
+    connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
+    timer.start(100);
 }
 
 MainWindow::~MainWindow()
@@ -21,19 +21,32 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_updatetimer_timeout()
+void MainWindow::timer_timeout()
 {
-    ui->txtRefreeSpeed->setText(QString::number(sc->sslvision->FPS()));
-    ui->txtVisionSpeed->setText(QString::number(sc->sslrefbox->FPS()));
+    //qDebug() << "ui timer";
+    ui->txtLog->setText(sc->log);
+
+    ui->txtVisionSpeed->setText(QString::number(sc->sslvision->FPS()));
+    ui->txtVisionSpeed_0->setText(QString::number(sc->sslvision->getFPS(0)));
+    ui->txtVisionSpeed_1->setText(QString::number(sc->sslvision->getFPS(1)));
+
+    if(sc->sslrefbox)
+    {
+        ui->txtRefreeSpeed->setText("old : " + QString::number(sc->sslrefbox->FPS()));
+    }
+    if(sc->sslrefboxnew)
+    {
+        ui->txtRefreeSpeed->setText("new : " + QString::number(sc->sslrefboxnew->FPS()));
+    }
     ui->txtRecordSpeed->setText("N/A");
-    ui->txtTime->setText(QString::number((sc->wm->time)));
-    ui->txtTimeBall->setText("N/A");
+    ui->txtTime->setText(QString::number(sc->wm->time));
+    ui->txtTimeBall->setText(QString::number(sc->wm->ball.time));
 
     QString refgs = QString("") + sc->wm->refgs.cmd +
-            ":" +QString::number(sc->wm->refgs.cmd_counter) +
-            ":" + QString::number(sc->wm->refgs.goals_blue) +
-            ":" + QString::number(sc->wm->refgs.goals_yellow) +
-            ":" + QString::number(sc->wm->refgs.time_remaining);
+            " : " +QString::number(sc->wm->refgs.cmd_counter) +
+            " : " + QString::number(sc->wm->refgs.goals_blue) +
+            " : " + QString::number(sc->wm->refgs.goals_yellow) +
+            " : " + QString::number(sc->wm->refgs.time_remaining);
     ui->txtrefgs->setText(refgs);
 
     ui->txtcmgs_1->setText(QString("gameOn : ") + (sc->wm->cmgs.gameOn()?"1":"0"));
@@ -66,26 +79,38 @@ void MainWindow::on_updatetimer_timeout()
 
     ui->txtcmgs_22->setText(QString("canMove : ") + (sc->wm->cmgs.canMove()?"1":"0"));
 
+    QString ball  = QString::number(sc->wm->ball.pos.loc.x,'f',2) + " , " + QString::number(sc->wm->ball.pos.loc.y,'f',2);
+    QString ballv = QString::number(sc->wm->ball.vel.loc.x,'f',2) + " , " + QString::number(sc->wm->ball.vel.loc.y,'f',2);
+    ball = "( " + ball + " ) , ( " + ballv + " ) ";
 
-
-    QString ball = QString::number(sc->wm->ball.pos.loc.x,'f',2) + " : " + QString::number(sc->wm->ball.pos.loc.y,'f',2);
-    QString s = QString::number(sc->wm->ball.vel.loc.x,'f',2) + " : " + QString::number(sc->wm->ball.vel.loc.y,'f',2);
-    ball+= " ( " + s + " ) ";
-    ui->txtBall->setText(ball);
-    ui->txtWM->setText("Ball: " + ball + " : " + QString::number(sc->wm->ball.isValid?1:0));
     // WM
+    ui->txtWM->setText("");
+    ui->txtWM->append("time : " + QString::number(sc->wm->time));
+    ui->txtWM->append("ball : " + ball + " [" + QString::number(sc->wm->ball.isValid?1:0) + "] ");
+
+    ui->txtWM->append("");
     for(int i=0; i<PLAYERS_MAX_NUM; ++i)
     {
-        QString r = QString::number(sc->wm->ourRobot[i].pos.loc.x,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].pos.loc.y,'f',2);
-        QString s = QString::number(sc->wm->ourRobot[i].vel.loc.x,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].vel.loc.y,'f',2)+ " : " + QString::number(sc->wm->ourRobot[i].vel.dir,'f',2);
-        ui->txtWM->append("our[" + QString::number(i) + "] (" + r + ")(" + s + ") : " +QString::number(sc->wm->ourRobot[i].isValid));
+        QString r = QString::number(sc->wm->ourRobot[i].pos.loc.x,'f',2) + " , " + QString::number(sc->wm->ourRobot[i].pos.loc.y,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].pos.dir,'f',2);
+        QString s = QString::number(sc->wm->ourRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->ourRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].vel.dir,'f',2);
+        QString id = QString::number(i);
+        if(id.length()<2) id = "0" + id;
+        ui->txtWM->append("our[" + id + "]  : ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->ourRobot[i].isValid) + "] ");
     }
+
+    ui->txtWM->append("");
     for(int i=0; i<PLAYERS_MAX_NUM; ++i)
     {
-        QString r = QString::number(sc->wm->oppRobot[i].pos.loc.x,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].pos.loc.y,'f',2);
-        QString s = QString::number(sc->wm->oppRobot[i].vel.loc.x,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].vel.loc.y,'f',2)+ " : " + QString::number(sc->wm->oppRobot[i].vel.dir,'f',2);
-        ui->txtWM->append("opp[" + QString::number(i) + "] (" + r + ")(" + s + ") : " +QString::number(sc->wm->oppRobot[i].isValid));
+        QString r = QString::number(sc->wm->oppRobot[i].pos.loc.x,'f',2) + " , " + QString::number(sc->wm->oppRobot[i].pos.loc.y,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].pos.dir,'f',2);
+        QString s = QString::number(sc->wm->oppRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->oppRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].vel.dir,'f',2);
+        QString id = QString::number(i);
+        if(id.length()<2) id = "0" + id;
+        ui->txtWM->append("opp[" + id + "] :  ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->oppRobot[i].isValid) + "] ");
     }
+    ui->txtWM->append("");
+    ui->txtWM->append("ref_goalie_our : " + QString::number(sc->wm->ref_goalie_our));
+    ui->txtWM->append("ref_goalie_opp : " + QString::number(sc->wm->ref_goalie_opp));
+    ui->txtWM->append("");
 
     sc->wm->var[0] = ui->spnvar0->value();
     ui->txtvar0->setText(QString::number(sc->wm->var[0]));

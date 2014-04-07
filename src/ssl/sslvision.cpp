@@ -21,6 +21,13 @@ SSLVision::SSLVision(QString ip, int port, TeamColorType color, TeamSideType sid
     qDebug() << "Camera: " << ((int)camera);
 }
 
+int SSLVision::getFPS(int c)
+{
+    if(c == 0) return _fpscam0.FPS();
+    if(c == 1) return _fpscam1.FPS();
+    return 0;
+}
+
 void SSLVision::readPendingPacket(QByteArray data, QString ip, int port)
 {
     // check for server ip (& port)

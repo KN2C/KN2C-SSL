@@ -45,12 +45,13 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     //double time = timer.elapsed()/1000;
     //timer.restart();
 
-    double ap=5;
-    double am=5;
+    double ap=3;
+    double am=3;
 
     /******************************Linear Speed Controller************************************/
     Vector2D LinearSpeed;
-
+//ci.mid_pos.loc = {0,0};
+//ci.maxSpeed = 2;
     err1 = (ci.mid_pos.loc - ci.cur_pos.loc)*.001;
     err1.setLength((ci.fin_pos.loc - ci.cur_pos.loc).length()*.001);
     double dist;
@@ -67,10 +68,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(u1.length()+ap*.055);
     }
 
-    if(LinearSpeed.length()>ci.maxSpeed)
-    {
-        LinearSpeed.setLength(ci.maxSpeed);
-    }
+
 
     //LinearSpeed = u1 + (LinearSpeed - u1)*0.4;
 
@@ -80,29 +78,32 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<400)
+    if(err1.length()<100)
     {
         kp = 3;
         ki = 0;
-        kd = .014;
+        kd = .124;
         integral = integral + (err1*0.040);
-    }
-    else
-    {
-        kp = 3;
-        ki = 0;
-        kd = 0;
-        integral = {0,0};
-    }
+//    }
+//    else
+//    {
+//        kp = 3;
+//        ki = 0;
+//        kd = 0;
+//        integral = {0,0};
+//    }
     derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
     derived0 = derived0 + (derived1 - derived0)*0.1;
     err0 = ci.cur_pos.loc*0.001;
     LinearSpeed = err1*kp + integral*ki - derived0*kd;
+    }
+    else
+        integral = {0,0};
     if(LinearSpeed.length()>ci.maxSpeed)
     {
         LinearSpeed.setLength(ci.maxSpeed);
     }
-
+u1 = LinearSpeed;
     //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
     RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
@@ -117,7 +118,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
     wkp = 1.5;
     wki = 0;
-    wkd = 2;//1
+    wkd = 1;
     if(fabs(werr1)*AngleDeg::RAD2DEG<90)
     {
         RotationSpeed = 0;

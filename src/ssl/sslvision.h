@@ -18,6 +18,7 @@ class SSLVision : public SSLReceiver
 
 public:
     explicit SSLVision(QString ip, int port, TeamColorType color, TeamSideType side, CameraConfigType camera, WorldModel *wm, QObject *parent = 0);
+    int getFPS(int c);
 
 private:
     QTime _time;
