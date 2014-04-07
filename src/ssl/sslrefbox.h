@@ -15,6 +15,8 @@ class SSLRefBox : public SSLReceiver
 
 public:
     explicit SSLRefBox(QString ip, int port, TeamColorType color, float ball_min, WorldModel* wm, QObject *parent = 0);
+    bool paused;
+    GameStatePacket refgs;
 
 protected:
     int _cmdcounter;

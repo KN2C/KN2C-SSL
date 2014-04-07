@@ -30,24 +30,63 @@ void MainWindow::timer_timeout()
     ui->txtVisionSpeed_0->setText(QString::number(sc->sslvision->getFPS(0)));
     ui->txtVisionSpeed_1->setText(QString::number(sc->sslvision->getFPS(1)));
 
+    bool pause1;
+    bool pause2;
+    if(ui->rdoRefMain->isChecked())
+    {
+        pause1 = false;
+        pause2 = true;
+    }
+    if(ui->rdoRefManual->isChecked())
+    {
+        pause1 = true;
+        pause2 = false;
+    }
+
+    GameStatePacket refgs;
+    GameStatePacket refgs2;
     if(sc->sslrefbox)
     {
+        sc->sslrefbox->paused = pause1;
         ui->txtRefreeSpeed->setText("old : " + QString::number(sc->sslrefbox->FPS()));
+        refgs = sc->sslrefbox->refgs;
     }
     if(sc->sslrefboxnew)
     {
+        sc->sslrefboxnew->paused = pause1;
         ui->txtRefreeSpeed->setText("new : " + QString::number(sc->sslrefboxnew->FPS()));
+        refgs = sc->sslrefboxnew->refgs;
     }
+    if(sc->sslrefbox2)
+    {
+        sc->sslrefbox2->paused = pause2;
+        ui->txtRefreeSpeed_2->setText("old : " + QString::number(sc->sslrefbox2->FPS()));
+        refgs2 = sc->sslrefbox2->refgs;
+    }
+    if(sc->sslrefboxnew2)
+    {
+        sc->sslrefboxnew2->paused = pause2;
+        ui->txtRefreeSpeed_2->setText("new : " + QString::number(sc->sslrefboxnew2->FPS()));
+        refgs2 = sc->sslrefboxnew2->refgs;
+    }
+
     ui->txtRecordSpeed->setText("N/A");
     ui->txtTime->setText(QString::number(sc->wm->time));
     ui->txtTimeBall->setText(QString::number(sc->wm->ball.time));
 
-    QString refgs = QString("") + sc->wm->refgs.cmd +
-            " : " +QString::number(sc->wm->refgs.cmd_counter) +
-            " : " + QString::number(sc->wm->refgs.goals_blue) +
-            " : " + QString::number(sc->wm->refgs.goals_yellow) +
-            " : " + QString::number(sc->wm->refgs.time_remaining);
-    ui->txtrefgs->setText(refgs);
+    QString str_refgs = QString("") + refgs.cmd +
+            " : " +QString::number(refgs.cmd_counter) +
+            " : " + QString::number(refgs.goals_blue) +
+            " : " + QString::number(refgs.goals_yellow) +
+            " : " + QString::number(refgs.time_remaining);
+    ui->txtrefgs->setText(str_refgs);
+
+    QString str_refgs2 = QString("") + refgs2.cmd +
+            " : " +QString::number(refgs2.cmd_counter) +
+            " : " + QString::number(refgs2.goals_blue) +
+            " : " + QString::number(refgs2.goals_yellow) +
+            " : " + QString::number(refgs2.time_remaining);
+    ui->txtrefgs_2->setText(str_refgs2);
 
     ui->txtcmgs_1->setText(QString("gameOn : ") + (sc->wm->cmgs.gameOn()?"1":"0"));
     ui->txtcmgs_2->setText(QString("allowedNearBall : ") + (sc->wm->cmgs.allowedNearBall()?"1":"0"));

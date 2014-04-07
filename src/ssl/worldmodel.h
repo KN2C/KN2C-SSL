@@ -21,7 +21,6 @@ public:
     Ball ball;
     Agent ourRobot[PLAYERS_MAX_NUM];
     Robot oppRobot[PLAYERS_MAX_NUM];
-    GameStatePacket refgs; // not used
     GameStateType gs;
     GameStateType gs_last;
     GameState cmgs; //referee

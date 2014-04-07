@@ -10,6 +10,7 @@ void SSLRefBoxNew::readPendingPacket(QByteArray data, QString ip, int port)
 {
     // check for server ip (& port)
     if(ip=="" && port==0) return;
+    if(paused) return;
 
     SSL_Referee packet;
     bool ans=packet.ParseFromArray(data.data(), data.size());
