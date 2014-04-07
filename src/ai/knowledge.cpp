@@ -219,7 +219,7 @@ Position Knowledge::AdjustKickPoint(Vector2D ballPos, Vector2D target, int kickS
 {
     Position p;
     Vector2D dir = (ballPos - target).normalizedVector();
-    dir.scale(ROBOT_RADIUS - (25 - kickSpeed));
+    dir.scale(ROBOT_RADIUS - (35 - kickSpeed));
 
     p.loc = ballPos + dir;
     p.dir = (-dir).dir().radian();
