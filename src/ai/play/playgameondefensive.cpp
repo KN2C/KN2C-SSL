@@ -23,7 +23,7 @@ int PlayGameOnDefensive::enterCondition()
     // Activator condition.
     if(wm->kn->ActiveAgents().size() < 4)
     {
-        return 100;
+        return 134;
     }
 
     return 0;
@@ -49,14 +49,13 @@ void PlayGameOnDefensive::execute()
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
 
-        tDefenderMid->setDefenderID(2, 0);
-        tDefenderMid->setDefenderID(2, 1);
+        tDefenderLeft->setDefenderID(2, 0);
+        tDefenderRight->setDefenderID(2, 1);
         break;
     }
 
     // Append golie role at last so it never reassigned during play.
     roles.append(AgentRole::Golie);
-
 
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {

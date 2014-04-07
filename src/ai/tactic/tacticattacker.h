@@ -19,8 +19,10 @@ protected:
 private:
     bool CheckSweeping(int kickerID, double y, bool clearState = false);
     Vector2D GotoDefaultLoc(int total, int current);
-    uint CastRayToGoal(Vector2D origin, const Robot *oppRobots, double offsetStep, uint maxCount, Vector2D *vOut, double beamWidth = 0);
-    Vector2D ScanFieldFreePos(Vector2D pos, const Robot *oppRobots, double gridSize = 400, double localRange = 750, double castStep = 40);
+    uint CastRayToGoal(Vector2D origin, double offsetStep, uint maxCount, Vector2D *vOut, double beamWidth = 0);
+    Vector2D ScanFieldFreePos(Vector2D pos, double gridSize = 400, double localRange = 500, double castStep = 2 * BALL_RADIUS);
+    Vector2D DetectScanPos(int passerRobotID);
+    Vector2D CalculatePassTarget(Vector2D sourcePos, Vector2D destPos);
 };
 
 #endif // TACTICATTACKER_H

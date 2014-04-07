@@ -375,8 +375,7 @@ RobotCommand TacticDefender::getCommand()
             // we are the nearest.
             if(w == id)
             {
-                rc.fin_pos.loc = wm->ball.pos.loc;
-                rc.fin_pos.loc.x -= ROBOT_RADIUS;
+                rc.fin_pos = wm->kn->AdjustKickPoint(wm->ball.pos.loc, Field::oppGoalCenter);
                 if(!IsInsideDefendArea(rc.fin_pos.loc))
                 {
                     ExtractDefendPoint(wm->ball.pos.loc, rc.fin_pos.loc, &rc.fin_pos.loc);
