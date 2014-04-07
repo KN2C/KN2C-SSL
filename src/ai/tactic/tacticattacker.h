@@ -2,6 +2,7 @@
 #define TACTICATTACKER_H
 
 #include "tactic.h"
+#include "geom2/shape2d.h"
 
 class TacticAttacker : public Tactic
 {
@@ -9,11 +10,13 @@ class TacticAttacker : public Tactic
 public:
     explicit TacticAttacker(WorldModel *worldmodel, QObject *parent = 0);
     virtual RobotCommand getCommand();
-    void setAttackerID(int total, int current);
+    void setAttackerID(int total, int current);    
+
+    Shape2D WorkingArea;
 
 protected:
     int att_t;
-    // 0= Left, 1= Right
+    // 0 = Left, 1 = Right, 2 = Mid
     int att_c;
 
 private:
