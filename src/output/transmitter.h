@@ -11,6 +11,7 @@ using namespace std;
 #include "constants.h"
 #include "outputbuffer.h"
 #include "worldmodel.h"
+#include "fpscounter.h"
 
 class OutputBuffer;
 
@@ -23,6 +24,7 @@ class Transmitter : public QObject
     Q_OBJECT
 public:
     explicit Transmitter(QString port, OutputBuffer* buffer, WorldModel *wm, QObject *parent = 0);
+    FPSCounter fps;
 
 private:
     QSerialPort _serialport;

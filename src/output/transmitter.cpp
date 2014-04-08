@@ -73,6 +73,7 @@ void Transmitter::sendPacket()
         //cout << log.toStdString();
         //cout.flush();
 
+        fps.Pulse();
         _serialport.write(pck);
 
         //        QByteArray debug;

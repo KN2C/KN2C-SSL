@@ -90,4 +90,6 @@ void AI::timer_timeout()
         RobotCommand rc = tactic->getCommand();
         wm->ourRobot[i].SendCommand(rc);
     }
+
+    fps.Pulse();
 }

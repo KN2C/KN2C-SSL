@@ -21,12 +21,6 @@
 // Timer speeds
 #define TRANSMITTER_TIMER   50
 #define AI_TIMER            40
-#define AGENT_TIMER         20
-#define COACH_TIMER         40
-
-//public static int PLAYER_THREAD_SLEEP = 30;
-//public static int COACH_THREAD_SLEEP = 20;
-//public static int TRACKER_THREAD_SLEEP = 10;
 
 namespace Field
 {

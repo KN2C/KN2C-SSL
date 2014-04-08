@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
-    <height>670</height>
+    <width>798</width>
+    <height>682</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -76,7 +76,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>190</y>
+          <y>210</y>
           <width>701</width>
           <height>371</height>
          </rect>
@@ -482,13 +482,13 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QWidget" name="">
         <property name="geometry">
          <rect>
-          <x>20</x>
+          <x>10</x>
           <y>10</y>
-          <width>211</width>
-          <height>149</height>
+          <width>241</width>
+          <height>191</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="formLayout">
@@ -502,17 +502,27 @@
          <item row="0" column="1">
           <widget class="QLineEdit" name="txtRefreeSpeed"/>
          </item>
-         <item row="3" column="0">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_29">
+           <property name="text">
+            <string>R.Man.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="txtRefreeSpeed_2"/>
+         </item>
+         <item row="2" column="0">
           <widget class="QLabel" name="label_12">
            <property name="text">
             <string>Vision</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="2" column="1">
           <widget class="QLineEdit" name="txtVisionSpeed"/>
          </item>
-         <item row="4" column="0">
+         <item row="3" column="0">
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -525,7 +535,7 @@
            </property>
           </spacer>
          </item>
-         <item row="4" column="1">
+         <item row="3" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
             <widget class="QLineEdit" name="txtVisionSpeed_0"/>
@@ -535,25 +545,35 @@
            </item>
           </layout>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_13">
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_30">
            <property name="text">
-            <string>Record</string>
+            <string>Trans.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="txtTrans"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_31">
+           <property name="text">
+            <string>grSim</string>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="txtRecordSpeed"/>
+          <widget class="QLineEdit" name="txtgrSim"/>
          </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="txtRefreeSpeed_2"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_29">
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_61">
            <property name="text">
-            <string>R.Man.</string>
+            <string>AI</string>
            </property>
           </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="txtAIfps"/>
          </item>
         </layout>
        </widget>
@@ -1013,7 +1033,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>793</width>
+     <width>798</width>
      <height>20</height>
     </rect>
    </property>

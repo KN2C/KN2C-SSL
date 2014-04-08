@@ -1,5 +1,7 @@
 #include "worldmodel.h"
 
+double WorldModel::var[10];
+
 WorldModel::WorldModel(OutputBuffer *outputBuffer)
 {
     time = 0;

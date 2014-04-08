@@ -29,6 +29,11 @@ void MainWindow::timer_timeout()
     ui->txtVisionSpeed->setText(QString::number(sc->sslvision->FPS()));
     ui->txtVisionSpeed_0->setText(QString::number(sc->sslvision->getFPS(0)));
     ui->txtVisionSpeed_1->setText(QString::number(sc->sslvision->getFPS(1)));
+    ui->txtAIfps->setText(QString::number(sc->ai->fps.FPS()));
+    if(sc->transmitter)
+        ui->txtTrans->setText(QString::number(sc->transmitter->fps.FPS()));
+    if(sc->grsim)
+        ui->txtgrSim->setText(QString::number(sc->grsim->fps.FPS()));
 
     bool pause1;
     bool pause2;
@@ -70,7 +75,6 @@ void MainWindow::timer_timeout()
         refgs2 = sc->sslrefboxnew2->refgs;
     }
 
-    ui->txtRecordSpeed->setText("N/A");
     ui->txtTime->setText(QString::number(sc->wm->time));
     ui->txtTimeBall->setText(QString::number(sc->wm->ball.time));
 
