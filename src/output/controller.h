@@ -2,6 +2,8 @@
 #define CONTROLLER_H
 
 #include "controller_struct.h"
+#include <fstream>
+using namespace std;
 
 class Controller : public QObject
 {
@@ -32,6 +34,8 @@ private:
     double wderived0,wderived1;
 
     int stateCTRL;
+
+    ofstream out;
 };
 
 #endif // CONTROLLER_H

@@ -21,6 +21,7 @@ private:
     TacticAttacker*             tAttackerRight;
     TacticAttacker*             tAttackerMid;
     TacticTestKickPrecision*    tTestKickPrecision;
+    TacticTest *tTest;
 };
 
 #endif // PLAYTEST_H

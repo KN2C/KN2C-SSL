@@ -25,15 +25,20 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
     tAttackerMid = new TacticAttacker(wm);
 
     tTestKickPrecision = new TacticTestKickPrecision(wm);
+
+    tTest = new TacticTest(wm);
 }
 
 int PlayTest::enterCondition()
 {
-    return 0;
+    return 1000;
 }
 
 void PlayTest::execute()
 {
+    tactics[3] =tTest;
+    return ;
+
     QList<int> agents = wm->kn->ActiveAgents();
     QList<int> badRoleAgents;
     QList<AgentRole> roles;

@@ -17,6 +17,6 @@ int PlayTest2::enterCondition()
 void PlayTest2::execute()
 {
     tactics[wm->ref_goalie_our] = tGolie;
-    tactics[1] = tCircle;
+    tactics[3] = tCircle;
 }
 

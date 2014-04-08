@@ -12,6 +12,7 @@ public:
 
 private:
     int a;
+    int b;
 };
 
 #endif // TACTICTEST_H

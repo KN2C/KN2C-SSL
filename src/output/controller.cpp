@@ -5,9 +5,11 @@
 #define SpeedToRPM 1375.14
 Controller::Controller(QObject *parent) :
     QObject(parent)
+    ,out("/home/kn2c/Desktop/Untitled Folder/Data.txt")
 {
 
     qDebug() << "Controller Initialization...";
+
     timer.start();
 
     err0 = {0,0};
@@ -81,18 +83,18 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<400)
+    if(err1.length()<0.4)
     {
-        kp = 3;
+        kp = 1.75;
         ki = 0;
-        kd = .014;
+        kd = 0.2;
         integral = integral + (err1*0.040);
     }
     else
     {
-        kp = 3;
+        kp = 2.5;
         ki = 0;
-        kd = 0;
+        kd = 0.04;
         integral = {0,0};
     }
     derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
@@ -143,6 +145,9 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
     if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
     RotationSpeed = wu1;
+
+    out << err1.y <<" "<< 0 <<" "<< 0 << endl;
+
     //cout<<wintegral<<" "<<werr1<<" "<<ci.mid_pos.dir<<endl;
     // cout<<RotLinearSpeed.length()<<endl;
     //    if(fabs(RotationSpeed)<.5)
@@ -157,7 +162,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = RotationSpeed;
+    ans.VW = 0;RotationSpeed;
 
     return ans;
 }
