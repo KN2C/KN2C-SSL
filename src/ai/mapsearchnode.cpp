@@ -55,7 +55,7 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
         Circle2D bc(wm->ball.pos.loc, ROBOT_RADIUS + BALL_RADIUS);
         if(bc.contains(vec))
         {
-            int    p_count = 8;
+            int    p_count = 16;
             double p_dist = ROBOT_RADIUS * 2 + BALL_RADIUS;
 
             for(int i=0; i<p_count; i++)
@@ -81,8 +81,8 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
     for(int i=0; i<obs.size(); i++)
     {
-        int    p_count = 8;
-        double p_dist  = ROBOT_RADIUS * 2;
+        int    p_count = 16;
+        double p_dist  = ROBOT_RADIUS * 2 + BALL_RADIUS;
 
         for(int j=0; j<p_count; j++)
         {
