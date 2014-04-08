@@ -122,4 +122,3 @@ void PlayGameOnDefensive::execute()
         }
     }
 }
-
