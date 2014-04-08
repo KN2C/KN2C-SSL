@@ -8,7 +8,7 @@ TacticBlocker::TacticBlocker(WorldModel *worldmodel, QObject *parent) :
 RobotCommand TacticBlocker::getCommand()
 {
     RobotCommand rc;
-    if(!wm->ourRobot[id].isValid) return rc;
+    if(!wm->ourRobot[id].isValid) return rc;    
 
     wm->ourRobot[id].Status = AgentStatus::Idle;
 
@@ -20,6 +20,23 @@ RobotCommand TacticBlocker::getCommand()
     double blockDist = 4 * ROBOT_RADIUS;
 
     double maxDot1 = -2, maxDot2 = -2;
+
+    if(!wm->cmgs.allowedNearBall())
+    {
+        if(wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) - ALLOW_NEAR_BALL_RANGE > 0 &&
+           wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) - ALLOW_NEAR_BALL_RANGE < 100)
+        {
+            rc.fin_pos = wm->ourRobot[id].pos;
+
+            rc.maxSpeed = maxRobotSpeed;
+
+            rc.useNav = true;
+            rc.isBallObs = false;
+            rc.isKickObs = true;
+
+            return rc;
+        }
+    }
 
     // Finding opponent ball owner.
     for (int i = 0; i < PLAYERS_MAX_NUM; ++i)
@@ -207,7 +224,6 @@ RobotCommand TacticBlocker::getCommand()
         }
     }
 
-
     rc.maxSpeed = maxRobotSpeed;
 
     rc.useNav = true;
@@ -216,4 +232,3 @@ RobotCommand TacticBlocker::getCommand()
 
     return rc;
 }
-

@@ -11,7 +11,7 @@
 #define ROBOT_RADIUS    90
 
 // rules constants
-#define ALLOW_NEAR_BALL_RANGE 600
+#define ALLOW_NEAR_BALL_RANGE 500
 
 // Vision constants
 #define CAMERA_NUM      2
