@@ -111,6 +111,7 @@ Soccer::Soccer(QObject *parent) :
     }
 
     // grSim
+    grsim = 0;
     if(gamemode==MODE_SIMULATION)
     {
         grsim = new grSim(simip, simport, tcolor, outputbuffer);
@@ -119,6 +120,7 @@ Soccer::Soccer(QObject *parent) :
     }
 
     // serial port transmitter
+    transmitter = 0;
     if(gamemode==MODE_REAL)
     {
         transmitter = new Transmitter(serialport, outputbuffer, wm);
