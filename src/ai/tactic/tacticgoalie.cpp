@@ -21,10 +21,6 @@ RobotCommand TacticGoalie::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
     
-    rc.useNav = false;
-    rc.isBallObs = false;
-    rc.isKickObs = false;
-
     int attackerID = -1;
     double attackerDist = 1000;
     for(int i = 0; i < PLAYERS_MAX_NUM; ++i)
@@ -57,11 +53,9 @@ RobotCommand TacticGoalie::getCommand()
                     
                     // Ball is moving toward goal.
                     if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
-                    {
-                        rc.fin_pos.loc = s;
+                    {                        
+                        rc.fin_pos.loc = s + (wm->ball.pos.loc - s).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                     // Ball is not moving toward goal.
                     else
@@ -72,10 +66,8 @@ RobotCommand TacticGoalie::getCommand()
                         Vector2D dest = Field::ourGoalCenter;
                         dest.y += (dR - dL) / 2;
                         
-                        rc.fin_pos.loc = dest;
+                        rc.fin_pos.loc = dest + (wm->ball.pos.loc - dest).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                 }
                 // Ball is not moving.
@@ -87,10 +79,8 @@ RobotCommand TacticGoalie::getCommand()
                     Vector2D dest = Field::ourGoalCenter;
                     dest.y += (dR - dL) / 2;
                     
-                    rc.fin_pos.loc = dest;
+                    rc.fin_pos.loc = dest + (wm->ball.pos.loc - dest).normalizedVector().scale(ROBOT_RADIUS);
                     LimitToGoalArea(&rc.fin_pos.loc);
-                    rc.fin_pos.loc.x += 60;
-                    rc.maxSpeed = 2;
                 }
             }
             // An opp robot may kick.
@@ -105,10 +95,8 @@ RobotCommand TacticGoalie::getCommand()
                     // Ball is moving toward goal.
                     if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
                     {
-                        rc.fin_pos.loc = s;
+                        rc.fin_pos.loc = s + (wm->ball.pos.loc - s).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                     // Ball is not moving toward goal.
                     else
@@ -118,11 +106,9 @@ RobotCommand TacticGoalie::getCommand()
                         
                         Vector2D dest = Field::ourGoalCenter;
                         dest.y += (dR - dL) / 2;
-                        
-                        rc.fin_pos.loc = dest;
+
+                        rc.fin_pos.loc = dest + (wm->ball.pos.loc - dest).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                 }
                 // Ball is not moving.
@@ -155,10 +141,8 @@ RobotCommand TacticGoalie::getCommand()
                     // Attacker robot oriented toward left line.
                     if(r != Vector2D::INVALIDATED)
                     {
-                        rc.fin_pos.loc = r;
+                        rc.fin_pos.loc = r + (wm->ball.pos.loc - r).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                     // Attacker robot is not oriented toward our goal.
                     else
@@ -168,11 +152,9 @@ RobotCommand TacticGoalie::getCommand()
                         
                         Vector2D dest = Field::ourGoalCenter;
                         dest.y += (dR - dL) / 2;
-                        
-                        rc.fin_pos.loc = dest;
+
+                        rc.fin_pos.loc = dest + (wm->ball.pos.loc - dest).normalizedVector().scale(ROBOT_RADIUS);
                         LimitToGoalArea(&rc.fin_pos.loc);
-                        rc.fin_pos.loc.x += 60;
-                        rc.maxSpeed = 2;
                     }
                 }
             }
@@ -180,7 +162,7 @@ RobotCommand TacticGoalie::getCommand()
         // Ball is inside golie area.
         else
         {
-            // Ball is moving.
+            // Ball is kicked.
             if(wm->ball.vel.loc.length() > 0.85)
             {
                 Ray2D ballRay = Ray2D(wm->ball.pos.loc, wm->ball.vel.loc.dir());
@@ -189,10 +171,8 @@ RobotCommand TacticGoalie::getCommand()
                 // Ball is moving toward goal.
                 if(s != Vector2D::INVALIDATED && (s.y <= Field::ourGoalPost_L.y + 100 && s.y >= Field::ourGoalPost_R.y - 100))
                 {
-                    rc.fin_pos.loc = s;
+                    rc.fin_pos.loc = s + (wm->ball.pos.loc - s).normalizedVector().scale(ROBOT_RADIUS);
                     LimitToGoalArea(&rc.fin_pos.loc);
-                    rc.fin_pos.loc.x += 60;
-                    rc.maxSpeed = 2;
                 }
                 // Ball is not moving toward goal.
                 else
@@ -202,37 +182,21 @@ RobotCommand TacticGoalie::getCommand()
                     
                     Vector2D dest = Field::ourGoalCenter;
                     dest.y += (dR - dL) / 2;
-                    
-                    rc.fin_pos.loc = dest;
+
+                    rc.fin_pos.loc = dest + (wm->ball.pos.loc - dest).normalizedVector().scale(ROBOT_RADIUS);
                     LimitToGoalArea(&rc.fin_pos.loc);
-                    rc.fin_pos.loc.x += 60;
-                    rc.maxSpeed = 2;
                 }
             }
-            // Ball is not moving.
+            // Ball is not kicked.
             else
             {
-                rc.fin_pos.loc = wm->ball.pos.loc;
-                rc.fin_pos.loc.x -= ROBOT_RADIUS;
-                if(rc.fin_pos.loc.x < Field::ourGoalCenter.x + 60)
-                    rc.fin_pos.loc.x = Field::ourGoalCenter.x + 60;
-                
-                rc.fin_pos.dir = 0;
-                rc.maxSpeed = 2;
-                
+                rc.fin_pos = wm->kn->AdjustKickPoint(wm->ball.pos.loc, Field::oppGoalCenter);
+
                 // Kick if you can.
                 if(wm->kn->CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc))
                 {
-                    qDebug()<<"Golie: KIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIICK";
                     rc.kickspeedz = 2;
                     rc.kickspeedx = 4;
-                }
-
-                // Turn on navigation if no enemy is nearby.
-                if(attackerID == -1 || !wm->kn->IsInsideGolieArea(wm->oppRobot[attackerID].pos.loc))
-                {
-                    rc.useNav = true;
-                    rc.isBallObs = true;
                 }
             }
         }
@@ -242,9 +206,10 @@ RobotCommand TacticGoalie::getCommand()
     {
         rc.fin_pos.loc = Field::ourGoalCenter;
         rc.fin_pos.loc.x += 60;
-        rc.maxSpeed = 2;
     }        
     
+    rc.maxSpeed = 2;
+
     return rc;
 }
 

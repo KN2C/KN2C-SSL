@@ -5,6 +5,26 @@ Shape2D::Shape2D()
 
 }
 
+void Shape2D::AddRect(Vector2D topLeft, Vector2D bottomRight)
+{
+    _prects.append(rect(topLeft, bottomRight));
+}
+
+void Shape2D::AddCircle(Vector2D center, double r)
+{
+    _pcircles.append(Circle2D(center, r));
+}
+
+void Shape2D::SubtractRect(Vector2D topLeft, Vector2D bottomRight)
+{
+    _nrects.append(rect(topLeft, bottomRight));
+}
+
+void Shape2D::SubtractCircle(Vector2D center, double r)
+{
+    _ncircles.append(Circle2D(center, r));
+}
+
 void Shape2D::Clear()
 {
     _ncircles.clear();
@@ -43,7 +63,7 @@ bool Shape2D::IsInside(Vector2D p)
         }
     }
 
-    for (itRect = _nrects.begin(); itRect != _nrects.end(); ++itRect)
+    for (itRect = _prects.begin(); itRect != _prects.end(); ++itRect)
     {
         if((*itRect).IsInside(p))
         {

@@ -11,7 +11,7 @@ void TacticAttacker::setAttackerID(int total, int current)
     att_c = current;
 }
 
-uint TacticAttacker::CastRayToGoal(Vector2D origin, double offsetStep, uint maxCount, Vector2D *vOut, double beamWidth )
+uint TacticAttacker::CastRayToGoal(Vector2D origin, double offsetStep, uint maxCount, Vector2D *vOut, double beamWidth)
 {
     const Robot *oppRobots = wm->oppRobot;
 
@@ -24,11 +24,10 @@ uint TacticAttacker::CastRayToGoal(Vector2D origin, double offsetStep, uint maxC
     Vector2D target;
     Vector2D v[100];
 
-    double cy = Field::oppGoalCC_R.y;
-    double offset = offsetStep;
+    double cy = Field::oppGoalCC_R.y + offsetStep / 2;
 
     bool s, noRobot = true;
-    while(ibest < maxCount && cy < Field::oppGoalPost_L.y)
+    while(ibest < maxCount && cy < Field::oppGoalPost_L.y - offsetStep / 2)
     {
         s = false;
         target = Vector2D(Field::MaxX, cy);
@@ -52,7 +51,7 @@ uint TacticAttacker::CastRayToGoal(Vector2D origin, double offsetStep, uint maxC
             v[ibest++] = target;
         }
 
-        cy += offset;
+        cy += offsetStep;
     }
 
     if(!noRobot)
@@ -132,7 +131,14 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
     // Two attackers.
     case 2:
     {
-        scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x;
+        if(wm->ourRobot[passerRobotID].pos.loc.x < -1000)
+        {
+            scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x + 2000;
+        }
+        else
+        {
+            scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x;
+        }
 
         if(fabs(wm->ourRobot[passerRobotID].pos.loc.y) > 750)
         {
@@ -175,7 +181,9 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
         // Find second nearest.
         for (int i = 0; i < PLAYERS_MAX_NUM; ++i)
         {
-            if(wm->ourRobot[i].isValid && i != passerRobotID && i != id)
+            if(wm->ourRobot[i].isValid && (wm->ourRobot[i].Role == AgentRole::AttackerLeft ||
+                    wm->ourRobot[i].Role == AgentRole::AttackerRight ||
+                    wm->ourRobot[i].Role == AgentRole::AttackerMid) && i != passerRobotID && i != id)
             {
                 double dist = wm->ourRobot[i].pos.loc.dist(wm->ball.pos.loc);
                 if(dist < minDist)
@@ -204,11 +212,11 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
                 {
                     if(midY < 0)
                     {
-                        scanPos.y = fabs(diffY);
+                        scanPos.y = Field::MaxY - fabs(midY);
                     }
                     else
                     {
-                        scanPos.y = -fabs(diffY);
+                        scanPos.y = Field::MaxY + fabs(midY);
                     }
                 }
             }
@@ -227,7 +235,14 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
         // I'm the second nearest.
         else
         {
-            scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x;
+            if(wm->ourRobot[passerRobotID].pos.loc.x < -1000)
+            {
+                scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x + 2000;
+            }
+            else
+            {
+                scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x;
+            }
 
             if(fabs(wm->ourRobot[passerRobotID].pos.loc.y) > 750)
             {
@@ -419,13 +434,10 @@ RobotCommand TacticAttacker::getCommand()
     if(!wm->ourRobot[id].isValid || att_t < 1 || att_c >= att_t) return rc;
     wm->ourRobot[id].Status = AgentStatus::Idle;
 
-    double ballSlidingForce = 2.5;
-    double maxRobotSpeed = 2;
-    double ballMovingThreshold = 0.05, ballKickingThreshold = 1;
+    double ballSlidingForce = 2.25;
+    double maxRobotSpeed = 1.5;
+    double ballMovingThreshold = 0.08, ballKickingThreshold = 1;
     double ballReachableRange = 700, ballInHandRange = ROBOT_RADIUS + 70;
-    Vector2D workingRectTL = Vector2D(-1800, Field::MaxY);
-    Vector2D workingRectBR = Vector2D(Field::MaxX, Field::MinY);
-    int oppGoalerID = 0;
 
     // Keep it simple :)
 
@@ -441,24 +453,17 @@ RobotCommand TacticAttacker::getCommand()
         // Check if another robot is near ball.
         for(int i = 0; i < PLAYERS_MAX_NUM; ++i)
         {
-            if(wm->ourRobot[i].isValid)
+            if(i != id && wm->ourRobot[i].isValid && (wm->ourRobot[i].Role == AgentRole::AttackerLeft ||
+                                           wm->ourRobot[i].Role == AgentRole::AttackerRight ||
+                                           wm->ourRobot[i].Role == AgentRole::AttackerMid))
             {
                 double dist;
-                if(i != id && (dist = wm->ball.pos.loc.dist(wm->ourRobot[i].pos.loc)) < friendDistToBall)
+                if((dist = wm->ball.pos.loc.dist(wm->ourRobot[i].pos.loc)) < friendDistToBall)
                 {
                     friendDistToBall = dist;
                     ourNearestID = i;
                 }
-            }
-
-            if(wm->oppRobot[i].isValid)
-            {
-                // Take care of position passed in!
-                if(wm->kn->IsInsideGolieArea(-wm->oppRobot[i].pos.loc))
-                {
-                    oppGoalerID = i;
-                }
-            }
+            }            
         }
 
         // Clear sweeping state if no one has the ball.
@@ -470,14 +475,14 @@ RobotCommand TacticAttacker::getCommand()
         // Who is nearer to ball, use prediction if necessary.
         if(wm->ball.vel.loc.length() < ballMovingThreshold)
         {
-            qDebug() << "Not using prediction...";
+            //qDebug() << "Not using prediction...";
             myPredDist = myDistToBall;
             friendPredDist = friendDistToBall;
         }
         // Use prediction.
         else
         {
-            qDebug() << "Using prediction...";
+            //qDebug() << "Using prediction...";
             myPredPos = wm->kn->PredictDestination(wm->ourRobot[id].pos.loc, wm->ball.pos.loc, maxRobotSpeed, wm->ball.vel.loc);
             myPredDist = wm->ourRobot[id].pos.loc.dist(myPredPos);
             if(ourNearestID != -1)
@@ -492,7 +497,7 @@ RobotCommand TacticAttacker::getCommand()
         }
 
         // Ball is in territory.
-        if(wm->kn->IsInsideRect(wm->ball.pos.loc, workingRectTL, workingRectBR))
+        if(WorkingArea.IsInside(wm->ball.pos.loc))
         {
             // I'm the nearest.
             if(myPredDist < friendPredDist)
@@ -502,7 +507,9 @@ RobotCommand TacticAttacker::getCommand()
                 {
                     uint bestID = 0;
                     Vector2D t[100];
-                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, 2 * BALL_RADIUS, 70, t, 2 * BALL_RADIUS);
+                    uint rcount = CastRayToGoal(wm->ourRobot[id].pos.loc, 20, 70, t, 2 * BALL_RADIUS);
+
+                    qDebug() << "cast ray ret: " << rcount;
 
                     // There is a hole :)
                     if(rcount > 0)
@@ -514,7 +521,7 @@ RobotCommand TacticAttacker::getCommand()
                         for(uint i = 0; i < rcount; ++i)
                         {
                             double d;
-                            if((d = wm->oppRobot[oppGoalerID].pos.loc.dist(t[i])) > dmax)
+                            if((d = wm->oppRobot[wm->ref_goalie_opp].pos.loc.dist(t[i])) > dmax)
                             {
                                 dmax = d;
                                 bestID = i;
@@ -568,14 +575,14 @@ RobotCommand TacticAttacker::getCommand()
                         {
                             // Limit pass direction.
                             Ray2D ray = Ray2D(wm->ourRobot[id].pos.loc, wm->ourRobot[ourNearestID].pos.loc);
-                            Vector2D ss = ray.intersection(Line2D(workingRectTL, Vector2D(workingRectTL.x, workingRectBR.y)));
+                            Vector2D ss = ray.intersection(Line2D(Vector2D(-1000, Field::MinY), Vector2D(-1000, Field::MaxY)));
 
                             // Calculate pass target and speed.
                             Vector2D passTarget = CalculatePassTarget(wm->ball.pos.loc, wm->ourRobot[ourNearestID].pos.loc);
                             double speed = sqrt(2 * ballSlidingForce * wm->ball.pos.loc.dist(passTarget) / 1000);
 
                             // Correct pass condition.
-                            if((ss == Vector2D::INVALIDATED || !wm->kn->IsInsideField(ss)) && passTarget != Vector2D::INVALIDATED)
+                            if((ss == Vector2D::INVALIDATED || fabs(ss.dir().degree()) <= 90 || !wm->kn->IsInsideField(ss)) && passTarget != Vector2D::INVALIDATED)
                             {
                                 qDebug() << "Passing...";
                                 wm->ourRobot[id].Status = AgentStatus::Passing;
@@ -629,7 +636,7 @@ RobotCommand TacticAttacker::getCommand()
                 }
                 // I'm near the ball.
                 else
-                {
+                {                    
                     // Go to ball position, use prediction if necessary.
                     if(wm->ball.vel.loc.length() < ballMovingThreshold)
                     {
@@ -657,7 +664,6 @@ RobotCommand TacticAttacker::getCommand()
             // Friend robot is near to ball, may pass to me.
             else
             {
-                // TODO: goto best pos.
                 if(wm->ourRobot[ourNearestID].Status != AgentStatus::Passing)
                 {
                     qDebug() << "Scanning field for free pos...";
@@ -670,8 +676,15 @@ RobotCommand TacticAttacker::getCommand()
                     {
                         qDebug() << "Found at: " << v.x << ", " << v.y;
                         Position kp = wm->kn->AdjustKickPoint(v, Field::oppGoalCenter);
-                        wm->kn->ClampToRect(&kp.loc, workingRectTL, workingRectBR);
-                        rc.fin_pos = kp;
+                        if(WorkingArea.IsInside(kp.loc))
+                        //wm->kn->ClampToRect(&kp.loc, workingRectTL, workingRectBR);
+                        {
+                            rc.fin_pos = kp;
+                        }
+                        else
+                        {
+                            rc.fin_pos = wm->ourRobot[id].pos;
+                        }
                     }
                     else
                     {
@@ -691,12 +704,12 @@ RobotCommand TacticAttacker::getCommand()
         else
         {
             // I'm the nearest.
-            if(myPredDist < friendPredDist && wm->kn->IsInsideRect(myPredPos, workingRectTL, workingRectBR))
+            if(myPredDist < friendPredDist && WorkingArea.IsInside(myPredPos))
             {
                 // Go to ball position, use prediction.
 
                 Position v = wm->kn->AdjustKickPoint(myPredPos, Field::oppGoalCenter);
-                if(wm->kn->IsInsideRect(v.loc, workingRectTL, workingRectBR))
+                if( WorkingArea.IsInside(v.loc))
                 {
                     rc.fin_pos = v;
                 }
@@ -708,7 +721,6 @@ RobotCommand TacticAttacker::getCommand()
             // Friend robot can catch the ball, may pass to me.
             else
             {
-                // TODO: goto best pos.
                 if(wm->ourRobot[ourNearestID].Status != AgentStatus::Passing)
                 {
                     qDebug() << "Scanning field for free pos...";
@@ -716,7 +728,7 @@ RobotCommand TacticAttacker::getCommand()
 
                     scanPoint = DetectScanPos(ourNearestID);
                     scanPoint.x = wm->ourRobot[ourNearestID].pos.loc.x + 2000;
-                    wm->kn->ClampToRect(&scanPoint, workingRectTL, workingRectBR);
+                    wm->kn->ClampToRect(&scanPoint, Vector2D(-1000, Field::MaxY), Vector2D(1000, Field::MinY));
                     v = ScanFieldFreePos(scanPoint);
 
                     if(v != Vector2D::INVALIDATED)
@@ -729,21 +741,21 @@ RobotCommand TacticAttacker::getCommand()
                             // Clamp to left attacker area.
                             if(att_c == 0)
                             {
-                                wm->kn->ClampToRect(&kp.loc, workingRectTL, Vector2D(workingRectBR.x, 1250));
+                                wm->kn->ClampToRect(&kp.loc, Vector2D(-1800, Field::MaxY), Vector2D(-1800, 1250));
                             }
                             // Clamp to right attacker area.
                             else if(att_c == 1)
                             {
-                                wm->kn->ClampToRect(&kp.loc, Vector2D(workingRectTL.x, -1250),workingRectBR);
+                                wm->kn->ClampToRect(&kp.loc, Vector2D(-1800, Field::MaxY), Vector2D(-1800, -1250));
                             }
                             else
                             {
-                                wm->kn->ClampToRect(&kp.loc, workingRectTL, workingRectBR);
+                                wm->kn->ClampToRect(&kp.loc, Vector2D(-1800, Field::MaxY), Vector2D(-1800, Field::MinY));
                             }
                         }
                         else
                         {
-                            wm->kn->ClampToRect(&kp.loc, workingRectTL, workingRectBR);
+                            wm->kn->ClampToRect(&kp.loc, Vector2D(-1800, Field::MaxY), Vector2D(-1800, Field::MinY));
                         }
 
                         rc.fin_pos = kp;
@@ -775,10 +787,6 @@ RobotCommand TacticAttacker::getCommand()
     rc.useNav = true;
     rc.isBallObs = false;
     rc.isKickObs = true;
-
-    if(rc.fin_pos.loc == wm->ball.pos.loc)
-        qDebug() << "AAAAAAAAA";
-
 
     return rc;
 }

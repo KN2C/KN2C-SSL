@@ -4,6 +4,7 @@
 #include "tactic.h"
 #include "tactic/tacticattacker.h"
 #include "tactic/tacticballtracker.h"
+#include "tactic/tacticblocker.h"
 #include "tactic/tacticcircle.h"
 #include "tactic/tacticdefender.h"
 #include "tactic/tacticformation.h"
