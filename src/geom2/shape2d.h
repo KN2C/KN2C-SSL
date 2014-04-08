@@ -8,6 +8,8 @@ class Shape2D
 {
     struct rect
     {
+        rect(Vector2D topLeft, Vector2D bottomRight): tl(topLeft), br(bottomRight) { }
+
         bool IsInside(Vector2D p)
         {
              return (p.x < br.x) && (p.x > tl.x) && (p.y > br.y) && (p.y < tl.y);

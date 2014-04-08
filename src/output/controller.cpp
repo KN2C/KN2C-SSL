@@ -122,7 +122,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     wkp = 1.5;
     wki = 0;
     wkd = 1;
-    if(fabs(werr1)*AngleDeg::RAD2DEG<90)
+    if(fabs(werr1)*AngleDeg::RAD2DEG<30)
     {
         RotationSpeed = 0;
         wintegral = wintegral + (werr1*0.020);

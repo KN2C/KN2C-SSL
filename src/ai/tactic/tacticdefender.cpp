@@ -365,7 +365,10 @@ RobotCommand TacticDefender::getCommand()
 
             for(int i = 0; i < PLAYERS_MAX_NUM; ++i)
             {
-                if(wm->ourRobot[i].isValid && (dist = wm->ball.pos.loc.dist(wm->ourRobot[i].pos.loc)) < minDist)
+                if(wm->ourRobot[i].isValid && (wm->ourRobot[i].Role == AgentRole::DefenderLeft ||
+                                               wm->ourRobot[i].Role == AgentRole::DefenderRight ||
+                                               wm->ourRobot[i].Role == AgentRole::DefenderMid) &&
+                  (dist = wm->ball.pos.loc.dist(wm->ourRobot[i].pos.loc)) < minDist)
                 {
                     w = i;
                     minDist = dist;

@@ -32,7 +32,7 @@ int PlayTest::enterCondition()
     // Activator condition.
     if(wm->kn->ActiveAgents().size() > 2)
     {
-        return 150;
+        return 1;
     }
 
     return 0;
