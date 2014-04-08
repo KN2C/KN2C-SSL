@@ -29,12 +29,6 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 
 int PlayTest::enterCondition()
 {
-    // Activator condition.
-    //if(wm->kn->ActiveAgents().size() > 2)
-    {
-        return 5;
-    }
-
     return 0;
 }
 

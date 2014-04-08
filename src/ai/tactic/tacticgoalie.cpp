@@ -207,8 +207,8 @@ RobotCommand TacticGoalie::getCommand()
         rc.fin_pos.loc = Field::ourGoalCenter;
         rc.fin_pos.loc.x += 60;
     }        
-    
-    rc.maxSpeed = 2;
+    rc.useNav = false;
+    rc.maxSpeed = 1.5;
 
     return rc;
 }

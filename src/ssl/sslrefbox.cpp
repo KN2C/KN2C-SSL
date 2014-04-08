@@ -8,6 +8,9 @@ SSLRefBox::SSLRefBox(QString ip, int port, TeamColorType color, float ball_min, 
     _ball_min(ball_min),
     _wm(wm)
 {
+    paused = false;
+    refgs.cmd = 0;
+    refgs.cmd_counter = 0;
     wm->cmgs.init(color);
     connect(this, SIGNAL(newReceivedPacket(QByteArray,QString,int)), this, SLOT(readPendingPacket(QByteArray,QString,int)));
     qDebug() << "SSLRefBox Initialization...";
@@ -36,7 +39,8 @@ void SSLRefBox::readPendingPacket(QByteArray data, QString ip, int port)
 void SSLRefBox::parse(GameStatePacket pck)
 {
     // save last gs packet
-    _wm->refgs = pck;
+    refgs = pck;
+    if(paused) return;
 
     bool ball_moved = _lastBallpos.loc.dist(_wm->ball.pos.loc) > _ball_min;
     _wm->cmgs.transition(pck.cmd, ball_moved);

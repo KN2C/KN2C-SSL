@@ -29,10 +29,16 @@ public:
 //private:
     QString log;
     GameModeType gamemode;
+
     WorldModel* wm;
     SSLVision* sslvision;
+
     SSLRefBox* sslrefbox;
     SSLRefBoxNew* sslrefboxnew;
+
+    SSLRefBox* sslrefbox2;
+    SSLRefBoxNew* sslrefboxnew2;
+
     OutputBuffer* outputbuffer;
     Transmitter* transmitter;
     grSim* grsim;

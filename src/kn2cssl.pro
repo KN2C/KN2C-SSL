@@ -156,7 +156,8 @@ SOURCES +=	main.cpp \
     ssl/sslrefbox/messages/referee.pb.cc \
     ssl/sslrefboxnew.cpp \
     geom2/shape2d.cpp \
-    ai/tactic/tacticblocker.cpp
+    ai/tactic/tacticblocker.cpp \
+    ai/play/playtest2.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -247,7 +248,8 @@ HEADERS  += \
     ssl/sslrefbox/messages/referee.pb.h \
     ssl/sslrefboxnew.h \
     geom2/shape2d.h \
-    ai/tactic/tacticblocker.h
+    ai/tactic/tacticblocker.h \
+    ai/play/playtest2.h
 
 FORMS    +=	ui/mainwindow.ui
 

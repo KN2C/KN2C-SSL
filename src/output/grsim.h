@@ -7,6 +7,7 @@
 #include "base.h"
 #include "grSim_Packet.pb.h"
 #include "outputbuffer.h"
+#include "fpscounter.h"
 
 class OutputBuffer;
 
@@ -15,6 +16,7 @@ class grSim : public QObject
     Q_OBJECT
 public:
     explicit grSim(QString ip, int port, TeamColorType color, OutputBuffer* buffer, QObject *parent = 0);
+    FPSCounter fps;
 
 private:
     QUdpSocket _socket;

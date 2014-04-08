@@ -6,12 +6,14 @@
 #include "constants.h"
 #include "outputbuffer.h"
 #include "play.h"
+#include "fpscounter.h"
 
 class AI : public QObject
 {
     Q_OBJECT
 public:
     explicit AI(WorldModel* worldmodel, OutputBuffer* outputbuffer, QObject *parent = 0);
+    FPSCounter fps;
     Play* getCurrentPlay();
     Tactic* getCurrentTactic(int i);
 

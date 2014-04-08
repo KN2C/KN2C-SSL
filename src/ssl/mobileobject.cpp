@@ -35,12 +35,12 @@ void MobileObject::timer_vel_timeout()
         return;
     }
 
-    PositionTimeCamera last = last_postc[LAST_COUNT-1];
+    PositionTimeCamera last = vel_postc;
     vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc) * 0.22;
     vel.dir = (pos.dir - last.pos.dir) / (time - last.time);
 
-    //last_pos = pos;
-    //last_time = time;
+    vel_postc.pos = pos;
+    vel_postc.time = time;
 }
 
 void MobileObject::seenAt(vector<Position> p, double t, int c)

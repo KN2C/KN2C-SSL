@@ -28,6 +28,7 @@ quint64 FPSCounter::TotalCounter()
 
 quint32 FPSCounter::FPS()
 {
+    if(_fpsinterval == 0) return 0;
     _lastfps_val = _lastfps * (1000 / _fpsinterval);
     return _lastfps_val;
 }

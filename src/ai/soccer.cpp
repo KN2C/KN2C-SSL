@@ -45,7 +45,7 @@ Soccer::Soccer(QObject *parent) :
     log += "grSim CommandPort : " + QString::number(simport) + "\n\n";
 
     QString serialport = s.Get("Transmitter","SerialPort");
-    log += "SerialPort : " + serialport + "\n";
+    log += "SerialPort : " + serialport + "\n\n";
 
 
     // Game mode
@@ -74,6 +74,40 @@ Soccer::Soccer(QObject *parent) :
     {
         sslrefbox = new SSLRefBox(rip, rport, tcolor, ball_dist, wm);
         sslrefbox->Start();
+    }
+
+    // manual Referee
+    sslrefbox2 = 0;
+    sslrefboxnew2 = 0;
+
+    QString mren = s.Get("ManualRef", "Enable");
+    QString mrip = s.Get("ManualRef", "RefIP");
+    int mrport = s.Get("ManualRef", "RefPort").toInt();
+    int mrportn = s.Get("ManualRef", "RefPortNew").toInt();
+    int mrefusenew = s.Get("ManualRef", "RefUseNew").toInt();
+
+    if(mren.toInt() == 1)
+    {
+        log += "Manual RefIP : " + mrip + "\n";
+        log += "Manual RefPort : " + QString::number(mrport) + "\n";
+        log += "Manual RefPortNew : " + QString::number(mrportn) + "\n";
+
+        if(mrefusenew == 1)
+        {
+            sslrefboxnew2 = new SSLRefBoxNew(mrip, mrportn, tcolor, ball_dist, wm);
+            sslrefboxnew2->paused = true;
+            sslrefboxnew2->Start();
+        }
+        else
+        {
+            sslrefbox2 = new SSLRefBox(mrip, mrport, tcolor, ball_dist, wm);
+            sslrefbox2->paused = true;
+            sslrefbox2->Start();
+        }
+    }
+    else
+    {
+        log += "ManualRef Disabled \n";
     }
 
     // grSim

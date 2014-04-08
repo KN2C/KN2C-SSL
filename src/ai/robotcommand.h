@@ -21,7 +21,7 @@ struct RobotCommand
     RobotCommand()
     {
         angleMode = 0;
-        maxSpeed = 0;
+        maxSpeed = 1;
         kickspeedx = 0;
         kickspeedz = 0;
         useNav = true;

@@ -21,7 +21,6 @@ public:
     Ball ball;
     Agent ourRobot[PLAYERS_MAX_NUM];
     Robot oppRobot[PLAYERS_MAX_NUM];
-    GameStatePacket refgs; // not used
     GameStateType gs;
     GameStateType gs_last;
     GameState cmgs; //referee
@@ -30,7 +29,7 @@ public:
     bool isSim;
     Knowledge *kn;
 
-    double var[10];
+    static double var[10];
     // 0: kick activation dist
     // 1: kick activation angle
     // 2: kick precision angle
