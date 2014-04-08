@@ -782,6 +782,22 @@ RobotCommand TacticAttacker::getCommand()
         rc.fin_pos.dir = 0;
     }
 
+    if(!wm->cmgs.allowedNearBall())
+    {
+        if(wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) < ALLOW_NEAR_BALL_RANGE)
+        {
+            rc.fin_pos.loc = wm->ball.pos.loc + (wm->ourRobot[id].pos.loc - wm->ball.pos.loc).normalizedVector().scale(ALLOW_NEAR_BALL_RANGE);
+        }
+    }
+    else
+    {
+        if(!wm->cmgs.canKickBall())
+        {
+            rc.kickspeedx = 0;
+            rc.kickspeedz = 0;
+        }
+    }
+
     rc.maxSpeed = maxRobotSpeed;
 
     rc.useNav = true;

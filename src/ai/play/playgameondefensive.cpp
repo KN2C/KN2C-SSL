@@ -14,6 +14,9 @@ PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent
 
     // Mid defender.
     tDefenderMid = new TacticDefender(wm);
+
+    // Mid attacker.
+    tAttackerMid = new TacticAttacker(wm);
 }
 
 int PlayGameOnDefensive::enterCondition()
@@ -32,11 +35,17 @@ void PlayGameOnDefensive::execute()
     QList<int> badRoleAgents;
     QList<AgentRole> roles;
 
+    int golieNotInside = 0;
+    if(!wm->ourRobot[wm->ref_goalie_our].isValid)
+    {
+        golieNotInside = 1;
+    }
+
     // Assign golie role to predefined golie id.
     wm->ourRobot[wm->ref_goalie_our].Role = AgentRole::Golie;
 
     // Define roles according to agents count.
-    switch (agents.size()) {
+    switch (agents.size() + golieNotInside) {
     case 2:
         roles.append(AgentRole::DefenderMid);
 
@@ -49,10 +58,16 @@ void PlayGameOnDefensive::execute()
         tDefenderLeft->setDefenderID(2, 0);
         tDefenderRight->setDefenderID(2, 1);
         break;
-    }
+    case 4:
+        roles.append(AgentRole::DefenderLeft);
+        roles.append(AgentRole::DefenderRight);
+        roles.append(AgentRole::AttackerMid);
 
-    // Append golie role at last so it never reassigned during play.
-    roles.append(AgentRole::Golie);
+        tDefenderLeft->setDefenderID(2, 0);
+        tDefenderRight->setDefenderID(2, 1);
+        tAttackerMid->setAttackerID(1, 0);
+        break;
+    }
 
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
@@ -62,7 +77,7 @@ void PlayGameOnDefensive::execute()
             roles.removeOne(wm->ourRobot[*itAgent].Role);
         }
         // Agents with bad role.
-        else
+        else if(wm->ourRobot[*itAgent].Role != AgentRole::Golie)
         {
             badRoleAgents.append(*itAgent);
         }
@@ -82,6 +97,9 @@ void PlayGameOnDefensive::execute()
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
         switch (wm->ourRobot[*itAgent].Role) {
+        case AgentRole::NoRole:
+            tactics[*itAgent] = nullptr;
+            break;
         case AgentRole::Golie:
             tGolie->setID(*itAgent);
             tactics[*itAgent] = tGolie;
@@ -98,6 +116,9 @@ void PlayGameOnDefensive::execute()
             tDefenderMid->setID(*itAgent);
             tactics[*itAgent] = tDefenderMid;
             break;
+        case AgentRole::AttackerMid:
+            tAttackerMid->setID(*itAgent);
+            tactics[*itAgent] = tAttackerMid;
         }
     }
 }

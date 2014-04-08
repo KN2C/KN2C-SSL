@@ -959,6 +959,11 @@ RobotCommand TacticDefender::getCommand()
         qDebug()<<"Defender BUG found!";
     }
 
+    if(!wm->cmgs.canKickBall())
+    {
+        rc.kickspeedx = 0;
+        rc.kickspeedz = 0;
+    }
 
     rc.fin_pos.dir = 0;
     rc.maxSpeed = 2;
