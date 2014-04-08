@@ -13,10 +13,11 @@ public:
     virtual int enterCondition();
 
 private:
-    TacticGoalie* tGolie;
+    TacticGoalie*   tGolie;
     TacticDefender* tDefenderLeft;
     TacticDefender* tDefenderRight;
     TacticDefender* tDefenderMid;
+    TacticBlocker*  tBlocker;
     TacticAttacker* tAttackerLeft;
     TacticAttacker* tAttackerRight;
     TacticAttacker* tAttackerMid;

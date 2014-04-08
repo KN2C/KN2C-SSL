@@ -15,7 +15,7 @@ PlayCalibration::PlayCalibration(WorldModel *worldmodel, QObject *parent) :
 
 int PlayCalibration::enterCondition()
 {
-    return 1000;
+    return 0;
 }
 
 void PlayCalibration::execute()

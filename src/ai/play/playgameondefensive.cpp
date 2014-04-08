@@ -18,7 +18,7 @@ PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent
 
 int PlayGameOnDefensive::enterCondition()
 {
-    if(wm->cmgs.gameOn() && wm->kn->ActiveAgents().size() < 4)
+    if(/*wm->cmgs.gameOn() && */wm->kn->ActiveAgents().size() < 4)
         return 100;
     else
         return 0;

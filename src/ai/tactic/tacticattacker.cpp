@@ -664,7 +664,6 @@ RobotCommand TacticAttacker::getCommand()
             // Friend robot is near to ball, may pass to me.
             else
             {
-                // TODO: goto best pos.
                 if(wm->ourRobot[ourNearestID].Status != AgentStatus::Passing)
                 {
                     qDebug() << "Scanning field for free pos...";
@@ -722,7 +721,6 @@ RobotCommand TacticAttacker::getCommand()
             // Friend robot can catch the ball, may pass to me.
             else
             {
-                // TODO: goto best pos.
                 if(wm->ourRobot[ourNearestID].Status != AgentStatus::Passing)
                 {
                     qDebug() << "Scanning field for free pos...";
