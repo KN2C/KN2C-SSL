@@ -57,6 +57,7 @@ void PlayGameOnDefensive::execute()
 
         tDefenderLeft->setDefenderID(2, 0);
         tDefenderRight->setDefenderID(2, 1);
+        break;
     case 4:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
@@ -96,6 +97,9 @@ void PlayGameOnDefensive::execute()
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
         switch (wm->ourRobot[*itAgent].Role) {
+        case AgentRole::NoRole:
+            tactics[*itAgent] = nullptr;
+            break;
         case AgentRole::Golie:
             tGolie->setID(*itAgent);
             tactics[*itAgent] = tGolie;

@@ -171,7 +171,7 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
         }
     }
         break;
-    // Three attackers.
+        // Three attackers.
     case 3:
     {
         int secondNearestID = -1;
@@ -182,8 +182,8 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
         for (int i = 0; i < PLAYERS_MAX_NUM; ++i)
         {
             if(wm->ourRobot[i].isValid && (wm->ourRobot[i].Role == AgentRole::AttackerLeft ||
-                    wm->ourRobot[i].Role == AgentRole::AttackerRight ||
-                    wm->ourRobot[i].Role == AgentRole::AttackerMid) && i != passerRobotID && i != id)
+                                           wm->ourRobot[i].Role == AgentRole::AttackerRight ||
+                                           wm->ourRobot[i].Role == AgentRole::AttackerMid) && i != passerRobotID && i != id)
             {
                 double dist = wm->ourRobot[i].pos.loc.dist(wm->ball.pos.loc);
                 if(dist < minDist)
@@ -197,39 +197,19 @@ Vector2D TacticAttacker::DetectScanPos(int passerRobotID)
         // I'm the third nearest.
         if(secondNearestID != -1 && myDistToBall > wm->ourRobot[secondNearestID].pos.loc.dist(wm->ball.pos.loc))
         {
-            double midY = (wm->ourRobot[passerRobotID].pos.loc.y + wm->ourRobot[secondNearestID].pos.loc.y) / 2;
-            double diffY = (wm->ourRobot[passerRobotID].pos.loc.y - wm->ourRobot[secondNearestID].pos.loc.y) / 2;
-
-            scanPos.x = wm->ourRobot[secondNearestID].pos.loc.x - 300;
-
-            if(fabs(midY) < 600)
+            if(wm->ourRobot[secondNearestID].pos.loc.y > wm->ourRobot[passerRobotID].pos.loc.y)
             {
-                if(fabs(diffY) > 1200)
-                {
-                    scanPos.y = midY;
-                }
-                else
-                {
-                    if(midY < 0)
-                    {
-                        scanPos.y = Field::MaxY - fabs(midY);
-                    }
-                    else
-                    {
-                        scanPos.y = Field::MaxY + fabs(midY);
-                    }
-                }
+                scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x + 500;
+                scanPos.y = wm->ourRobot[passerRobotID].pos.loc.y - 1000;
+
+                wm->kn->ClampToRect(&scanPos, Vector2D(-2000, Field::MaxY), Vector2D(2000, Field::MinY));
             }
             else
             {
-                if(diffY < 1000)
-                {
-                    scanPos.y = -midY;
-                }
-                else
-                {
-                    scanPos.y = midY;
-                }
+                scanPos.x = wm->ourRobot[passerRobotID].pos.loc.x + 500;
+                scanPos.y = wm->ourRobot[passerRobotID].pos.loc.y + 1000;
+
+                wm->kn->ClampToRect(&scanPos, Vector2D(-2000, Field::MaxY), Vector2D(2000, Field::MinY));
             }
         }
         // I'm the second nearest.
@@ -438,6 +418,23 @@ RobotCommand TacticAttacker::getCommand()
     double maxRobotSpeed = 1.5;
     double ballMovingThreshold = 0.08, ballKickingThreshold = 1;
     double ballReachableRange = 700, ballInHandRange = ROBOT_RADIUS + 70;
+
+    if(!wm->cmgs.allowedNearBall())
+    {
+        if(wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) - ALLOW_NEAR_BALL_RANGE > 0 &&
+           wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) - ALLOW_NEAR_BALL_RANGE < 100)
+        {
+            rc.fin_pos = wm->ourRobot[id].pos;
+
+            rc.maxSpeed = maxRobotSpeed;
+
+            rc.useNav = true;
+            rc.isBallObs = false;
+            rc.isKickObs = true;
+
+            return rc;
+        }
+    }
 
     // Keep it simple :)
 
@@ -780,6 +777,22 @@ RobotCommand TacticAttacker::getCommand()
     {
         rc.fin_pos.loc = GotoDefaultLoc(att_t, att_c);
         rc.fin_pos.dir = 0;
+    }
+
+    if(!wm->cmgs.allowedNearBall())
+    {
+        if(wm->ourRobot[id].pos.loc.dist(wm->ball.pos.loc) < ALLOW_NEAR_BALL_RANGE)
+        {
+            rc.fin_pos.loc = wm->ball.pos.loc + (wm->ourRobot[id].pos.loc - wm->ball.pos.loc).normalizedVector().scale(ALLOW_NEAR_BALL_RANGE);
+        }
+    }
+    else
+    {
+        if(!wm->cmgs.canKickBall())
+        {
+            rc.kickspeedx = 0;
+            rc.kickspeedz = 0;
+        }
     }
 
     rc.maxSpeed = maxRobotSpeed;

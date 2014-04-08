@@ -10,6 +10,9 @@
 #define BALL_RADIUS     22
 #define ROBOT_RADIUS    90
 
+// rules constants
+#define ALLOW_NEAR_BALL_RANGE 500
+
 // Vision constants
 #define CAMERA_NUM      2
 #define VOBJ_MAX_NUM    5
