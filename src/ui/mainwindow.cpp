@@ -196,6 +196,19 @@ void MainWindow::timer_timeout()
         ui->txtTactic_11->setText(sc->ai->getCurrentTactic(11)->getName());
     else ui->txtTactic_11 ->setText("NULL");
 
+    ui->txtAgent_0->setText(QString::number(sc->wm->ourRobot[0].Role) + " : " + QString::number(sc->wm->ourRobot[0].Status));
+    ui->txtAgent_1->setText(QString::number(sc->wm->ourRobot[1].Role) + " : " + QString::number(sc->wm->ourRobot[1].Status));
+    ui->txtAgent_2->setText(QString::number(sc->wm->ourRobot[2].Role) + " : " + QString::number(sc->wm->ourRobot[2].Status));
+    ui->txtAgent_3->setText(QString::number(sc->wm->ourRobot[3].Role) + " : " + QString::number(sc->wm->ourRobot[3].Status));
+    ui->txtAgent_4->setText(QString::number(sc->wm->ourRobot[4].Role) + " : " + QString::number(sc->wm->ourRobot[4].Status));
+    ui->txtAgent_5->setText(QString::number(sc->wm->ourRobot[5].Role) + " : " + QString::number(sc->wm->ourRobot[5].Status));
+    ui->txtAgent_6->setText(QString::number(sc->wm->ourRobot[6].Role) + " : " + QString::number(sc->wm->ourRobot[6].Status));
+    ui->txtAgent_7->setText(QString::number(sc->wm->ourRobot[7].Role) + " : " + QString::number(sc->wm->ourRobot[7].Status));
+    ui->txtAgent_8->setText(QString::number(sc->wm->ourRobot[8].Role) + " : " + QString::number(sc->wm->ourRobot[8].Status));
+    ui->txtAgent_9->setText(QString::number(sc->wm->ourRobot[9].Role) + " : " + QString::number(sc->wm->ourRobot[9].Status));
+    ui->txtAgent_10->setText(QString::number(sc->wm->ourRobot[10].Role) + " : " + QString::number(sc->wm->ourRobot[10].Status));
+    ui->txtAgent_11->setText(QString::number(sc->wm->ourRobot[11].Role) + " : " + QString::number(sc->wm->ourRobot[11].Status));
+
     sc->wm->var[0] = ui->spnvar0->value();
     ui->txtvar0->setText(QString::number(sc->wm->var[0]));
     sc->wm->var[1] = ui->spnvar1->value();
