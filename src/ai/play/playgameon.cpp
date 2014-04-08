@@ -50,6 +50,12 @@ void PlayGameOn::execute()
     QList<int> badRoleAgents;
     QList<AgentRole> roles;
 
+    int golieNotInside = 0;
+    if(!wm->ourRobot[wm->ref_goalie_our].isValid)
+    {
+        golieNotInside = 1;
+    }
+
     // Assign golie role to predefined golie id.
     wm->ourRobot[wm->ref_goalie_our].Role = AgentRole::Golie;
 
@@ -77,7 +83,7 @@ void PlayGameOn::execute()
     if(minDistOpp < ROBOT_RADIUS + 100 && minDistOpp < minDistOur)
     {
         // Define roles according to agents count.
-        switch (agents.size()) {
+        switch (agents.size() + golieNotInside) {
         case 4:
             roles.append(AgentRole::DefenderLeft);
             roles.append(AgentRole::DefenderRight);
@@ -108,7 +114,7 @@ void PlayGameOn::execute()
     else
     {
         // Define roles according to agents count.
-        switch (agents.size()) {
+        switch (agents.size() + golieNotInside) {
         case 4:
             roles.append(AgentRole::DefenderLeft);
             roles.append(AgentRole::DefenderRight);
@@ -137,12 +143,7 @@ void PlayGameOn::execute()
             tAttackerMid->setAttackerID(3, 2);
             break;
         }
-    }
-
-
-    // Append golie role at last so it never reassigned during play.
-    roles.append(AgentRole::Golie);
-
+    }    
 
     for(QList<int>::iterator itAgent = agents.begin(); itAgent != agents.end(); ++itAgent)
     {
@@ -152,7 +153,7 @@ void PlayGameOn::execute()
             roles.removeOne(wm->ourRobot[*itAgent].Role);
         }
         // Agents with bad role.
-        else
+        else if(wm->ourRobot[*itAgent].Role != AgentRole::Golie)
         {
             badRoleAgents.append(*itAgent);
         }

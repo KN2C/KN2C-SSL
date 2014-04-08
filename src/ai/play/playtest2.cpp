@@ -11,7 +11,7 @@ PlayTest2::PlayTest2(WorldModel *worldmodel, QObject *parent) :
 
 int PlayTest2::enterCondition()
 {
-    return 200;
+    return 0;
 }
 
 void PlayTest2::execute()
