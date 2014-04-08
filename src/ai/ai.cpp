@@ -64,9 +64,14 @@ Tactic* AI::getCurrentTactic(int i)
 
 void AI::timer_timeout()
 {
+    for(int i=0; i<PLAYERS_MAX_NUM; i++)
+    {
+        if(!wm->ourRobot[i].isValid)
+            wm->ourRobot[i].Role = NoRole;
+    }
+
     int max_i = 0;
     int max_p = 0;
-
     for(int i=0; i<plays.size(); i++)
     {
         int p = plays[i]->enterCondition();
