@@ -16,15 +16,15 @@ public:
 protected:
     bool _cankick;
 
-    TacticGoalie* t1;
-    TacticDefender* t2;
-    TacticDefender* t3;
-
-/*
-private:
-    bool BeforeNormal();
-    bool AfterNormal();
-*/
+    TacticGoalie*   tGolie;
+    TacticFixedPos* tFixedPos;
+    TacticDefender* tDefenderLeft;
+    TacticDefender* tDefenderRight;
+    TacticDefender* tDefenderMid;
+    TacticBlocker*  tBlocker;
+    TacticAttacker* tAttackerLeft;
+    TacticAttacker* tAttackerRight;
+    TacticAttacker* tAttackerMid;
 
 };
 #endif // PLAYKICKOFFOUR_H

@@ -13,6 +13,7 @@ public:
     virtual int enterCondition();
 
 private:
+    TacticHalt *tHalt;
 
 };
 

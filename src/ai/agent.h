@@ -20,6 +20,9 @@ enum AgentRole
 {
     NoRole = 0,
     FixedPosition,
+    FixedPositionLeft,
+    FixedPositionRight,
+    FixedPositionMid,
     AttackerLeft,
     AttackerRight,
     AttackerMid,

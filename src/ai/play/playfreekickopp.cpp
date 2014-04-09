@@ -6,6 +6,15 @@ PlayFreeKickOpp::PlayFreeKickOpp(WorldModel *worldmodel, QObject *parent) :
     // Goaler.
     tGolie = new TacticGoalie(wm);
 
+    // Fixed pos.
+    tFixedPos = new TacticFixedPos(wm);
+    // Fixed pos.
+    tFixedPosM = new TacticFixedPos(wm);
+    // Fixed pos.
+    tFixedPosL = new TacticFixedPos(wm);
+    // Fixed pos.
+    tFixedPosR = new TacticFixedPos(wm);
+
     // Left defender.
     tDefenderLeft = new TacticDefender(wm);
 
@@ -68,24 +77,24 @@ void PlayFreeKickOpp::execute()
     case 4:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
+        roles.append(AgentRole::FixedPositionMid);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
     case 5:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
-        roles.append(AgentRole::Blocker);
+        roles.append(AgentRole::FixedPositionMid);
+        roles.append(AgentRole::FixedPositionLeft);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
     case 6:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
-        roles.append(AgentRole::Blocker);
-        roles.append(AgentRole::Blocker);
+        roles.append(AgentRole::FixedPositionMid);
+        roles.append(AgentRole::FixedPositionLeft);
+        roles.append(AgentRole::FixedPositionRight);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
@@ -121,6 +130,18 @@ void PlayFreeKickOpp::execute()
         switch (wm->ourRobot[*itAgent].Role) {
         case AgentRole::NoRole:
             tactics[*itAgent] = nullptr;
+            break;
+        case AgentRole::FixedPosition:
+            tactics[*itAgent] = tFixedPos;
+            break;
+        case AgentRole::FixedPositionLeft:
+            tactics[*itAgent] = tFixedPosL;
+            break;
+        case AgentRole::FixedPositionRight:
+            tactics[*itAgent] = tFixedPosR;
+            break;
+        case AgentRole::FixedPositionMid:
+            tactics[*itAgent] = tFixedPosM;
             break;
         case AgentRole::Golie:
             tGolie->setID(*itAgent);

@@ -11,7 +11,7 @@
 #define ROBOT_RADIUS    90
 
 // rules constants
-#define ALLOW_NEAR_BALL_RANGE 500
+#define ALLOW_NEAR_BALL_RANGE 620
 
 // Vision constants
 #define CAMERA_NUM      2
@@ -22,8 +22,8 @@
 
 
 // Timer speeds
-#define TRANSMITTER_TIMER   50
-#define AI_TIMER            40
+#define TRANSMITTER_TIMER   30
+#define AI_TIMER            33
 
 namespace Field
 {

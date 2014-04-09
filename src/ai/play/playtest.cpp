@@ -31,12 +31,12 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 
 int PlayTest::enterCondition()
 {
-    return 1;
+    return 0;
 }
 
 void PlayTest::execute()
 {
-    tactics[3] =tTest;
+    tactics[7] =tTest;
     return ;
 
     QList<int> agents = wm->kn->ActiveAgents();

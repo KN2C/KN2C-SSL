@@ -3,7 +3,7 @@
 PlayHalt::PlayHalt(WorldModel *worldmodel, QObject *parent) :
     Play("PlayHalt", worldmodel, parent)
 {
-
+    tHalt = new TacticHalt(wm);
 }
 
 int PlayHalt::enterCondition()
@@ -21,5 +21,6 @@ void PlayHalt::execute()
 
 Tactic* PlayHalt::getTactic(int id)
 {
-    return NULL;
+    if(!wm->isSim) return NULL;
+    return tHalt;
 }

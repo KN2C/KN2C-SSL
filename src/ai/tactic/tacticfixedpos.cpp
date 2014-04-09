@@ -21,54 +21,16 @@ RobotCommand TacticFixedPos::getCommand()
     r.normalize();
     r.scale(ALLOW_NEAR_BALL_RANGE);
 
-    Vector2D left, mid, right;
-
-    mid = ballPos + r;
-    left = ballPos + r.rotatedVector(28);
-    right = ballPos + r.rotatedVector(-28);
-
-    bool bl = false, bm = false, br = false;
-
-    // Mid.
-    for(int i = 0; i < PLAYERS_MAX_NUM; ++i)
-    {
-        if(wm->ourRobot[i].isValid && wm->ourRobot[i].pos.loc.dist(mid) < ROBOT_RADIUS)
-        {
-            bm = true;
-            break;
-        }
-
-        if(wm->ourRobot[i].isValid && wm->ourRobot[i].pos.loc.dist(left) < ROBOT_RADIUS)
-        {
-            bl = true;
-            break;
-        }
-
-        if(wm->ourRobot[i].isValid && wm->ourRobot[i].pos.loc.dist(right) < ROBOT_RADIUS)
-        {
-            br = true;
-            break;
-        }
-    }
-
-    if(!bm)
-    {
-        rc.fin_pos.loc = mid;
-        rc.fin_pos.dir = (-r).dir().radian();
-    }
-    else if(!bl)
-    {
-        rc.fin_pos.loc = left;
-        rc.fin_pos.dir = (-(r.rotatedVector(28))).dir().radian();
-    }
-    else if(!br)
-    {
-        rc.fin_pos.loc = right;
-        rc.fin_pos.dir = (-(r.rotatedVector(-28))).dir().radian();
-    }
-    else
-    {
-        rc.fin_pos = wm->ourRobot[id].pos;
+    switch (wm->ourRobot[id].Role) {
+    case AgentRole::FixedPositionMid:
+        rc.fin_pos.loc = ballPos + r;
+        break;
+    case AgentRole::FixedPositionLeft:
+        rc.fin_pos.loc = ballPos + r.rotatedVector(30);
+        break;
+    case AgentRole::FixedPositionRight:
+        rc.fin_pos.loc = ballPos + r.rotatedVector(-30);
+        break;
     }
 
     rc.useNav = true;

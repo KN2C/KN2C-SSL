@@ -88,7 +88,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         kp = 2;
         ki = 0;
         kd = 0.2;
-        integral = integral + (err1*0.040);
+        integral = integral + (err1*(AI_TIMER/1000.0));
     }
     else
     {
@@ -97,7 +97,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         kd = 0;
         integral = {0,0};
     }
-    derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
+    derived1 = (ci.cur_pos.loc*0.001 - err0)/(AI_TIMER/1000.0);
     derived0 = derived0 + (derived1 - derived0)*0.1;
     err0 = ci.cur_pos.loc*0.001;
     LinearSpeed = err1*kp + integral*ki - derived0*kd;

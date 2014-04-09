@@ -157,8 +157,15 @@ void MainWindow::timer_timeout()
 
     //AI
     if(sc->ai->getCurrentPlay())
+    {
         ui->txtPlay->setText(sc->ai->getCurrentPlay()->getName());
-    else ui->txtPlay->setText("NULL");
+        ui->txtPlay_2->setText(sc->ai->getCurrentPlay()->getName());
+    }
+    else
+    {
+        ui->txtPlay->setText("NULL");
+        ui->txtPlay_2->setText("NULL");
+    }
     if(sc->ai->getCurrentTactic(0))
         ui->txtTactic_0 ->setText(sc->ai->getCurrentTactic(0) ->getName());
     else ui->txtTactic_0 ->setText("NULL");
