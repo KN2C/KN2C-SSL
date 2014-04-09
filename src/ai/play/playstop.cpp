@@ -6,6 +6,9 @@ PlayStop::PlayStop(WorldModel *worldmodel, QObject *parent) :
     // Goaler.
     tGolie = new TacticGoalie(wm);
 
+    // Fixed pos.
+    tFixedPos = new TacticFixedPos(wm);
+
     // Left defender.
     tDefenderLeft = new TacticDefender(wm);
 
@@ -66,24 +69,24 @@ void PlayStop::execute()
     case 4:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
+        roles.append(AgentRole::FixedPosition);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
     case 5:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
-        roles.append(AgentRole::Blocker);
+        roles.append(AgentRole::FixedPosition);
+        roles.append(AgentRole::FixedPosition);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
     case 6:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
-        roles.append(AgentRole::AttackerMid);
-        roles.append(AgentRole::Blocker);
-        roles.append(AgentRole::Blocker);
+        roles.append(AgentRole::FixedPosition);
+        roles.append(AgentRole::FixedPosition);
+        roles.append(AgentRole::FixedPosition);
 
         tAttackerMid->setAttackerID(1, 0);
         break;
@@ -119,6 +122,9 @@ void PlayStop::execute()
         switch (wm->ourRobot[*itAgent].Role) {
         case AgentRole::NoRole:
             tactics[*itAgent] = nullptr;
+            break;
+        case AgentRole::FixedPosition:
+            tactics[*itAgent] = tFixedPos;
             break;
         case AgentRole::Golie:
             tGolie->setID(*itAgent);

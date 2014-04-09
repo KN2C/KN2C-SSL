@@ -157,7 +157,8 @@ SOURCES +=	main.cpp \
     ssl/sslrefboxnew.cpp \
     geom2/shape2d.cpp \
     ai/tactic/tacticblocker.cpp \
-    ai/play/playtest2.cpp
+    ai/play/playtest2.cpp \
+    ai/tactic/tacticfixedpos.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -249,7 +250,8 @@ HEADERS  += \
     ssl/sslrefboxnew.h \
     geom2/shape2d.h \
     ai/tactic/tacticblocker.h \
-    ai/play/playtest2.h
+    ai/play/playtest2.h \
+    ai/tactic/tacticfixedpos.h
 
 FORMS    +=	ui/mainwindow.ui
 

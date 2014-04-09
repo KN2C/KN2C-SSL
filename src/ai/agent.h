@@ -19,6 +19,7 @@ enum AgentStatus
 enum AgentRole
 {
     NoRole = 0,
+    FixedPosition,
     AttackerLeft,
     AttackerRight,
     AttackerMid,
