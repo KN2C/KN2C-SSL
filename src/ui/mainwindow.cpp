@@ -138,7 +138,7 @@ void MainWindow::timer_timeout()
         QString s = QString::number(sc->wm->ourRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->ourRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->ourRobot[i].vel.dir,'f',2);
         QString id = QString::number(i);
         if(id.length()<2) id = "0" + id;
-        ui->txtWM->append("our[" + id + "]  : ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->ourRobot[i].isValid) + "] ");
+        ui->txtWM->append("our[" + id + "]  : ( " + r + " ) , ( " + s + " ) (" + QString::number(sc->wm->ourRobot[i].vel.loc.length(),'f',2) + ") [" + QString::number(sc->wm->ourRobot[i].isValid) + "] ");
     }
 
     ui->txtWM->append("");
@@ -148,7 +148,7 @@ void MainWindow::timer_timeout()
         QString s = QString::number(sc->wm->oppRobot[i].vel.loc.x,'f',2) + " , " + QString::number(sc->wm->oppRobot[i].vel.loc.y,'f',2) + " : " + QString::number(sc->wm->oppRobot[i].vel.dir,'f',2);
         QString id = QString::number(i);
         if(id.length()<2) id = "0" + id;
-        ui->txtWM->append("opp[" + id + "] :  ( " + r + " ) , ( " + s + " )  [" + QString::number(sc->wm->oppRobot[i].isValid) + "] ");
+        ui->txtWM->append("opp[" + id + "] :  ( " + r + " ) , ( " + s + " ) (" + QString::number(sc->wm->oppRobot[i].vel.loc.length(),'f',2) + ") [" + QString::number(sc->wm->oppRobot[i].isValid) + "] ");
     }
     ui->txtWM->append("");
     ui->txtWM->append("ref_goalie_our : " + QString::number(sc->wm->ref_goalie_our));

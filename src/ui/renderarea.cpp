@@ -8,7 +8,7 @@ RenderArea::RenderArea(Soccer* sc) :
     brush_ball = new QBrush(QColor::fromRgb(255,200,0),Qt::SolidPattern);
     brush_yrobot = new QBrush(QColor::fromRgb(255,255,0),Qt::SolidPattern);
     brush_brobot = new QBrush(QColor::fromRgb(50,50,255),Qt::SolidPattern);
-    _timer.start(20);
+    _timer.start(40);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(refresh()));
 }
 

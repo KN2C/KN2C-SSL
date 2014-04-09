@@ -17,10 +17,10 @@ RobotCommand TacticTest::getCommand()
     switch (a)
     {
     case 0:
-        rc.fin_pos.loc = {700,700};
+        rc.fin_pos.loc = {0,1500};
         break;
     case 1:
-        rc.fin_pos.loc = {700,-700};
+        rc.fin_pos.loc = {-2000,1500};
         break;
 //    case 2:
 //        rc.fin_pos.loc = {700,-700};
@@ -35,9 +35,9 @@ RobotCommand TacticTest::getCommand()
 
     if(wm->kn->ReachedToPos(wm->ourRobot[id].pos, rc.fin_pos, 20, 180))
     {
-        a = (a+1) % 2;
-        b++;
-        if(b>6) a=0;
+        a = 1;//(a+1) % 2;
+        //b++;
+       // if(b>6) a=0;
     }
 
     rc.useNav = false;

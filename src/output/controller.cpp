@@ -83,18 +83,18 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<0.4)
+    if(err1.length()<1)
     {
-        kp = 1.75;
+        kp = 2;
         ki = 0;
         kd = 0.2;
         integral = integral + (err1*0.040);
     }
     else
     {
-        kp = 2.5;
+        kp = 1;
         ki = 0;
-        kd = 0.04;
+        kd = 0;
         integral = {0,0};
     }
     derived1 = (ci.cur_pos.loc*0.001 - err0)/0.040;
@@ -162,7 +162,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
-    ans.VW = 0;RotationSpeed;
+    ans.VW = RotationSpeed;
 
     return ans;
 }

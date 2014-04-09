@@ -68,7 +68,8 @@ void MobileObject::seenAt(vector<Position> p, double t, int c)
 
     Position sel_pos = p[min_i];
     ans.pos.loc = pos.loc + (sel_pos.loc - pos.loc) * 0.5;
-    ans.pos.dir = pos.dir + (sel_pos.dir - pos.dir) * 0.8;
+    ans.pos.dir = fabs(pos.dir) + (fabs(sel_pos.dir) - fabs(pos.dir)) * 0.8;
+    if(sel_pos.dir < 0 ) ans.pos.dir *= -1;
 
     appendPostc(ans);
     /*

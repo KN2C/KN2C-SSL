@@ -36,7 +36,7 @@ PlayGameOn::PlayGameOn(WorldModel *worldmodel, QObject *parent) :
 
 int PlayGameOn::enterCondition()
 {
-    if(/*wm->cmgs.gameOn() && */wm->kn->ActiveAgents().size() > 3)
+    if(wm->cmgs.gameOn() && wm->kn->ActiveAgents().size() > 3)
         return 100;
     else
         return 0;
