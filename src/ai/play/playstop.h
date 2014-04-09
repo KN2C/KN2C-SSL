@@ -21,6 +21,7 @@ private:
     TacticAttacker* tAttackerLeft;
     TacticAttacker* tAttackerRight;
     TacticAttacker* tAttackerMid;
+    TacticFixedPos* tFixedPos;
 };
 
 #endif // PLAYSTOP_H

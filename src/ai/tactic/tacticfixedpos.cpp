@@ -53,19 +53,22 @@ RobotCommand TacticFixedPos::getCommand()
 
     if(!bm)
     {
-        rc.fin_pos = mid;
+        rc.fin_pos.loc = mid;
+        rc.fin_pos.dir = (-r).dir().radian();
     }
     else if(!bl)
     {
-        rc.fin_pos = left;
+        rc.fin_pos.loc = left;
+        rc.fin_pos.dir = (-(r.rotatedVector(28))).dir().radian();
     }
     else if(!br)
     {
-        rc.fin_pos = right;
+        rc.fin_pos.loc = right;
+        rc.fin_pos.dir = (-(r.rotatedVector(-28))).dir().radian();
     }
     else
     {
-        rc.fin_pos = wm->ourRobot[id];
+        rc.fin_pos = wm->ourRobot[id].pos;
     }
 
     rc.useNav = true;
