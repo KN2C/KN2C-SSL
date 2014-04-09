@@ -5,7 +5,7 @@
 #define SpeedToRPM 1375.14
 Controller::Controller(QObject *parent) :
     QObject(parent)
-    ,out("/home/kn2c/Desktop/Untitled Folder/Data.txt")
+//  ,out("/home/kn2c/Desktop/Untitled Folder/Data.txt")
 {
 
     qDebug() << "Controller Initialization...";
@@ -146,7 +146,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
     RotationSpeed = wu1;
 
-    out << err1.y <<" "<< 0 <<" "<< 0 << endl;
+    //out << err1.y <<" "<< 0 <<" "<< 0 << endl;
 
     //cout<<wintegral<<" "<<werr1<<" "<<ci.mid_pos.dir<<endl;
     // cout<<RotLinearSpeed.length()<<endl;
