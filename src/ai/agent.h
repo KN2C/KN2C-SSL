@@ -19,7 +19,9 @@ enum AgentStatus
 enum AgentRole
 {
     NoRole = 0,
-    FixedPosition,
+    ArcMid,
+    ArcLeft,
+    ArcRight,
     FixedPositionLeft,
     FixedPositionRight,
     FixedPositionMid,

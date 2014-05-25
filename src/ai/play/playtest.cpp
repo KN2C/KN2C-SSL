@@ -36,7 +36,7 @@ int PlayTest::enterCondition()
 
 void PlayTest::execute()
 {
-    tactics[7] =tTest;
+    tactics[4] =tTest;
     return ;
 
     QList<int> agents = wm->kn->ActiveAgents();

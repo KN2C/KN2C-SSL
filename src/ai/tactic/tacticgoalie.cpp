@@ -195,8 +195,8 @@ RobotCommand TacticGoalie::getCommand()
                 // Kick if you can.
                 if(wm->kn->CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc))
                 {
-                    rc.kickspeedz = 2;
-                    rc.kickspeedx = 4;
+                    rc.kickspeedz = 0;
+                    rc.kickspeedx = 255;
                 }
             }
         }

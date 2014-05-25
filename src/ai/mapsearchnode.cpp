@@ -49,7 +49,7 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     if (bang >  M_PI) bang -= 2 * M_PI;
     if (bang < -M_PI) bang += 2 * M_PI;
 
-    if(wm->ball.isValid && (isBallObs || (isKickObs && fabs(bang) > M_PI_4)))
+    if(wm->ball.isValid && (isBallObs || (isKickObs && fabs(bang) > M_PI_4 * 3 / 4)))
     {
         //qDebug() << "ball is obs";
         Circle2D bc(wm->ball.pos.loc, ROBOT_RADIUS + BALL_RADIUS);
@@ -146,7 +146,7 @@ QList<Circle2D> MapSearchNode::getObsCircle()
         if (bang >  M_PI) bang -= 2 * M_PI;
         if (bang < -M_PI) bang += 2 * M_PI;
 
-        if(fabs(bang) > M_PI_4)
+        if(fabs(bang) > M_PI_4 * 3 / 4)
         {
             Circle2D c(wm->ball.pos.loc, b_rad);
             result.append(c);

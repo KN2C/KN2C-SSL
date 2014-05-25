@@ -544,7 +544,7 @@ RobotCommand TacticAttacker::getCommand()
                             if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc))
                             {
                                 qDebug() << "Kicking to y = " << t[bestID].y;
-                                rc.kickspeedx = 6;
+                                rc.kickspeedx = 255;
                             }
                         }
                         else
@@ -560,7 +560,7 @@ RobotCommand TacticAttacker::getCommand()
                             if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc))
                             {
                                 qDebug() << "Kicking to y = " << pos.loc.y;
-                                rc.kickspeedx = 6;
+                                rc.kickspeedx = 255;
                             }
                         }
                     }
@@ -591,7 +591,7 @@ RobotCommand TacticAttacker::getCommand()
                                 if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc))
                                 {
                                     qDebug() << "Passing from " << id << " to " << ourNearestID;
-                                    rc.kickspeedx = speed;
+                                    rc.kickspeedx = 200;//speed;
                                 }
                             }
                             // Nearby robot position is bad, so kick.
@@ -608,7 +608,7 @@ RobotCommand TacticAttacker::getCommand()
                                 if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc))
                                 {
                                     qDebug() << "Kicking to y = " << pos.loc.y;
-                                    rc.kickspeedx = 6;
+                                    rc.kickspeedx = 255;
                                 }
                             }
                         }
@@ -626,7 +626,7 @@ RobotCommand TacticAttacker::getCommand()
                             if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, pos, wm->ball.pos.loc))
                             {
                                 qDebug() << "Kicking to y = " << pos.loc.y;
-                                rc.kickspeedx = 6;
+                                rc.kickspeedx = 255;
                             }
                         }
                     }
@@ -800,6 +800,11 @@ RobotCommand TacticAttacker::getCommand()
     rc.useNav = true;
     rc.isBallObs = false;
     rc.isKickObs = true;
+
+    if(wm->isSim && rc.kickspeedx != 0)
+    {
+        rc.kickspeedx /= 50;
+    }
 
     return rc;
 }

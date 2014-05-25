@@ -5,7 +5,7 @@
 #define SpeedToRPM 1375.14
 Controller::Controller(QObject *parent) :
     QObject(parent)
-//  ,out("/home/kn2c/Desktop/Untitled Folder/Data.txt")
+    ,out("/home/kn2c/Desktop/Untitled Folder/Data.txt")
 {
 
     qDebug() << "Controller Initialization...";
@@ -52,8 +52,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     /******************************Linear Speed Controller************************************/
     Vector2D LinearSpeed;
-//ci.mid_pos.loc = {0,0};
-//ci.maxSpeed = 2;
+    //ci.mid_pos.loc = {0,0};
+    //ci.maxSpeed = 2;
     err1 = (ci.mid_pos.loc - ci.cur_pos.loc)*.001;
     err1.setLength((ci.fin_pos.loc - ci.cur_pos.loc).length()*.001);
     double dist;
@@ -83,27 +83,27 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<1)
+    if(err1.length()<.45)
     {
-        kp = 2;
-        ki = 0;
-        kd = 0.2;
+        kp = 2.5;//2.2;//1.5;
+        ki = 0.15;
+        kd = 0.1;//0.14;
         integral = integral + (err1*(AI_TIMER/1000.0));
     }
     else
     {
-        kp = 1;
-        ki = 0;
-        kd = 0;
+        kp = 2.5;//2.5;
+        ki = 0.15;//0.05;
+        kd = 0.2;//0;
         integral = {0,0};
     }
     derived1 = (ci.cur_pos.loc*0.001 - err0)/(AI_TIMER/1000.0);
     derived0 = derived0 + (derived1 - derived0)*0.1;
     err0 = ci.cur_pos.loc*0.001;
     LinearSpeed = err1*kp + integral*ki - derived0*kd;
-//    }
-//    else
-//        integral = {0,0};
+    //    }
+    //    else
+    //        integral = {0,0};
     if(LinearSpeed.length()>ci.maxSpeed)
     {
         LinearSpeed.setLength(ci.maxSpeed);
@@ -116,27 +116,41 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     /*************************************Rotation ctrl**********************/
     double wkp,wki,wkd,wu1;
-    double MAXROTATIONSPEED = 4,RotationSpeed;
+    double MAXROTATIONSPEED = 2.5,RotationSpeed;
 
     werr1 = ci.mid_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
-    wkp = 1.5;
-    wki = 0;
-    wkd = 1;
-    if(fabs(werr1)*AngleDeg::RAD2DEG<30)
+    if(err1.length()<.4)
     {
-        RotationSpeed = 0;
-        wintegral = wintegral + (werr1*0.020);
+        if(fabs(werr1)*AngleDeg::RAD2DEG<30)
+        {
+            wkp = 3;
+            wki = 0;
+            wkd = 0.3;
+            RotationSpeed = 0;
+            wintegral = wintegral + (werr1*0.020);
+        }
+        else
+        {
+            wkp = 2;
+            wki = 0;
+            wkd = 0;
+            RotationSpeed = 0.5*sign(werr1);
+            //        kp = 3;
+            //        ki = 0;
+            //        kd = 0;
+            wintegral = 0;
+        }
     }
     else
     {
-        RotationSpeed = 0.5*sign(werr1);
-        //        kp = 3;
-        //        ki = 0;
-        //        kd = 0;
-        wintegral = 0;
+
+        wkp = 0;
+        wki = 0;
+        wkd = 0;
     }
+
     wderived1 = (ci.cur_pos.dir - werr0)/3;
     wderived0 = wderived0 + (wderived1 - wderived0)*0.1;
     werr0 = ci.cur_pos.dir;
@@ -146,7 +160,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
     RotationSpeed = wu1;
 
-    //out << err1.y <<" "<< 0 <<" "<< 0 << endl;
+    out << ci.cur_pos.loc.x <<" "<< ci.cur_pos.loc.y <<" "<< 0 << endl;
 
     //cout<<wintegral<<" "<<werr1<<" "<<ci.mid_pos.dir<<endl;
     // cout<<RotLinearSpeed.length()<<endl;

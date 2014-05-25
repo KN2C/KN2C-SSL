@@ -139,7 +139,7 @@ Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, d
     else
     {
         qDebug() << "Prediction: No solution.";
-        return Vector2D::INVALIDATED;
+        return targetPos;//Vector2D::INVALIDATED;
     }
 
     double tf = factor * (delta.length() / 1000) / (Vm*cos(dlta) - targetSpeed.length() * cos(theta));
@@ -148,7 +148,7 @@ Vector2D Knowledge::PredictDestination(Vector2D sourcePos, Vector2D targetPos, d
     if(tf < 0)
     {
         qDebug() << "Prediction: No solution.";
-        return Vector2D::INVALIDATED;
+        return targetPos;   //Vector2D(0,0); //INVALIDATED;
     }
 
     double catchDist = targetSpeed.length() * tf * 1000;
@@ -188,6 +188,20 @@ bool Knowledge::IsReadyForKick(Position current, Position desired, Vector2D ball
             (360.0 - fabs((current.dir - desired.dir) * AngleDeg::RAD2DEG)) < degThreshold)
     {
         return CanKick(current, ballPos);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Knowledge::ReachedToPos(Vector2D current, Vector2D desired, double distThreshold)
+{
+    if(current.dist(desired) < distThreshold)
+    {
+
+            return true;
+
     }
     else
     {

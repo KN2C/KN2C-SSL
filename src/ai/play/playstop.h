@@ -17,11 +17,6 @@ private:
     TacticDefender* tDefenderLeft;
     TacticDefender* tDefenderRight;
     TacticDefender* tDefenderMid;
-    TacticBlocker*  tBlocker;
-    TacticAttacker* tAttackerLeft;
-    TacticAttacker* tAttackerRight;
-    TacticAttacker* tAttackerMid;
-    TacticFixedPos* tFixedPos;
     TacticFixedPos* tFixedPosM;
     TacticFixedPos* tFixedPosL;
     TacticFixedPos* tFixedPosR;

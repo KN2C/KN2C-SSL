@@ -15,6 +15,7 @@ public:
 private:
     TacticTestKickPrecision *t1;
     TacticTestFriction *t2;
+    TacticTechnical     *tt;
 
 };
 

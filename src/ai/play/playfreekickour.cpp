@@ -6,6 +6,15 @@ PlayFreeKickOur::PlayFreeKickOur(WorldModel *worldmodel, QObject *parent) :
     // Goaler.
     tGolie = new TacticGoalie(wm);
 
+    // Fixed pos.
+    tFixedPosM = new TacticFixedPos(wm);
+
+    // Fixed pos.
+    tFixedPosL = new TacticFixedPos(wm);
+
+    // Fixed pos.
+    tFixedPosR = new TacticFixedPos(wm);
+
     // Left defender.
     tDefenderLeft = new TacticDefender(wm);
 
@@ -15,26 +24,11 @@ PlayFreeKickOur::PlayFreeKickOur(WorldModel *worldmodel, QObject *parent) :
     // Mid defender.
     tDefenderMid = new TacticDefender(wm);
 
-    // Blocker
-    tBlocker = new TacticBlocker(wm);
-
-    // Left attacker.
-    tAttackerLeft = new TacticAttacker(wm);
-    tAttackerLeft->WorkingArea.AddRect(Vector2D(Field::MinX, Field::MaxY), Vector2D(Field::MaxX, Field::MinY));
-    tAttackerLeft->WorkingArea.SubtractCircle(Field::ourGoalCenter, 1200);
-
-    // Right attacker.
-    tAttackerRight = new TacticAttacker(wm);
-    tAttackerRight->WorkingArea.AddRect(Vector2D(Field::MinX, Field::MaxY), Vector2D(Field::MaxX, Field::MinY));
-    tAttackerRight->WorkingArea.SubtractCircle(Field::ourGoalCenter, 1200);
-
-    // Mid attacker.
-    tAttackerMid = new TacticAttacker(wm);
-    tAttackerMid->WorkingArea.AddRect(Vector2D(Field::MinX, Field::MaxY), Vector2D(Field::MaxX, Field::MinY));
-    tAttackerMid->WorkingArea.SubtractCircle(Field::ourGoalCenter, 1200);
-
-    // Fixed pos.
-    tFixedPos = new TacticFixedPos(wm);
+    // Attacker.
+    tAttacker = new TacticAttacker(wm);
+    tAttacker->WorkingArea.AddRect(Vector2D(Field::MinX, Field::MaxY), Vector2D(Field::MaxX, Field::MinY));
+    tAttacker->WorkingArea.SubtractCircle(Field::ourGoalCenter, 1200);
+    tAttacker->setAttackerID(1, 0);
 }
 
 int PlayFreeKickOur::enterCondition()
@@ -68,20 +62,25 @@ void PlayFreeKickOur::execute()
 
     // Define roles according to agents count.
     switch (agents.size() + golieNotInside) {
+    case 2:
+        roles.append(AgentRole::DefenderMid);
+        break;
+    case 3:
+        roles.append(AgentRole::DefenderLeft);
+        roles.append(AgentRole::DefenderRight);
+        break;
     case 4:
         roles.append(AgentRole::DefenderLeft);
         roles.append(AgentRole::DefenderRight);
 
         if(!wm->cmgs.canKickBall())
         {
-            roles.append(AgentRole::FixedPosition);
+            roles.append(AgentRole::FixedPositionMid);
         }
         else
         {
             roles.append(AgentRole::AttackerMid);
         }
-
-        tAttackerMid->setAttackerID(1, 0);
         break;
     case 5:
         roles.append(AgentRole::DefenderLeft);
@@ -89,16 +88,13 @@ void PlayFreeKickOur::execute()
 
         if(!wm->cmgs.canKickBall())
         {
-            roles.append(AgentRole::FixedPosition);
-            roles.append(AgentRole::FixedPosition);
+            roles.append(AgentRole::FixedPositionMid);
+            roles.append(AgentRole::ArcRight);
         }
         else
         {
-            roles.append(AgentRole::AttackerLeft);
-            roles.append(AgentRole::AttackerRight);
-
-            tAttackerLeft->setAttackerID(2, 0);
-            tAttackerRight->setAttackerID(2, 1);
+            roles.append(AgentRole::AttackerMid);
+            roles.append(AgentRole::ArcRight);
         }
         break;
     case 6:
@@ -107,19 +103,15 @@ void PlayFreeKickOur::execute()
 
         if(!wm->cmgs.canKickBall())
         {
-            roles.append(AgentRole::FixedPosition);
-            roles.append(AgentRole::FixedPosition);
-            roles.append(AgentRole::FixedPosition);
+            roles.append(AgentRole::FixedPositionMid);
+            roles.append(AgentRole::ArcLeft);
+            roles.append(AgentRole::ArcRight);
         }
         else
         {
-            roles.append(AgentRole::AttackerLeft);
-            roles.append(AgentRole::AttackerRight);
             roles.append(AgentRole::AttackerMid);
-
-            tAttackerLeft->setAttackerID(3, 0);
-            tAttackerRight->setAttackerID(3, 1);
-            tAttackerMid->setAttackerID(3, 2);
+            roles.append(AgentRole::ArcLeft);
+            roles.append(AgentRole::ArcRight);
         }
 
         break;
@@ -133,7 +125,7 @@ void PlayFreeKickOur::execute()
             roles.removeOne(wm->ourRobot[*itAgent].Role);
         }
         // Agents with bad role.
-        else if(wm->ourRobot[*itAgent].Role != AgentRole::Golie)
+        else if(*itAgent != wm->ref_goalie_our)
         {
             badRoleAgents.append(*itAgent);
         }
@@ -156,8 +148,14 @@ void PlayFreeKickOur::execute()
         case AgentRole::NoRole:
             tactics[*itAgent] = nullptr;
             break;
-        case AgentRole::FixedPosition:
-            tactics[*itAgent] = tFixedPos;
+        case AgentRole::FixedPositionMid:
+            tactics[*itAgent] = tFixedPosM;
+            break;
+        case AgentRole::ArcLeft:
+            tactics[*itAgent] = tFixedPosL;
+            break;
+        case AgentRole::ArcRight:
+            tactics[*itAgent] = tFixedPosR;
             break;
         case AgentRole::Golie:
             tGolie->setID(*itAgent);
@@ -175,21 +173,11 @@ void PlayFreeKickOur::execute()
             tDefenderMid->setID(*itAgent);
             tactics[*itAgent] = tDefenderMid;
             break;
-        case AgentRole::Blocker:
-            tBlocker->setID(*itAgent);
-            tactics[*itAgent] = tBlocker;
-            break;
-        case AgentRole::AttackerLeft:
-            tAttackerLeft->setID(*itAgent);
-            tactics[*itAgent] = tAttackerLeft;
-            break;
-        case AgentRole::AttackerRight:
-            tAttackerRight->setID(*itAgent);
-            tactics[*itAgent] = tAttackerRight;
-            break;
         case AgentRole::AttackerMid:
-            tAttackerMid->setID(*itAgent);
-            tactics[*itAgent] = tAttackerMid;
+            tAttacker->setID(*itAgent);
+            tactics[*itAgent] = tAttacker;
+            break;
+        default:
             break;
         }
     }

@@ -17,7 +17,7 @@ PlayPenaltyOur::PlayPenaltyOur(WorldModel *worldmodel, QObject *parent) :
 
 int PlayPenaltyOur::enterCondition()
 {
-    if(wm->cmgs.ourPenaltyKick() && wm->cmgs.canKickBall()==_cankick)
+    if(wm->cmgs.ourPenaltyKick())
         return 100;
     else
         return 0;

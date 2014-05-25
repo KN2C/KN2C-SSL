@@ -17,6 +17,8 @@ PlayGameOnDefensive::PlayGameOnDefensive(WorldModel *worldmodel, QObject *parent
 
     // Mid attacker.
     tAttackerMid = new TacticAttacker(wm);
+    tAttackerMid->WorkingArea.AddRect(Vector2D(Field::MinX, Field::MaxY), Vector2D(Field::MaxX, Field::MinY));
+    tAttackerMid->WorkingArea.SubtractCircle(Field::ourGoalCenter, 1200);
 }
 
 int PlayGameOnDefensive::enterCondition()
@@ -77,7 +79,7 @@ void PlayGameOnDefensive::execute()
             roles.removeOne(wm->ourRobot[*itAgent].Role);
         }
         // Agents with bad role.
-        else if(wm->ourRobot[*itAgent].Role != AgentRole::Golie)
+        else if(*itAgent != wm->ref_goalie_our)
         {
             badRoleAgents.append(*itAgent);
         }

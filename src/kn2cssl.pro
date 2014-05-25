@@ -158,7 +158,9 @@ SOURCES +=	main.cpp \
     geom2/shape2d.cpp \
     ai/tactic/tacticblocker.cpp \
     ai/play/playtest2.cpp \
-    ai/tactic/tacticfixedpos.cpp
+    ai/tactic/tacticfixedpos.cpp \
+    ai/tactic/tactictechnical.cpp \
+    ai/tactic/tacticmohsen.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -251,7 +253,9 @@ HEADERS  += \
     geom2/shape2d.h \
     ai/tactic/tacticblocker.h \
     ai/play/playtest2.h \
-    ai/tactic/tacticfixedpos.h
+    ai/tactic/tacticfixedpos.h \
+    ai/tactic/tactictechnical.h \
+    ai/tactic/tacticmohsen.h
 
 FORMS    +=	ui/mainwindow.ui
 

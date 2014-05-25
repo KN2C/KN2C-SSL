@@ -17,14 +17,12 @@ protected:
     bool _cankick;
 
     TacticGoalie*   tGolie;
-    TacticFixedPos* tFixedPos;
+    TacticFixedPos* tFixedPosM;
+    TacticFixedPos* tFixedPosL;
+    TacticFixedPos* tFixedPosR;
     TacticDefender* tDefenderLeft;
     TacticDefender* tDefenderRight;
     TacticDefender* tDefenderMid;
-    TacticBlocker*  tBlocker;
-    TacticAttacker* tAttackerLeft;
-    TacticAttacker* tAttackerRight;
-    TacticAttacker* tAttackerMid;
-
+    TacticAttacker* tAttacker;
 };
 #endif // PLAYKICKOFFOUR_H

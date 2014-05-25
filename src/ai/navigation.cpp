@@ -79,7 +79,7 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
     {
         if(obs[i].contains(rc.fin_pos.loc))
         {
-            Circle2D c(obs[i].center(), obs[i].radius() + BALL_RADIUS);
+            Circle2D c(obs[i].center(), obs[i].radius() + BALL_RADIUS*3);
             if(rc.fin_pos.loc == obs[i].center()) rc.fin_pos.loc += Vector2D(-1,0);
             Line2D l(obs[i].center(), rc.fin_pos.loc);
             Vector2D ans1, ans2;

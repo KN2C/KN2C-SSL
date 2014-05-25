@@ -9,8 +9,10 @@ PlayCalibration::PlayCalibration(WorldModel *worldmodel, QObject *parent) :
     //t1 = new TacticTestKickPrecision(wm);
     //t1->setID(0);
 
-    t2 = new TacticTestFriction(wm);
-    t2->setID(0);
+//    t2 = new TacticTestFriction(wm);
+//    t2->setID(0);
+
+    tt = new TacticTechnical(wm);
 }
 
 int PlayCalibration::enterCondition()
@@ -20,5 +22,5 @@ int PlayCalibration::enterCondition()
 
 void PlayCalibration::execute()
 {
-    tactics[0] = t2;
+    tactics[4] = tt;
 }

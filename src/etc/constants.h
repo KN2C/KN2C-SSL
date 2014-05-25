@@ -22,8 +22,8 @@
 
 
 // Timer speeds
-#define TRANSMITTER_TIMER   30
-#define AI_TIMER            33
+#define TRANSMITTER_TIMER   40
+#define AI_TIMER            40
 
 namespace Field
 {
@@ -32,10 +32,10 @@ const double MinX = -3025;
 const double MaxY = 2025;
 const double MinY = -2025;
 
-const Vector2D upperLeftCorner(MinX, MaxY);
-const Vector2D upperRightCorner(MaxX, MaxY);
-const Vector2D bottomLeftCorner(MinX, MinY);
-const Vector2D bottomRightCorner(MaxX, MinY);
+const Vector2D upperLeftCorner(MinX + 125, MaxY - 125);
+const Vector2D upperRightCorner(MaxX - 125, MaxY - 125);
+const Vector2D bottomLeftCorner(MinX + 125, MinY + 125);
+const Vector2D bottomRightCorner(MaxX - 125, MinY + 125);
 
 const Line2D leftLine(Vector2D(MinX,MinY), Vector2D(MinX, MaxY));
 const Line2D midLine(Vector2D(0,MinY), Vector2D(0, MaxY));

@@ -39,7 +39,7 @@ void Agent::SendCommand(RobotCommand rc)
     reRD.M1  = co.msR.M1;
     reRD.M2  = co.msR.M2;
     reRD.M3  = co.msR.M3;
-    reRD.KCK = rc.kickspeedx > 0 ? 1 : 0;
+    reRD.KCK = (quint8) rc.kickspeedx;
     reRD.CHP = 0;
     outputBuffer->wpck.AddRobot(reRD);
 

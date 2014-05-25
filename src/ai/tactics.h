@@ -15,5 +15,6 @@
 #include "tactic/tactictestkickprecision.h"
 #include "tactic/tactictestfriction.h"
 #include "tactic/tacticfixedpos.h"
+#include "tactic/tactictechnical.h"
 
 #endif // TACTICS_H

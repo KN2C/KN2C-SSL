@@ -369,7 +369,7 @@ RobotCommand TacticDefender::getCommand()
             // Kick if you can.
             if(wm->kn->CanKick(wm->ourRobot[id].pos, wm->ball.pos.loc))
             {
-                rc.kickspeedx = 5;
+                rc.kickspeedx = 255;
             }
         }
         // Ball is out of defensive area.
@@ -441,7 +441,7 @@ RobotCommand TacticDefender::getCommand()
                             {
                                 rc.fin_pos.loc = p;
                                 rc.fin_pos.dir = 0;
-                                rc.maxSpeed = 2;
+                                rc.maxSpeed = 1.5;
                             }
                                 break;
                                 // Two defenders.
@@ -455,7 +455,7 @@ RobotCommand TacticDefender::getCommand()
                                     ExtractDefendPoint(wm->ball.pos.loc, s, &p);
                                     rc.fin_pos.loc = p;
                                     rc.fin_pos.dir = 0;
-                                    rc.maxSpeed = 2;
+                                    rc.maxSpeed = 1.5;
                                 }
                                     break;
                                     // Right defender.
@@ -465,7 +465,7 @@ RobotCommand TacticDefender::getCommand()
                                     ExtractDefendPoint(wm->ball.pos.loc, s, &p);
                                     rc.fin_pos.loc = p;
                                     rc.fin_pos.dir = 0;
-                                    rc.maxSpeed = 2;
+                                    rc.maxSpeed = 1.5;
                                 }
                                     break;
                                 }
@@ -482,7 +482,7 @@ RobotCommand TacticDefender::getCommand()
                                     ExtractDefendPoint(wm->ball.pos.loc, s, &p);
                                     rc.fin_pos.loc = p;
                                     rc.fin_pos.dir = 0;
-                                    rc.maxSpeed = 2;
+                                    rc.maxSpeed = 1.5;
                                 }
                                     break;
                                     // Right defender.
@@ -492,7 +492,7 @@ RobotCommand TacticDefender::getCommand()
                                     ExtractDefendPoint(wm->ball.pos.loc, s, &p);
                                     rc.fin_pos.loc = p;
                                     rc.fin_pos.dir = 0;
-                                    rc.maxSpeed = 2;
+                                    rc.maxSpeed = 1.5;
                                 }
                                     break;
                                     // Mid defender.
@@ -500,7 +500,7 @@ RobotCommand TacticDefender::getCommand()
                                 {
                                     rc.fin_pos.loc = p;
                                     rc.fin_pos.dir = 0;
-                                    rc.maxSpeed = 2;
+                                    rc.maxSpeed = 1.5;
                                 }
                                     break;
                                 }
@@ -513,7 +513,7 @@ RobotCommand TacticDefender::getCommand()
                         {
                             rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
                             rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
+                            rc.maxSpeed = 1.5;
                         }
                     }
                     // Ball is not moving. [I]
@@ -521,7 +521,7 @@ RobotCommand TacticDefender::getCommand()
                     {
                         rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
                         rc.fin_pos.dir = 0;
-                        rc.maxSpeed = 2;
+                        rc.maxSpeed = 1.5;
                     }
                 }
                 // Only one attacker and no warner.
@@ -613,7 +613,7 @@ RobotCommand TacticDefender::getCommand()
                     }
 
                     rc.fin_pos.dir = 0;
-                    rc.maxSpeed = 2;
+                    rc.maxSpeed = 1.5;
                 }
             }
             // Warner robot found.
@@ -729,7 +729,7 @@ RobotCommand TacticDefender::getCommand()
                             rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
                         }
                         rc.fin_pos.dir = 0;
-                        rc.maxSpeed = 2;
+                        rc.maxSpeed = 1.5;
                     }
                         break;
                     // Two defenders.
@@ -758,7 +758,7 @@ RobotCommand TacticDefender::getCommand()
                         }
 
                         rc.fin_pos.dir = 0;
-                        rc.maxSpeed = 2;
+                        rc.maxSpeed = 1.5;
                     }
                         break;
                     // Three defenders.
@@ -800,7 +800,7 @@ RobotCommand TacticDefender::getCommand()
                         }
 
                         rc.fin_pos.dir = 0;
-                        rc.maxSpeed = 2;
+                        rc.maxSpeed = 1.5;
                     }
                         break;
                     }
@@ -856,7 +856,7 @@ RobotCommand TacticDefender::getCommand()
 
                             rc.fin_pos.loc = temp;
                             rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
+                            rc.maxSpeed = 1.5;
                         }
                             break;
                         // Two defenders.
@@ -885,7 +885,7 @@ RobotCommand TacticDefender::getCommand()
                             }
 
                             rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
+                            rc.maxSpeed = 1.5;
                         }
                             break;
                         // Three defenders.
@@ -927,14 +927,14 @@ RobotCommand TacticDefender::getCommand()
                             }
 
                             rc.fin_pos.dir = 0;
-                            rc.maxSpeed = 2;
+                            rc.maxSpeed = 1.5;
                         }
                             break;
                         }
                     }
 
                     rc.fin_pos.dir = 0;
-                    rc.maxSpeed = 2;
+                    rc.maxSpeed = 1.5;
                 }
             }
         }
@@ -943,7 +943,7 @@ RobotCommand TacticDefender::getCommand()
         {
             rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
             rc.fin_pos.dir = 0;
-            rc.maxSpeed = 2;
+            rc.maxSpeed = 1.5;
         }
     }
     // There is no ball;
@@ -951,7 +951,7 @@ RobotCommand TacticDefender::getCommand()
     {
         rc.fin_pos.loc = GotoDefaultLoc(def_t, def_c);
         rc.fin_pos.dir = 0;
-        rc.maxSpeed = 2;
+        rc.maxSpeed = 1.5;
     }
 
     if(rc.fin_pos.loc.x == 0 || rc.fin_pos.loc == Vector2D::INVALIDATED)
@@ -966,7 +966,7 @@ RobotCommand TacticDefender::getCommand()
     }
 
     rc.fin_pos.dir = 0;
-    rc.maxSpeed = 2;
+    rc.maxSpeed = 1.5;
 
     rc.useNav = true;
     rc.isBallObs = true;

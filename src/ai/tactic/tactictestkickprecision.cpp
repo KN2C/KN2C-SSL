@@ -14,12 +14,12 @@ RobotCommand TacticTestKickPrecision::getCommand()
 
     if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, target, wm->ball.pos.loc))
     {
-        rc.kickspeedx = 6;
+        rc.kickspeedx = 255;
     }
 
     rc.fin_pos = target;
 
-    rc.maxSpeed = 1.8;
+    rc.maxSpeed = 1.5;
 
     return rc;
 }

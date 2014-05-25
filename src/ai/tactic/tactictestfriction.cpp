@@ -10,7 +10,7 @@ RobotCommand TacticTestFriction::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    double speed = 1.4;
+    double speed = 1.5;
 
     if(wm->ball.isValid && wm->ball.pos.loc.x <-100 && wm->ball.pos.loc.x > -2000)
     {
@@ -31,7 +31,7 @@ RobotCommand TacticTestFriction::getCommand()
         if(wm->kn->IsReadyForKick(wm->ourRobot[id].pos, p, wm->ball.pos.loc))
         {
             qDebug() << "KIKKKIKIKIKIKIK " << wm->ball.pos.loc.x;
-            rc.kickspeedx = 6;
+            rc.kickspeedx = 255;
         }
     }
     else

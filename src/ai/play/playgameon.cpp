@@ -153,7 +153,7 @@ void PlayGameOn::execute()
             roles.removeOne(wm->ourRobot[*itAgent].Role);
         }
         // Agents with bad role.
-        else if(wm->ourRobot[*itAgent].Role != AgentRole::Golie)
+        else if(*itAgent != wm->ref_goalie_our)
         {
             badRoleAgents.append(*itAgent);
         }

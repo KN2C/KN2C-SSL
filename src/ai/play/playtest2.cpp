@@ -4,19 +4,18 @@ PlayTest2::PlayTest2(WorldModel *worldmodel, QObject *parent) :
     Play("PlayTest2", worldmodel, parent)
 {
     // Goaler.
-    tGolie = new TacticGoalie(wm);
-    tCircle = new TacticCircle(wm);
-    tCircle->setCircle({0, 0}, 1000, {0, 0});
-}
+    t = new TacticTest(wm);
+ }
 
 int PlayTest2::enterCondition()
 {
-    return 0;
+    return 100000000;
 }
 
 void PlayTest2::execute()
 {
-    tactics[wm->ref_goalie_our] = tGolie;
-    tactics[3] = tCircle;
+    tactics[wm->ref_goalie_our] = t;
+    tactics[4] = t;
+
 }
 

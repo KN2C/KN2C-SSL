@@ -68,7 +68,7 @@ void SSLVision::parse(SSL_DetectionFrame &pck)
     }
 
     // update vision frame
-//    _vframe[cid].frame_number =  pck.frame_number();
+    //_vframe[cid].frame_number =  pck.frame_number();
 
     vector<Position> pt;
 
