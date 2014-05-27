@@ -1,9 +1,19 @@
 KN2C-SSL
 ========
 
-KN2C Small Size League Robocup Team
+KN2C Small Size League Robocup Team (KN2C.ir)
 
 <br> <br>
+
+Developers
+========
+
++ Faraz Fallahi <fffaraz@gmail.com>
++ Farzad Abedini (AI)
++ Milad AbaeiRad (PID Controller)
++ Mohsen Raoufi (Ball Prediction)
+
+
 
 References
 ========
